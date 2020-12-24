@@ -1,0 +1,33 @@
+.layout_container {
+  width: 100vw;
+  background-color: rgb(243, 243, 243);
+  .top_layout {
+    width: 100vw;
+    .log {
+      width: 90%;
+      margin: auto;
+      padding-top: 1%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      h1 {
+        margin: 0;
+      }
+    }
+    .main_img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 0 auto;
+      margin-top: 5%;
+      width: 80vw;
+      height: 35vh;
+      img {
+        object-fit: cover;
+        width: 50%;
+        height: 100%;
+        border-radius: 1%;
+      }
+    }
+  }
+}
