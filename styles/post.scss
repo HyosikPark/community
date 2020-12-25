@@ -1,0 +1,28 @@
+.post_container {
+  margin: 5%;
+  .auth {
+    width: 35%;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1%;
+    input {
+      &::placeholder {
+        font-size: 1rem;
+      }
+    }
+  }
+  h3 {
+    color: rgb(100, 99, 99);
+  }
+  input.title {
+    font-size: 1rem;
+    margin-top: 3%;
+    width: 80%;
+    height: 40px;
+    margin-bottom: 3%;
+    &::placeholder {
+      font-size: 1.2rem;
+    }
+  }
+}

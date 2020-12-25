@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Layout() {
   return (
@@ -8,14 +10,19 @@ function Layout() {
         <div className='log'>
           <Link href='/'>
             <a>
-              <h2>I LOVE K-POP</h2>
+              <h2>Mongle</h2>
             </a>
           </Link>
-          <div className='nav'></div>
-        </div>
-        <div className='main_img'>
-          <img className='bts_pic' src='/bts.jpg' alt='' />
-          <img className='blackpink_pic' src='/blackpink.jpg' alt='' />
+          <ul className='nav'>
+            <Link href='/category'>
+              <li>
+                <h2 className='board'>Category</h2>
+              </li>
+            </Link>
+            <li>
+              <FontAwesomeIcon className='search_icon' icon={faSearch} />
+            </li>
+          </ul>
         </div>
       </div>
     </div>
