@@ -1,25 +1,37 @@
 import { gql } from 'apollo-server-micro';
 
 const typeDefs = gql`
-  type RegisterUser {
-    id: ID!
-    email: String!
+  type Comment {
+    _id: ID!
     nickname: String!
-    createdAt: String!
-  }
-  type Post {
-    id: ID!
-    nickname: String!
-    password: String!
-    title: String!
+    content: String!
     createdAt: String!
   }
 
+  type Post {
+    _id: ID!
+    nickname: String!
+    password: String!
+    title: String!
+    content: String!
+    createdAt: String!
+    comments: [Comment]!
+    commentCount: Int!
+    likeCount: Int!
+  }
+
+  input PostInput {
+    nickname: String!
+    password: String!
+    title: String!
+    content: String!
+  }
+
   type Query {
-    users: RegisterUser!
+    allPosts: [Post!]
   }
   type Mutation {
-    createPost: 
+    createPost(postInput: PostInput): Post!
   }
 `;
 
