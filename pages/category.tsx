@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { useCallback, useState } from 'react';
-import Layout from '../components/layout';
+import Layout from '../components/Layout';
 import { menu } from '../util/Menu';
 
 export async function getStaticProps() {

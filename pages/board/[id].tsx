@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-// import Layout from '../../components/layout';
+import Layout from '../../components/Layout';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -24,7 +24,7 @@ function Board() {
   });
   return (
     <>
-      {/* <Layout /> */}
+      <Layout />
       <div className='star_container'>
         <div className='board_container'>
           {star && <h2>{`${star} Board`}</h2>}
