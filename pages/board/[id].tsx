@@ -1,11 +1,8 @@
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { useQuery } from '@apollo/client';
 import { ALLPOSTS } from '../../components/gqlFragment';
 import moment from 'moment';
-import App from 'next/app';
 
 function postDate(date) {
   const now = moment(new Date().toISOString());
@@ -25,8 +22,6 @@ Board.getInitialProps = async (ctx) => {
 };
 
 function Board({ postInfo, postCount, curPage, star }) {
-  const router = useRouter();
-
   return (
     <>
       <div className='star_container'>
