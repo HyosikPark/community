@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../../components/layout';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { useQuery } from '@apollo/client';
+import { ALLPOSTS } from '../../components/gqlFragment';
+import moment from 'moment';
+
+const postDate = (date) => {
+  const now = moment(new Date().toISOString());
+  const postDate = moment(date);
+  if (moment.duration(now.diff(postDate)).asDays() < 1)
+    return moment(date).fromNow();
+  else return moment(date).format('YYYY-MM-DD');
+};
 
 function Board() {
   const router = useRouter();
-  const star = router.query.id;
-
+  const { page, id: star } = router.query;
+  const { data } = useQuery(ALLPOSTS, {
+    variables: { category: `${star}`, page },
+  });
   return (
     <>
       <Layout />
@@ -17,14 +30,28 @@ function Board() {
           {star && <h2>{`${star} Board`}</h2>}
           <div className='board'>
             <div className='board_head'>
-              <h2>Number</h2>
-              <h2>Title</h2>
-              <h2>Nickname</h2>
-              <h2>Date</h2>
-              <h2>Views</h2>
-              <h2>Hot</h2>
+              <h3 className='number_head'>Number</h3>
+              <h3 className='title_head'>Title</h3>
+              <h3 className='nickname_head'>Nickname</h3>
+              <h3 className='date_head'>Date</h3>
+              <h3 className='views_head'>Views</h3>
+              <h3 className='hot_head'>Hot</h3>
             </div>
-            <div className='post'></div>
+            <ul className='post'>
+              {data &&
+                data.allPosts.postInfo.map((e) => (
+                  <Link key={e._id} href={`/board/${star}/${e._id}`}>
+                    <li>
+                      <p className='number_post'>{e._id}</p>
+                      <p className='title_post'>{e.title}</p>
+                      <p className='nickname_post'>{e.nickname}</p>
+                      <p className='date_post'>{postDate(e.createdAt)}</p>
+                      <p className='views_post'>{e.views}</p>
+                      <p className='hot_post'>{e.likeCount}</p>
+                    </li>
+                  </Link>
+                ))}
+            </ul>
           </div>
           <div className='board_bottom'>
             <form className='search_post'>

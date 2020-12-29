@@ -20,8 +20,9 @@ const Editor: React.ComponentType<any> = dynamic(
   }
 );
 
-function Post() {
+function Write() {
   const router = useRouter();
+  const star = router.query.id;
   const [value, setValue] = useState({
     nickname: '',
     password: '',
@@ -29,14 +30,12 @@ function Post() {
     content: '',
   });
   const [createPost, { loading }] = useMutation(CREATEPOST, {
-    variables: value,
+    variables: { ...value, category: `${star}` },
     onError(err) {
       console.log(err.message);
     },
     onCompleted(data) {
-      console.log(data);
-      const id = router.query.id;
-      router.push(`/board/${id}`);
+      window.location.href = `/board/${star}/${data.createPost._id}`;
     },
   });
   const changeValue = useCallback(
@@ -117,4 +116,4 @@ function Post() {
   );
 }
 
-export default React.memo(Post);
+export default React.memo(Write);

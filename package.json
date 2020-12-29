@@ -16,6 +16,7 @@
     "apollo-server-micro": "^2.19.1",
     "graphql": "^15.4.0",
     "graphql-tools": "^7.0.2",
+    "moment": "^2.29.1",
     "mongodb": "^3.6.3",
     "next": "10.0.4",
     "react": "17.0.1",

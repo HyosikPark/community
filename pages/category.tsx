@@ -26,7 +26,7 @@ function category({ menu }) {
         >{`${a.initial.slice(0, 1).toUpperCase()} `}</div>
         {a.names
           .map((name, i) => (
-            <Link key={i} href={`/board/${name}`}>
+            <Link key={i} href={`/board/${name}?page=1`}>
               <a>
                 <li>{name}</li>
               </a>

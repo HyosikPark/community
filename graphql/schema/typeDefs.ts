@@ -10,6 +10,7 @@ const typeDefs = gql`
 
   type Post {
     _id: ID!
+    category: String!
     nickname: String!
     password: String!
     title: String!
@@ -18,6 +19,7 @@ const typeDefs = gql`
     comments: [Comment]!
     commentCount: Int!
     likeCount: Int!
+    views: Int!
   }
 
   input PostInput {
@@ -25,10 +27,16 @@ const typeDefs = gql`
     password: String!
     title: String!
     content: String!
+    category: String!
+  }
+
+  type AllPosts {
+    postCount: Int!
+    postInfo: [Post!]
   }
 
   type Query {
-    allPosts: [Post!]
+    allPosts(category: String!): AllPosts
   }
   type Mutation {
     createPost(postInput: PostInput): Post!

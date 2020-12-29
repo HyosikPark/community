@@ -6,6 +6,7 @@ export const CREATEPOST = gql`
     $password: String!
     $title: String!
     $content: String!
+    $category: String!
   ) {
     createPost(
       postInput: {
@@ -13,22 +14,41 @@ export const CREATEPOST = gql`
         password: $password
         title: $title
         content: $content
+        category: $category
       }
     ) {
-      id
+      _id
       nickname
       password
       title
       content
       createdAt
       comments {
-        id
+        _id
         nickname
         content
         createdAt
       }
       commentCount
       likeCount
+      views
+    }
+  }
+`;
+
+export const ALLPOSTS = gql`
+  query allPosts($category: String!) {
+    allPosts(category: $category) {
+      postCount
+      postInfo {
+        _id
+        nickname
+        title
+        createdAt
+        commentCount
+        likeCount
+        views
+      }
     }
   }
 `;
