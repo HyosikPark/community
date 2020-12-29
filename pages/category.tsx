@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import React, { useCallback, useState } from 'react';
-import Layout from '../components/Layout';
 import { menu } from '../util/Menu';
 
 export async function getStaticProps() {
@@ -43,7 +42,6 @@ function category({ menu }) {
 
   return (
     <>
-      <Layout />
       <div className='category_container'>
         <div className='category_head'>
           <label htmlFor='search'>

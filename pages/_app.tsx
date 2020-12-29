@@ -9,10 +9,12 @@ import 'froala-editor/css/froala_editor.pkgd.min.css';
 
 import { ApolloProvider } from '@apollo/client';
 import client from '../components/apollo-client';
+import Layout from '../components/Layout';
 
 function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={client}>
+      <Layout />
       <Component {...pageProps} />
     </ApolloProvider>
   );

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Layout from '../../components/Layout';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -24,7 +23,6 @@ function Board() {
   });
   return (
     <>
-      <Layout />
       <div className='star_container'>
         <div className='board_container'>
           {star && <h2>{`${star} Board`}</h2>}
@@ -66,6 +64,7 @@ function Board() {
                 <FontAwesomeIcon className='search_icon' icon={faSearch} />
               </button>
             </form>
+            <div className='page_number_container'>1</div>
             <Link href={`/write/${star}`}>
               <button className='write_btn btn'>Write</button>
             </Link>

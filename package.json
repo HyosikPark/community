@@ -19,6 +19,7 @@
     "moment": "^2.29.1",
     "mongodb": "^3.6.3",
     "next": "10.0.4",
+    "next-with-apollo": "^5.1.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-froala-wysiwyg": "^3.2.5",

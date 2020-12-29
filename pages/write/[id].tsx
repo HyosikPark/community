@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import Layout from '../../components/Layout';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { CREATEPOST } from '../../components/gqlFragment';
@@ -67,7 +66,6 @@ function Write() {
 
   return (
     <>
-      <Layout />
       <div className='post_container'>
         <div>
           <div className='auth'>
