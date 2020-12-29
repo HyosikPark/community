@@ -8,7 +8,7 @@ export async function getStaticProps() {
   };
 }
 
-function category({ menu }) {
+function Category({ menu }) {
   const [search, setSearch] = useState('');
   const findStar = useCallback(
     (e) => {
@@ -25,7 +25,7 @@ function category({ menu }) {
         >{`${a.initial.slice(0, 1).toUpperCase()} `}</div>
         {a.names
           .map((name, i) => (
-            <Link key={i} href={`/board/${name}?page=1`}>
+            <Link key={i} href={`/board/${name}?curPage=1`}>
               <a>
                 <li>{name}</li>
               </a>
@@ -61,4 +61,4 @@ function category({ menu }) {
   );
 }
 
-export default React.memo(category);
+export default Category;

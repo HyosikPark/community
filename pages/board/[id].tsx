@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,21 +5,28 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useQuery } from '@apollo/client';
 import { ALLPOSTS } from '../../components/gqlFragment';
 import moment from 'moment';
+import App from 'next/app';
 
-const postDate = (date) => {
+function postDate(date) {
   const now = moment(new Date().toISOString());
   const postDate = moment(date);
   if (moment.duration(now.diff(postDate)).asDays() < 1)
     return moment(date).fromNow();
   else return moment(date).format('YYYY-MM-DD');
+}
+
+Board.getInitialProps = async (ctx) => {
+  const { curPage, id: star } = ctx.query;
+  const result = await ctx.apolloClient.query({
+    query: ALLPOSTS,
+    variables: { category: `${star}`, curPage },
+  });
+  return { ...result.data.allPosts, curPage, star };
 };
 
-function Board() {
+function Board({ postInfo, postCount, curPage, star }) {
   const router = useRouter();
-  const { page, id: star } = router.query;
-  const { data } = useQuery(ALLPOSTS, {
-    variables: { category: `${star}`, page },
-  });
+
   return (
     <>
       <div className='star_container'>
@@ -36,19 +42,18 @@ function Board() {
               <h3 className='hot_head'>Hot</h3>
             </div>
             <ul className='post'>
-              {data &&
-                data.allPosts.postInfo.map((e) => (
-                  <Link key={e._id} href={`/board/${star}/${e._id}`}>
-                    <li>
-                      <p className='number_post'>{e._id}</p>
-                      <p className='title_post'>{e.title}</p>
-                      <p className='nickname_post'>{e.nickname}</p>
-                      <p className='date_post'>{postDate(e.createdAt)}</p>
-                      <p className='views_post'>{e.views}</p>
-                      <p className='hot_post'>{e.likeCount}</p>
-                    </li>
-                  </Link>
-                ))}
+              {postInfo.map((e) => (
+                <Link key={e._id} href={`/board/${star}/${e._id}`}>
+                  <li>
+                    <p className='number_post'>{e._id}</p>
+                    <p className='title_post'>{e.title}</p>
+                    <p className='nickname_post'>{e.nickname}</p>
+                    <p className='date_post'>{postDate(e.createdAt)}</p>
+                    <p className='views_post'>{e.views}</p>
+                    <p className='hot_post'>{e.likeCount}</p>
+                  </li>
+                </Link>
+              ))}
             </ul>
           </div>
           <div className='board_bottom'>
@@ -75,4 +80,4 @@ function Board() {
   );
 }
 
-export default React.memo(Board);
+export default Board;

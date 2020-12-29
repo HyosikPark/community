@@ -114,4 +114,4 @@ function Write() {
   );
 }
 
-export default React.memo(Write);
+export default Write;

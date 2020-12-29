@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRouter } from 'next/router';
 
 function Post() {
@@ -11,4 +10,4 @@ function Post() {
   );
 }
 
-export default React.memo(Post);
+export default Post;
