@@ -22,6 +22,7 @@ function Board() {
   const { data } = useQuery(ALLPOSTS, {
     variables: { category: `${star}`, page },
   });
+
   return (
     <>
       <Layout />
