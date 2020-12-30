@@ -36,7 +36,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    allPosts(category: String!): AllPosts
+    allPosts(category: String!, curPage: String!): AllPosts!
   }
   type Mutation {
     createPost(postInput: PostInput): Post!

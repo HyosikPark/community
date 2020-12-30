@@ -2,12 +2,12 @@ import { counter } from '@fortawesome/fontawesome-svg-core';
 
 const postResover = {
   Query: {
-    async allPosts(_, { category, page }, ctx) {
+    async allPosts(_, { category, curPage }, ctx) {
       const db = ctx.db.collection(category);
       const posts = await db
         .find()
         .sort({ createdAt: -1 })
-        .skip(page * 1 - 1)
+        .skip(curPage * 1 - 1)
         .limit(1)
         .toArray()
         .catch((e) => {

@@ -37,8 +37,8 @@ export const CREATEPOST = gql`
 `;
 
 export const ALLPOSTS = gql`
-  query allPosts($category: String!) {
-    allPosts(category: $category) {
+  query allPosts($category: String!, $curPage: String!) {
+    allPosts(category: $category, curPage: $curPage) {
       postCount
       postInfo {
         _id
