@@ -1,8 +1,33 @@
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSearch,
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
+  faAngleLeft,
+  faAngleRight,
+} from '@fortawesome/free-solid-svg-icons';
 import { ALLPOSTS } from '../../components/gqlFragment';
 import moment from 'moment';
+import { useCallback } from 'react';
+
+function pageNums(postCount: number, curPage: number) {
+  if (!postCount) return [1];
+  let arr = [];
+  const calc1 = Math.ceil(curPage / 10);
+  const restPage = postCount - 150 * (calc1 - 1);
+  const calc2 = Math.ceil(restPage / 15);
+
+  let initPage = 10 * calc1 - 9;
+  const lastPage = calc2 >= 10 ? initPage + 9 : initPage + calc2 - 1;
+
+  while (initPage <= lastPage) {
+    arr.push(initPage);
+    initPage++;
+  }
+
+  return arr;
+}
 
 function postDate(date) {
   const now = moment(new Date().toISOString());
@@ -13,15 +38,49 @@ function postDate(date) {
 }
 
 Board.getInitialProps = async (ctx) => {
-  const { curPage, id: star } = ctx.query;
-  const result = await ctx.apolloClient.query({
-    query: ALLPOSTS,
-    variables: { category: `${star}`, curPage },
-  });
-  return { ...result.data.allPosts, curPage, star };
+  try {
+    const { curPage, id: star } = ctx.query;
+    const result = await ctx.apolloClient.query({
+      query: ALLPOSTS,
+      variables: { category: `${star}`, curPage: +curPage },
+    });
+    return { ...result.data.allPosts, curPage: Number(curPage), star };
+  } catch (e) {
+    ctx.res.writeHead(302, {
+      Location: `/`,
+    });
+    ctx.res.end();
+  }
 };
 
 function Board({ postInfo, postCount, curPage, star }) {
+  const lastPage = Math.ceil(postCount / 15);
+
+  const movePage = useCallback(
+    (e) => {
+      const elem = e.target.id;
+      if (elem == 'double_left')
+        return (window.location.href = `/board/${star}?curPage=1`);
+
+      if (elem == 'left')
+        return (window.location.href =
+          curPage - 10 > 1
+            ? `/board/${star}?curPage=${curPage - 10}`
+            : `/board/${star}?curPage=1`);
+
+      if (elem == 'right')
+        return (window.location.href =
+          curPage + 10 > lastPage
+            ? `/board/${star}?curPage=${lastPage}`
+            : `/board/${star}?curPage=${curPage + 10}`);
+
+      if (elem == 'double_right')
+        return (window.location.href = `/board/${star}?curPage=${lastPage}`);
+
+      window.location.href = `/board/${star}?curPage=${elem}`;
+    },
+    [curPage, lastPage, star]
+  );
   return (
     <>
       <div className='star_container'>
@@ -64,10 +123,72 @@ function Board({ postInfo, postCount, curPage, star }) {
                 <FontAwesomeIcon className='search_icon' icon={faSearch} />
               </button>
             </form>
-            <div className='page_number_container'></div>
+
             <Link href={`/write/${star}`}>
               <button className='write_btn btn'>Write</button>
             </Link>
+          </div>
+          <div className='page_number_container'>
+            {curPage <= 1 ? null : (
+              <li
+                id='double_left'
+                onClick={movePage}
+                className='angle_double_left page_button'
+              >
+                <FontAwesomeIcon
+                  className='fontawesome_icon'
+                  icon={faAngleDoubleLeft}
+                />
+              </li>
+            )}
+            {curPage <= 10 ? null : (
+              <li
+                id='left'
+                onClick={movePage}
+                className='angle_left page_button'
+              >
+                <FontAwesomeIcon
+                  className='fontawesome_icon'
+                  icon={faAngleLeft}
+                />
+              </li>
+            )}
+
+            {pageNums(postCount, curPage).map((e) => (
+              <li
+                id={e}
+                onClick={movePage}
+                key={e}
+                className={`${e}page page_button`}
+              >
+                {e}
+              </li>
+            ))}
+            {curPage >= Math.floor((lastPage - 1) / 10) * 10 + 1 ? null : (
+              <li
+                id='right'
+                onClick={movePage}
+                className='angle_right page_button'
+              >
+                <FontAwesomeIcon
+                  className='fontawesome_icon'
+                  icon={faAngleRight}
+                />
+              </li>
+            )}
+
+            {lastPage == curPage || postCount == 0 ? null : (
+              <li
+                id='double_right'
+                onClick={movePage}
+                className='angle_double_right page_button'
+              >
+                <FontAwesomeIcon
+                  className='fontawesome_icon'
+                  icon={faAngleDoubleRight}
+                />
+              </li>
+            )}
           </div>
         </div>
       </div>

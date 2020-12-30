@@ -1,5 +1,3 @@
-import { counter } from '@fortawesome/fontawesome-svg-core';
-
 const postResover = {
   Query: {
     async allPosts(_, { category, curPage }, ctx) {
@@ -7,14 +5,14 @@ const postResover = {
       const posts = await db
         .find()
         .sort({ createdAt: -1 })
-        .skip(curPage * 1 - 1)
-        .limit(1)
+        .skip(15 * (curPage - 1))
+        .limit(15)
         .toArray()
         .catch((e) => {
           throw new Error('An error occurred while loading the data.');
         });
 
-      const count = await db.count();
+      const count = await db.countDocuments();
       return { postInfo: posts, postCount: count };
     },
   },
