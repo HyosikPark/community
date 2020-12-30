@@ -64,7 +64,7 @@ function Board({ postInfo, postCount, curPage, star }) {
                 <FontAwesomeIcon className='search_icon' icon={faSearch} />
               </button>
             </form>
-            <div className='page_number_container'>1</div>
+            <div className='page_number_container'></div>
             <Link href={`/write/${star}`}>
               <button className='write_btn btn'>Write</button>
             </Link>
