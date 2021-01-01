@@ -16,23 +16,7 @@ export const CREATEPOST = gql`
         content: $content
         category: $category
       }
-    ) {
-      _id
-      nickname
-      password
-      title
-      content
-      createdAt
-      comments {
-        _id
-        nickname
-        content
-        createdAt
-      }
-      commentCount
-      likeCount
-      views
-    }
+    )
   }
 `;
 
@@ -50,5 +34,44 @@ export const ALLPOSTS = gql`
         views
       }
     }
+  }
+`;
+
+export const GETPOST = gql`
+  query getPost($category: String!, $number: Int!) {
+    getPost(category: $category, number: $number) {
+      post {
+        _id
+        category
+        nickname
+        password
+        title
+        content
+        createdAt
+        comments {
+          _id
+          nickname
+          content
+          createdAt
+        }
+        commentCount
+        likeCount
+        views
+        likeUser
+      }
+      alreadyLike
+    }
+  }
+`;
+
+export const LIKEPOST = gql`
+  mutation likePost($category: String!, $number: Int!) {
+    likePost(category: $category, number: $number)
+  }
+`;
+
+export const UNLIKEPOST = gql`
+  mutation unlikePost($category: String!, $number: Int!) {
+    unlikePost(category: $category, number: $number)
   }
 `;

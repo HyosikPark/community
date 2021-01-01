@@ -1,3 +1,5 @@
+const ip = require('ip');
+
 const postResover = {
   Query: {
     async allPosts(_, { category, curPage }, ctx) {
@@ -15,6 +17,21 @@ const postResover = {
       const count = await db.countDocuments();
       return { postInfo: posts, postCount: count };
     },
+
+    async getPost(_, { category, number }, ctx) {
+      const clientIp = ip.address();
+
+      const db = ctx.db.collection(category);
+      const post = await db.findOne({ _id: number }).catch((e) => {
+        throw new Error('post not Found');
+      });
+
+      if (post.likeUser.includes(clientIp)) {
+        return { post, alreadyLike: true };
+      } else {
+        return { post, alreadyLike: false };
+      }
+    },
   },
 
   Mutation: {
@@ -23,24 +40,15 @@ const postResover = {
       { postInput: { nickname, password, title, content, category } },
       ctx
     ) {
+      const clientIp = ip.address();
       const db = ctx.db.collection(category);
       const counterDB = ctx.db.collection('counters');
 
       async function getNextSequenceValue(sequenceName) {
-        const find = await counterDB.findOne({ _id: sequenceName });
-
-        if (!find) {
-          const newCounter = await counterDB.insertOne({
-            _id: sequenceName,
-            sequence_value: 1,
-          });
-          return newCounter.ops[0].sequence_value;
-        }
-
         const sequenceDocument = await counterDB.findOneAndUpdate(
           { _id: sequenceName },
           { $inc: { sequence_value: 1 } },
-          { returnOriginal: false }
+          { returnOriginal: false, upsert: true }
         );
 
         return sequenceDocument.value.sequence_value;
@@ -59,13 +67,44 @@ const postResover = {
           likeCount: 0,
           views: 0,
           category,
+          likeUser: [],
+          ip: clientIp,
         })
         .catch((e) => {
-          console.log(e);
           throw new Error('An error occurred during upload.');
         });
 
-      return { ...savedPost.ops[0] };
+      return savedPost.ops[0]._id;
+    },
+
+    async likePost(_, { category, number }, ctx) {
+      const clientIp = ip.address();
+
+      const db = ctx.db.collection(category);
+
+      await db.findOneAndUpdate(
+        { _id: number },
+        {
+          $addToSet: { likeUser: clientIp },
+          $inc: { likeCount: 1 },
+        }
+      );
+      return true;
+    },
+
+    async unlikePost(_, { category, number }, ctx) {
+      const clientIp = ip.address();
+
+      const db = ctx.db.collection(category);
+
+      await db.findOneAndUpdate(
+        { _id: number },
+        {
+          $pull: { likeUser: clientIp },
+          $inc: { likeCount: -1 },
+        }
+      );
+      return true;
     },
   },
 };

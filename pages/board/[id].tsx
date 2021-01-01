@@ -46,10 +46,11 @@ Board.getInitialProps = async (ctx) => {
     });
     return { ...result.data.allPosts, curPage: Number(curPage), star };
   } catch (e) {
-    ctx.res.writeHead(302, {
-      Location: `/`,
-    });
-    ctx.res.end();
+    // ctx.res.writeHead(302, {
+    //   Location: `/`,
+    // });
+    // ctx.res.end();
+    return {};
   }
 };
 

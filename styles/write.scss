@@ -1,0 +1,47 @@
+.write_container {
+  margin: 5%;
+  .auth {
+    width: 35%;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1%;
+    input {
+      &::placeholder {
+        font-size: 1rem;
+      }
+    }
+  }
+  h3 {
+    color: rgb(100, 99, 99);
+  }
+  input.title {
+    font-size: 1rem;
+    margin-top: 3%;
+    width: 80%;
+    height: 40px;
+    margin-bottom: 3%;
+    &::placeholder {
+      font-size: 1.2rem;
+    }
+  }
+  .btn_bundle {
+    margin-top: 1%;
+    display: flex;
+    justify-content: flex-end;
+    height: 60px;
+    button {
+      width: 80px;
+      font-size: 1.2rem;
+      border-radius: 10%;
+      cursor: pointer;
+    }
+    .back_btn {
+      margin-right: 2%;
+    }
+    .post_btn {
+      background-color: rgb(60, 66, 97);
+      color: white;
+    }
+  }
+}

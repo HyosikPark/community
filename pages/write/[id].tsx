@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { CREATEPOST } from '../../components/gqlFragment';
 import { useMutation } from '@apollo/client';
-import Head from 'next/head';
 
 const Editor: React.ComponentType<any> = dynamic(
   () => {
@@ -34,7 +33,7 @@ function Write() {
       console.log(err.message);
     },
     onCompleted(data) {
-      window.location.href = `/board/${star}/${data.createPost._id}`;
+      window.location.href = `/board/${star}/${data.createPost}`;
     },
   });
   const changeValue = useCallback(
@@ -66,7 +65,7 @@ function Write() {
 
   return (
     <>
-      <div className='post_container'>
+      <div className='write_container'>
         <div>
           <div className='auth'>
             <input

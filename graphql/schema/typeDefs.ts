@@ -20,6 +20,8 @@ const typeDefs = gql`
     commentCount: Int!
     likeCount: Int!
     views: Int!
+    likeUser: [String]!
+    ip: String!
   }
 
   input PostInput {
@@ -35,11 +37,19 @@ const typeDefs = gql`
     postInfo: [Post!]
   }
 
+  type getPost {
+    alreadyLike: Boolean!
+    post: Post!
+  }
+
   type Query {
     allPosts(category: String!, curPage: Int!): AllPosts!
+    getPost(category: String!, number: Int!): getPost!
   }
   type Mutation {
-    createPost(postInput: PostInput): Post!
+    createPost(postInput: PostInput): Int!
+    likePost(category: String!, number: Int!): Boolean!
+    unlikePost(category: String!, number: Int!): Boolean!
   }
 `;
 

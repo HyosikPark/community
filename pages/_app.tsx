@@ -3,6 +3,7 @@ import '../styles/home.scss';
 import '../styles/layout.scss';
 import '../styles/category.scss';
 import '../styles/board.scss';
+import '../styles/write.scss';
 import '../styles/post.scss';
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
