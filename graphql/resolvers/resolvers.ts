@@ -1,3 +1,4 @@
+import commentResolver from './commentResolver';
 import postResover from './postResolver';
 
 const resolvers = {
@@ -6,6 +7,7 @@ const resolvers = {
   },
   Mutation: {
     ...postResover.Mutation,
+    ...commentResolver.Mutation,
   },
 };
 

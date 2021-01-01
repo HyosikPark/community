@@ -22,14 +22,21 @@ const postResover = {
       const clientIp = ip.address();
 
       const db = ctx.db.collection(category);
-      const post = await db.findOne({ _id: number }).catch((e) => {
-        throw new Error('post not Found');
-      });
-
-      if (post.likeUser.includes(clientIp)) {
-        return { post, alreadyLike: true };
+      const post = await db
+        .findOneAndUpdate(
+          { _id: number },
+          {
+            $inc: { views: 1 },
+          },
+          { returnOriginal: false }
+        )
+        .catch((e) => {
+          throw new Error('post not Found');
+        });
+      if (post.value.likeUser.includes(clientIp)) {
+        return { post: post.value, alreadyLike: true };
       } else {
-        return { post, alreadyLike: false };
+        return { post: post.value, alreadyLike: false };
       }
     },
   },

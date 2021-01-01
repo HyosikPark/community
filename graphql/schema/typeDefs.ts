@@ -4,8 +4,10 @@ const typeDefs = gql`
   type Comment {
     _id: ID!
     nickname: String!
+    password: String!
     content: String!
     createdAt: String!
+    ip: String!
   }
 
   type Post {
@@ -46,10 +48,20 @@ const typeDefs = gql`
     allPosts(category: String!, curPage: Int!): AllPosts!
     getPost(category: String!, number: Int!): getPost!
   }
+
+  input CommentInput {
+    category: String!
+    number: Int!
+    nickname: String!
+    password: String!
+    content: String!
+  }
   type Mutation {
     createPost(postInput: PostInput): Int!
     likePost(category: String!, number: Int!): Boolean!
     unlikePost(category: String!, number: Int!): Boolean!
+    createComment(commentInput: CommentInput): Comment!
+    deleteComment(category: String!, number: Int!, _id: ID!): Boolean!
   }
 `;
 

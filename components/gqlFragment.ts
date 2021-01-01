@@ -51,6 +51,7 @@ export const GETPOST = gql`
         comments {
           _id
           nickname
+          password
           content
           createdAt
         }
@@ -73,5 +74,39 @@ export const LIKEPOST = gql`
 export const UNLIKEPOST = gql`
   mutation unlikePost($category: String!, $number: Int!) {
     unlikePost(category: $category, number: $number)
+  }
+`;
+
+export const CREATECOMMENT = gql`
+  mutation createComment(
+    $category: String!
+    $number: Int!
+    $nickname: String!
+    $password: String!
+    $content: String!
+  ) {
+    createComment(
+      commentInput: {
+        category: $category
+        number: $number
+        nickname: $nickname
+        password: $password
+        content: $content
+      }
+    ) {
+      _id
+      nickname
+      password
+      content
+      createdAt
+    }
+  }
+`;
+
+export const DELETECOMMENT = gql`
+  mutation deleteComment($category: String!, $number: Int!, $_id: ID!) {
+    deleteComment(
+      commentInput: { category: $category, number: $number, _id: $_id }
+    )
   }
 `;

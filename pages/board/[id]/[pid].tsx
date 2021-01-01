@@ -1,8 +1,14 @@
-import { GETPOST, LIKEPOST, UNLIKEPOST } from '../../../components/gqlFragment';
+import {
+  CREATECOMMENT,
+  DELETECOMMENT,
+  GETPOST,
+  LIKEPOST,
+  UNLIKEPOST,
+} from '../../../components/gqlFragment';
 import moment from 'moment';
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import Head from 'next/head';
 import { useMutation } from '@apollo/client';
 
@@ -36,7 +42,17 @@ function Post({
   alreadyLike,
 }) {
   const likeNum = useRef(likeCount);
+  const commentsArr = useRef(comments);
+  const commentNum = useRef(commentCount);
+  const commentBtn = useRef(null);
+
   const [like, setLike] = useState(false);
+  const [value, setValue] = useState({
+    nickname: '',
+    password: '',
+    content: '',
+  });
+
   const inputContent = useCallback(() => {
     return { __html: content.replace(FROALA_AD, '') };
   }, [content]);
@@ -54,12 +70,44 @@ function Post({
     },
   });
 
+  const [createComment] = useMutation(CREATECOMMENT, {
+    variables: { category, number: +_id, ...value },
+    onError() {
+      alert('error');
+      commentBtn.current.style.pointerEvents = '';
+    },
+    onCompleted(data) {
+      commentNum.current++;
+      commentsArr.current.unshift(data.createComment);
+      setValue({
+        nickname: '',
+        password: '',
+        content: '',
+      });
+      commentBtn.current.style.pointerEvents = '';
+    },
+  });
+  const [deleteComment] = useMutation(DELETECOMMENT);
+
   const likeToggle = useCallback(
     (e) => {
       if (like) {
         likeNum.current--;
         unlikePost();
       } else {
+        let check = false;
+        for (let i = 0; i <= 100 * 3; i += 100) {
+          check = !check;
+          if (check) {
+            setTimeout(() => {
+              e.target.style.transform = 'scale(1.2)';
+            }, i);
+          } else {
+            setTimeout(() => {
+              e.target.style.transform = 'scale(1.0)';
+            }, i);
+          }
+        }
         likeNum.current++;
         likePost();
       }
@@ -69,10 +117,38 @@ function Post({
     [like]
   );
 
+  const submitComment = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      if (!value.nickname) {
+        return alert('Please enter your nickname.');
+      }
+      if (!value.password) {
+        return alert('Please enter your password.');
+      }
+      if (!value.content) {
+        return alert('Please enter the content.');
+      }
+
+      createComment();
+      commentBtn.current.style.pointerEvents = 'none';
+    },
+    [value]
+  );
+
+  const changeValue = useCallback(
+    (e) => {
+      setValue({
+        ...value,
+        [e.target.name]: e.target.value,
+      });
+    },
+    [value]
+  );
   useEffect(() => {
     alreadyLike ? setLike(true) : setLike(false);
   }, []);
-
   return (
     <>
       {/* <Head>
@@ -107,7 +183,26 @@ function Post({
           </div>
           <h3 className='like_count'>{likeNum.current}</h3>
         </div>
-        <div className='for_underline'></div>
+
+        <div className='for_underline'>
+          <p>comment({commentNum.current})</p>
+        </div>
+        {commentsArr.current.map((e) => (
+          <ul key={e._id} className='comment_box'>
+            <li className='comment_info'>
+              <div className='comment_left'>
+                <p className='comment_nickname'>{e.nickname}</p>
+                <p className='comment_date'>
+                  {moment(e.createdAt).format('MM.DD hh:mm:ss')}
+                </p>
+              </div>
+              <div className='comment_body'>
+                <p>{e.content}</p>
+              </div>
+              <FontAwesomeIcon icon={faTrashAlt} className='comment_delete' />
+            </li>
+          </ul>
+        ))}
         <div className='comment_container'>
           <div className='comment_user'>
             <input
@@ -116,6 +211,8 @@ function Post({
               name='nickname'
               className='nickname'
               placeholder='nickname'
+              value={value.nickname}
+              onChange={changeValue}
             />
             <input
               type='password'
@@ -123,13 +220,26 @@ function Post({
               name='password'
               className='password'
               placeholder='password'
+              value={value.password}
+              onChange={changeValue}
             />
           </div>
-          <textarea
-            name='comment_body'
-            id='comment_body'
-            className='comment_body'
-          ></textarea>
+          <div className='text_with_submit'>
+            <textarea
+              name='content'
+              id='content'
+              className='comment_body'
+              value={value.content}
+              onChange={changeValue}
+            ></textarea>
+            <button
+              ref={commentBtn}
+              onClick={submitComment}
+              className='comment_btn btn'
+            >
+              submit
+            </button>
+          </div>
         </div>
       </div>
     </>
