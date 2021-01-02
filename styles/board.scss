@@ -1,6 +1,7 @@
 .star_container {
   display: grid;
   height: calc(100vh - 70.81px);
+  word-break: break-all;
   .board_container {
     padding-left: 5%;
     padding-right: 5%;

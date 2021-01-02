@@ -82,6 +82,7 @@ function Board({ postInfo, postCount, curPage, star }) {
     },
     [curPage, lastPage, star]
   );
+
   return (
     <>
       <div className='star_container'>
@@ -98,7 +99,7 @@ function Board({ postInfo, postCount, curPage, star }) {
             </div>
             <ul className='post'>
               {postInfo.map((e) => (
-                <Link key={e._id} href={`/board/${star}/${e._id}`}>
+                <a key={e._id} href={`/board/${star}/${e._id}`}>
                   <li>
                     <p className='number_post'>{e._id}</p>
                     <p className='title_post'>{e.title}</p>
@@ -107,7 +108,7 @@ function Board({ postInfo, postCount, curPage, star }) {
                     <p className='views_post'>{e.views}</p>
                     <p className='hot_post'>{e.likeCount}</p>
                   </li>
-                </Link>
+                </a>
               ))}
             </ul>
           </div>

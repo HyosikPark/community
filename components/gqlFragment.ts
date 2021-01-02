@@ -20,6 +20,12 @@ export const CREATEPOST = gql`
   }
 `;
 
+export const DELETEPOST = gql`
+  mutation deletePost($category: String!, $number: Int!) {
+    deletePost(category: $category, number: $number)
+  }
+`;
+
 export const ALLPOSTS = gql`
   query allPosts($category: String!, $curPage: Int!) {
     allPosts(category: $category, curPage: $curPage) {

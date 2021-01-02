@@ -1,9 +1,13 @@
 .post_container {
-  width: 70%;
+  width: 60%;
   margin: 7% auto 5% auto;
   color: rgb(103, 104, 101);
   border-radius: 1%;
+  .view_info {
+    text-align: right;
+  }
   .post_head {
+    word-break: break-all;
     border-bottom: 1px solid;
     padding: 1%;
     background-color: beige;
@@ -12,7 +16,9 @@
     h1 {
       color: rgb(87, 87, 87);
       border-radius: 2%;
-      text-align: center;
+      text-align: start;
+      width: 80%;
+      margin: 3% auto 3% auto;
     }
     .head_util {
       width: 100%;
@@ -52,14 +58,17 @@
     margin-top: 5%;
     margin-bottom: 5%;
     border-top: 1px solid;
+    .comment_count {
+      user-select: none;
+    }
   }
   .post_body {
     -webkit-box-shadow: 0px 2px 13px 1px #000000;
     box-shadow: 0px 2px 13px 1px #000000;
-    // background-color: rgb(222, 228, 235);
     background-color: white;
     border-radius: 2%;
     padding: 3%;
+    word-break: break-all;
   }
   .icon_container {
     margin-top: 30px;
@@ -147,6 +156,9 @@
     }
     button {
       height: 30px;
+      background-color: rgb(220, 220, 221);
+      border-radius: 10%;
+      border: 1px solid;
     }
   }
   .comment_container {
@@ -170,12 +182,32 @@
       }
       .comment_btn {
         margin-top: 1%;
-        width: 10%;
+        width: 80px;
+        height: 30px;
+        background-color: rgb(243, 243, 243);
+        border-radius: 10%;
         align-self: flex-end;
+
         &:hover {
           cursor: pointer;
         }
       }
     }
+  }
+}
+
+.post_password {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  display: none;
+  input {
+    height: 30px;
+  }
+  button {
+    height: 30px;
+    background-color: rgb(220, 220, 221);
+    border-radius: 10%;
+    border: 1px solid;
   }
 }

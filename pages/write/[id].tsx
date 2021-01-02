@@ -75,6 +75,7 @@ function Write() {
               placeholder='nickname'
               value={value.nickname}
               onChange={changeValue}
+              maxLength={16}
             />
             <input
               type='password'
@@ -83,6 +84,7 @@ function Write() {
               placeholder='password'
               value={value.password}
               onChange={changeValue}
+              maxLength={20}
             />
           </div>
           <h3>You must enter a password to modify or delete the post.</h3>
@@ -93,6 +95,7 @@ function Write() {
             placeholder='Please enter a title.'
             value={value.title}
             onChange={changeValue}
+            maxLength={80}
           />
           <Editor
             model={value.content}

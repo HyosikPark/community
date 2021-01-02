@@ -84,6 +84,15 @@ const postResover = {
       return savedPost.ops[0]._id;
     },
 
+    async deletePost(_, { category, number }, ctx) {
+      const db = ctx.db.collection(category);
+      await db.deleteOne({ _id: number }).catch((e) => {
+        throw new Error('delete Error');
+      });
+
+      return true;
+    },
+
     async likePost(_, { category, number }, ctx) {
       const clientIp = ip.address();
 

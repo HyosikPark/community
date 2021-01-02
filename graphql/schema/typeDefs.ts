@@ -58,6 +58,7 @@ const typeDefs = gql`
   }
   type Mutation {
     createPost(postInput: PostInput): Int!
+    deletePost(category: String!, number: Int!): Boolean!
     likePost(category: String!, number: Int!): Boolean!
     unlikePost(category: String!, number: Int!): Boolean!
     createComment(commentInput: CommentInput): Comment!

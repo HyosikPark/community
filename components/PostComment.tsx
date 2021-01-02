@@ -2,17 +2,14 @@ import { useMutation } from '@apollo/client';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
-import { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CREATECOMMENT, DELETECOMMENT } from './gqlFragment';
-
-interface PostCommentprops {}
 
 function PostComment({ comments, category, commentCount, _id }) {
   const commentsArr = useRef(comments);
   const commentPasswordForm = useRef(null);
   const commentNum = useRef(commentCount);
   const commentBtn = useRef(null);
-
   const [commentPassword, setCommentPassword] = useState('');
   const [verifyComment, setVerifyComment] = useState({
     _id: '',
@@ -27,7 +24,7 @@ function PostComment({ comments, category, commentCount, _id }) {
 
   const [createComment] = useMutation(CREATECOMMENT, {
     variables: { category, number: +_id, ...value },
-    onError() {
+    onError(e) {
       alert('error');
       commentBtn.current.style.pointerEvents = '';
     },
@@ -107,8 +104,23 @@ function PostComment({ comments, category, commentCount, _id }) {
     [value]
   );
 
+  const handleClickOutside = useCallback((e) => {
+    if (!commentPasswordForm.current.contains(e.target)) {
+      commentPasswordForm.current.style.display = 'none';
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
     <>
+      <div className='for_underline'>
+        <p className='comment_count'>comment({commentNum.current})</p>
+      </div>
       {commentsArr.current.map((comment, i) => (
         <ul key={comment._id} className='comment_box'>
           <li className='comment_info'>
@@ -152,6 +164,7 @@ function PostComment({ comments, category, commentCount, _id }) {
             placeholder='nickname'
             value={value.nickname}
             onChange={changeValue}
+            maxLength={16}
           />
           <input
             type='password'
@@ -161,6 +174,7 @@ function PostComment({ comments, category, commentCount, _id }) {
             placeholder='password'
             value={value.password}
             onChange={changeValue}
+            maxLength={20}
           />
         </div>
         <div className='text_with_submit'>
@@ -184,4 +198,4 @@ function PostComment({ comments, category, commentCount, _id }) {
   );
 }
 
-export default PostComment;
+export default React.memo(PostComment);
