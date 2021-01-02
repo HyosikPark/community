@@ -105,8 +105,6 @@ export const CREATECOMMENT = gql`
 
 export const DELETECOMMENT = gql`
   mutation deleteComment($category: String!, $number: Int!, $_id: ID!) {
-    deleteComment(
-      commentInput: { category: $category, number: $number, _id: $_id }
-    )
+    deleteComment(category: $category, number: $number, _id: $_id)
   }
 `;

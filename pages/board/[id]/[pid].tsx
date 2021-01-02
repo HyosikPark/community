@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import Head from 'next/head';
 import { useMutation } from '@apollo/client';
+import PostComment from '../../../components/PostComment';
 
 const FROALA_AD =
   '<p data-f-id="pbf" style="text-align: center; font-size: 14px; margin-top: 30px; opacity: 0.65; font-family: sans-serif;">Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a></p>';
@@ -45,12 +46,19 @@ function Post({
   const commentsArr = useRef(comments);
   const commentNum = useRef(commentCount);
   const commentBtn = useRef(null);
+  const commentPasswordForm = useRef(null);
 
   const [like, setLike] = useState(false);
   const [value, setValue] = useState({
     nickname: '',
     password: '',
     content: '',
+  });
+  const [commentPassword, setCommentPassword] = useState('');
+  const [verifyComment, setVerifyComment] = useState({
+    _id: '',
+    password: '',
+    index: 0,
   });
 
   const inputContent = useCallback(() => {
@@ -78,7 +86,7 @@ function Post({
     },
     onCompleted(data) {
       commentNum.current++;
-      commentsArr.current.unshift(data.createComment);
+      commentsArr.current.push(data.createComment);
       setValue({
         nickname: '',
         password: '',
@@ -87,7 +95,12 @@ function Post({
       commentBtn.current.style.pointerEvents = '';
     },
   });
-  const [deleteComment] = useMutation(DELETECOMMENT);
+
+  const [deleteComment] = useMutation(DELETECOMMENT, {
+    onError() {
+      alert('error');
+    },
+  });
 
   const likeToggle = useCallback(
     (e) => {
@@ -137,6 +150,14 @@ function Post({
     [value]
   );
 
+  const commentDel = useCallback((e, commentId, commentPassword, index) => {
+    setCommentPassword('');
+    commentPasswordForm.current.style.top = `${e.pageY}px`;
+    commentPasswordForm.current.style.left = `${e.pageX - 250}px`;
+    commentPasswordForm.current.style.display = 'block';
+    setVerifyComment({ _id: commentId, password: commentPassword, index });
+  }, []);
+
   const changeValue = useCallback(
     (e) => {
       setValue({
@@ -146,8 +167,36 @@ function Post({
     },
     [value]
   );
+
+  const changeCommentPassword = useCallback((e) => {
+    setCommentPassword(e.target.value);
+  }, []);
+
+  const submitCommentPassword = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (verifyComment.password == commentPassword) {
+        deleteComment({
+          variables: { category, number: +_id, _id: verifyComment._id },
+        });
+        commentsArr.current.splice(verifyComment.index, 1);
+        commentNum.current--;
+        setCommentPassword('');
+        commentPasswordForm.current.style.display = 'none';
+      } else alert('Incorrect password.');
+    },
+    [verifyComment, commentPassword]
+  );
+
+  const handleClickOutside = useCallback((e) => {
+    if (!commentPasswordForm.current.contains(e.target)) {
+      commentPasswordForm.current.style.display = 'none';
+    }
+  }, []);
+
   useEffect(() => {
     alreadyLike ? setLike(true) : setLike(false);
+    document.addEventListener('mousedown', handleClickOutside);
   }, []);
   return (
     <>
@@ -187,22 +236,46 @@ function Post({
         <div className='for_underline'>
           <p>comment({commentNum.current})</p>
         </div>
-        {commentsArr.current.map((e) => (
-          <ul key={e._id} className='comment_box'>
+        <PostComment
+          comments={comments}
+          category={category}
+          commentCount={commentCount}
+          _id={_id}
+        />
+
+        {commentsArr.current.map((comment, i) => (
+          <ul key={comment._id} className='comment_box'>
             <li className='comment_info'>
               <div className='comment_left'>
-                <p className='comment_nickname'>{e.nickname}</p>
+                <p className='comment_nickname'>{comment.nickname}</p>
                 <p className='comment_date'>
-                  {moment(e.createdAt).format('MM.DD hh:mm:ss')}
+                  {moment(comment.createdAt).format('MM.DD hh:mm:ss')}
                 </p>
               </div>
               <div className='comment_body'>
-                <p>{e.content}</p>
+                <p>{comment.content}</p>
               </div>
-              <FontAwesomeIcon icon={faTrashAlt} className='comment_delete' />
+              <FontAwesomeIcon
+                icon={faTrashAlt}
+                className='comment_delete'
+                onClick={(e) => commentDel(e, comment._id, comment.password, i)}
+              />
             </li>
           </ul>
         ))}
+        <form
+          ref={commentPasswordForm}
+          className='comment_password'
+          onSubmit={submitCommentPassword}
+        >
+          <input
+            type='password'
+            placeholder='password'
+            value={commentPassword}
+            onChange={changeCommentPassword}
+          />
+          <button>Check</button>
+        </form>
         <div className='comment_container'>
           <div className='comment_user'>
             <input

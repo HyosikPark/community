@@ -17,17 +17,12 @@ const commentResolver = {
         {
           $push: {
             comments: {
-              $each: [
-                {
-                  _id: new ObjectID(),
-                  nickname,
-                  password,
-                  content,
-                  createdAt: new Date().toISOString(),
-                  ip: clientIp,
-                },
-              ],
-              $position: 0,
+              _id: new ObjectID(),
+              nickname,
+              password,
+              content,
+              createdAt: new Date().toISOString(),
+              ip: clientIp,
             },
           },
           $inc: { commentCount: 1 },
@@ -36,7 +31,7 @@ const commentResolver = {
       );
       const comment = post.value.comments;
 
-      return comment[0];
+      return comment[comment.length - 1];
     },
 
     async deleteComment(_, { category, number, _id }, ctx) {
