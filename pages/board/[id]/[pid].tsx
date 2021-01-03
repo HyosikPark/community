@@ -82,7 +82,7 @@ function Post({
 
       if (password == postPassword) {
         // 게시물 수정 로직 짜야됨.
-        editOrDel == 'edit' ? editPost() : deletePost();
+        editOrDel == 'edit' ? null : deletePost();
       } else {
         alert('Incorrect password.');
       }
