@@ -1,22 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { CREATEPOST } from '../../components/gqlFragment';
 import { useMutation } from '@apollo/client';
-
-const Editor: React.ComponentType<any> = dynamic(
-  () => {
-    return new Promise((resolve) =>
-      import('froala-editor/js/plugins.pkgd.min.js').then((e) => {
-        import('react-froala-wysiwyg').then(resolve);
-      })
-    );
-  },
-  {
-    loading: () => null,
-    ssr: false,
-  }
-);
+import Head from 'next/head';
+import QuillEditor from '../../components/QuillEditor';
 
 function Write() {
   const router = useRouter();
@@ -30,7 +17,7 @@ function Write() {
   const [createPost, { loading }] = useMutation(CREATEPOST, {
     variables: { ...value, category: `${star}` },
     onError(err) {
-      console.log(err.message);
+      alert('error');
     },
     onCompleted(data) {
       window.location.href = `/board/${star}/${data.createPost}`;
@@ -51,7 +38,6 @@ function Write() {
     },
     [value]
   );
-
   const onSubmit = useCallback((e) => {
     e.target.disabled = true;
     e.target.style.opacity = '0.4';
@@ -63,8 +49,16 @@ function Write() {
     router.back();
   }, []);
 
+  console.log(value.content);
+
   return (
     <>
+      <Head>
+        <link
+          href='https://cdn.quilljs.com/1.3.6/quill.snow.css'
+          rel='stylesheet'
+        ></link>
+      </Head>
       <div className='write_container'>
         <div>
           <div className='auth'>
@@ -97,11 +91,10 @@ function Write() {
             onChange={changeValue}
             maxLength={80}
           />
-          <Editor
-            model={value.content}
-            onModelChange={changeValue}
-            tag='textarea'
-          />
+
+          <div className='quill_editor'>
+            <QuillEditor QuillChange={changeValue} />
+          </div>
           <div className='btn_bundle'>
             <button className='back_btn' onClick={backToBoard}>
               BACK

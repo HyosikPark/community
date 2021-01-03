@@ -21,9 +21,10 @@
     "mongodb": "^3.6.3",
     "next": "10.0.4",
     "next-with-apollo": "^5.1.0",
+    "quill": "^1.3.7",
     "react": "17.0.1",
+    "react-aws-s3": "^1.3.0",
     "react-dom": "17.0.1",
-    "react-froala-wysiwyg": "^3.2.5",
     "sass": "^1.30.0"
   },
   "devDependencies": {
