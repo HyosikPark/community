@@ -1,30 +1,41 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
-import { CREATEPOST } from '../../components/gqlFragment';
+import { withRouter, useRouter } from 'next/router';
+import { EDITPOST } from '../../../components/gqlFragment';
 import { useMutation } from '@apollo/client';
 import Head from 'next/head';
-import QuillEditor from '../../components/QuillEditor';
+import QuillEditor from '../../../components/QuillEditor';
+
+Write.getInitialProps = async (ctx) => {
+  if (ctx.res) {
+    const { id, pid } = ctx.query;
+    ctx.res.writeHead(302, {
+      Location: `/board/${id}/${pid}`,
+    });
+    ctx.res.end();
+  }
+  return {};
+};
 
 function Write() {
   const router = useRouter();
-  const star = router.query.id;
+  const { id, pid, nickname, password, title, body } = router.query;
   const submitBtn = useRef(null);
-
-  const [content, setContent] = useState('');
+  const star = id;
+  const [content, setContent] = useState(body);
   const [value, setValue] = useState({
-    nickname: '',
-    password: '',
-    title: '',
+    nickname,
+    password,
+    title,
   });
-  const [createPost, { loading }] = useMutation(CREATEPOST, {
-    variables: { ...value, content, category: `${star}` },
+  const [editPost] = useMutation(EDITPOST, {
+    variables: { category: `${star}`, number: +pid, ...value, content },
     onError(err) {
       alert('error');
       submitBtn.current.disabled = false;
       submitBtn.current.style.opacity = '1';
     },
     onCompleted(data) {
-      window.location.href = `/board/${star}/${data.createPost}`;
+      window.location.href = `/board/${star}/${pid}`;
     },
   });
   const changeValue = useCallback(
@@ -56,7 +67,7 @@ function Write() {
 
       e.target.disabled = true;
       e.target.style.opacity = '0.4';
-      createPost();
+      editPost();
     },
     [value, content]
   );

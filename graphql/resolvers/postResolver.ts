@@ -84,6 +84,26 @@ const postResover = {
       return savedPost.ops[0]._id;
     },
 
+    async editPost(
+      _,
+      { editInput: { category, number, nickname, password, title, content } },
+      ctx
+    ) {
+      const db = ctx.db.collection(category);
+      await db
+        .findOneAndUpdate(
+          { _id: number },
+          {
+            $set: { nickname, password, title, content },
+          }
+        )
+        .catch((e) => {
+          throw new Error('edit Error');
+        });
+
+      return true;
+    },
+
     async deletePost(_, { category, number }, ctx) {
       const db = ctx.db.collection(category);
       await db.deleteOne({ _id: number }).catch((e) => {

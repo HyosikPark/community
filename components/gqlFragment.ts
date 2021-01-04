@@ -20,6 +20,28 @@ export const CREATEPOST = gql`
   }
 `;
 
+export const EDITPOST = gql`
+  mutation editPost(
+    $category: String!
+    $number: Int!
+    $nickname: String!
+    $password: String!
+    $title: String!
+    $content: String!
+  ) {
+    editPost(
+      editInput: {
+        category: $category
+        number: $number
+        nickname: $nickname
+        password: $password
+        title: $title
+        content: $content
+      }
+    )
+  }
+`;
+
 export const DELETEPOST = gql`
   mutation deletePost($category: String!, $number: Int!) {
     deletePost(category: $category, number: $number)
