@@ -18,19 +18,20 @@ export const modules = {
       [{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
       [{ 'font': [] }],
       [{ 'align': [] }],
-      ['link', 'image', 'formula'],
+      ['link', 'image'],
       ['clean'],
     ],
   },
 };
 
-function QuillEditor({ QuillChange }) {
+function QuillEditor({ QuillChange, value }) {
   const Quill = typeof window == 'object' ? require('quill') : () => false;
 
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
 
   const onClickImageBtn = () => {
+    // 이미지 커스텀 핸들링.
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
@@ -52,7 +53,6 @@ function QuillEditor({ QuillChange }) {
         if (data.status === 204) {
           //커서 위치 받아오기 위함.
           const range = quillInstance.current.getSelection(true);
-          console.log(data);
           // 1.현재 커서 위치에 2. 이미지를 3.src="" 로 나타냄.
           quillInstance.current.insertEmbed(
             range.index,
@@ -86,6 +86,8 @@ function QuillEditor({ QuillChange }) {
 
     const toolbar = quill.getModule('toolbar');
     toolbar.addHandler('image', onClickImageBtn);
+
+    quillInstance.current.root.innerHTML = value;
   }, []);
 
   return (

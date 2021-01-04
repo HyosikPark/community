@@ -11,17 +11,26 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import Head from 'next/head';
 import { useMutation } from '@apollo/client';
 import PostComment from '../../../components/PostComment';
+import { useRouter } from 'next/router';
 
 const FROALA_AD =
   '<p data-f-id="pbf" style="text-align: center; font-size: 14px; margin-top: 30px; opacity: 0.65; font-family: sans-serif;">Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a></p>';
 
 Post.getInitialProps = async (ctx) => {
-  const { id: star, pid: pageNum } = ctx.query;
-  const result = await ctx.apolloClient.query({
-    query: GETPOST,
-    variables: { category: star, number: +pageNum },
-  });
-  return result.data.getPost;
+  try {
+    const { id: star, pid: pageNum } = ctx.query;
+    const result = await ctx.apolloClient.query({
+      query: GETPOST,
+      variables: { category: star, number: +pageNum },
+    });
+    return result.data.getPost;
+  } catch (e) {
+    const { id: star } = ctx.query;
+    ctx.res.writeHead(302, {
+      Location: `/board/${star}?curPage=1`,
+    });
+    ctx.res.end();
+  }
 };
 
 function Post({
@@ -41,6 +50,7 @@ function Post({
   },
   alreadyLike,
 }) {
+  const router = useRouter();
   const likeNum = useRef(likeCount);
   const postPasswordForm = useRef(null);
 
@@ -52,8 +62,6 @@ function Post({
     return { __html: content.replace(FROALA_AD, '') };
   }, [content]);
 
-  // const [editPost] = useMutation();
-
   const [deletePost] = useMutation(DELETEPOST, {
     variables: { category, number: +_id },
     onError() {
@@ -63,6 +71,24 @@ function Post({
       window.location.href = `/board/${category}?curPage=1`;
     },
   });
+
+  const editPost = useCallback(() => {
+    router.push(
+      {
+        pathname: '/edit/[id]/[pid]',
+        query: {
+          id: category,
+          pid: _id,
+          nickname,
+          password,
+          title,
+          body: content,
+        },
+      },
+      `/edit/${category}/${_id}`,
+      { shallow: true }
+    );
+  }, []);
 
   const clickEvent = useCallback((e) => {
     setPostPassword('');
@@ -81,8 +107,7 @@ function Post({
       e.preventDefault();
 
       if (password == postPassword) {
-        // 게시물 수정 로직 짜야됨.
-        editOrDel == 'edit' ? undefined : deletePost();
+        editOrDel == 'edit' ? editPost() : deletePost();
       } else {
         alert('Incorrect password.');
       }

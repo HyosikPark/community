@@ -18,6 +18,7 @@
   input.title {
     font-size: 1rem;
     margin-top: 3%;
+    max-width: 768px;
     width: 80%;
     height: 40px;
     margin-bottom: 3%;
@@ -25,27 +26,33 @@
       font-size: 1.2rem;
     }
   }
-  .btn_bundle {
-    margin-top: 1%;
+  .post_tool {
+    max-width: 768px;
+    width: 80%;
     display: flex;
-    justify-content: flex-end;
-    height: 60px;
-    button {
-      width: 80px;
-      font-size: 1.2rem;
-      border-radius: 10%;
-      cursor: pointer;
+    flex-direction: column;
+    .quill_editor {
+      background-color: white;
     }
-    .back_btn {
-      margin-right: 2%;
-    }
-    .post_btn {
-      background-color: rgb(60, 66, 97);
-      color: white;
+    .btn_bundle {
+      margin-top: 3%;
+      display: flex;
+      justify-content: flex-start;
+      height: 60px;
+      align-self: flex-end;
+      button {
+        width: 80px;
+        font-size: 1.2rem;
+        border-radius: 10%;
+        cursor: pointer;
+      }
+      .back_btn {
+        margin-right: 5%;
+      }
+      .post_btn {
+        background-color: rgb(60, 66, 97);
+        color: white;
+      }
     }
   }
-}
-
-.quill_editor {
-  background-color: white;
 }

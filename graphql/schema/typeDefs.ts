@@ -56,8 +56,19 @@ const typeDefs = gql`
     password: String!
     content: String!
   }
+
+  input EditInput {
+    category: String!
+    number: Int!
+    nickname: String!
+    password: String!
+    title: String!
+    content: String!
+  }
+
   type Mutation {
     createPost(postInput: PostInput): Int!
+    editPost(editInput: EditInput): Boolean!
     deletePost(category: String!, number: Int!): Boolean!
     likePost(category: String!, number: Int!): Boolean!
     unlikePost(category: String!, number: Int!): Boolean!
