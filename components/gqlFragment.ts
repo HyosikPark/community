@@ -54,6 +54,7 @@ export const ALLPOSTS = gql`
       postCount
       postInfo {
         _id
+        number
         nickname
         title
         createdAt
@@ -65,11 +66,39 @@ export const ALLPOSTS = gql`
   }
 `;
 
+export const HOTPOSTS = gql`
+  query hotPosts($number: Int!) {
+    hotPosts(number: $number) {
+      _id
+      number
+      category
+      nickname
+      password
+      title
+      content
+      createdAt
+      comments {
+        _id
+        nickname
+        password
+        content
+        createdAt
+      }
+      commentCount
+      likeCount
+      views
+      likeUser
+      ip
+    }
+  }
+`;
+
 export const GETPOST = gql`
   query getPost($category: String!, $number: Int!) {
     getPost(category: $category, number: $number) {
       post {
         _id
+        number
         category
         nickname
         password

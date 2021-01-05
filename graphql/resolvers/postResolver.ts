@@ -3,9 +3,9 @@ const ip = require('ip');
 const postResover = {
   Query: {
     async allPosts(_, { category, curPage }, ctx) {
-      const db = ctx.db.collection(category);
+      const db = ctx.db.collection('post');
       const posts = await db
-        .find()
+        .find({ category })
         .sort({ createdAt: -1 })
         .skip(15 * (curPage - 1))
         .limit(15)
@@ -14,17 +14,29 @@ const postResover = {
           throw new Error('An error occurred while loading the data.');
         });
 
-      const count = await db.countDocuments();
+      const count = await db.find({ category }).count();
+
       return { postInfo: posts, postCount: count };
+    },
+
+    async hotPosts(_, { number }, ctx) {
+      const db = ctx.db.collection('post');
+      const posts = await db
+        .find()
+        .sort({ likeCount: -1, createdAt: -1 })
+        .skip(6 * number)
+        .limit(6)
+        .toArray();
+      return posts;
     },
 
     async getPost(_, { category, number }, ctx) {
       const clientIp = ip.address();
 
-      const db = ctx.db.collection(category);
+      const db = ctx.db.collection('post');
       const post = await db
         .findOneAndUpdate(
-          { _id: number },
+          { category, number },
           {
             $inc: { views: 1 },
           },
@@ -43,12 +55,12 @@ const postResover = {
 
   Mutation: {
     async createPost(
-      parent,
+      _,
       { postInput: { nickname, password, title, content, category } },
       ctx
     ) {
       const clientIp = ip.address();
-      const db = ctx.db.collection(category);
+      const db = ctx.db.collection('post');
       const counterDB = ctx.db.collection('counters');
 
       async function getNextSequenceValue(sequenceName) {
@@ -63,7 +75,7 @@ const postResover = {
 
       const savedPost = await db
         .insertOne({
-          _id: await getNextSequenceValue(category),
+          number: await getNextSequenceValue(category),
           nickname,
           password,
           title,
@@ -81,7 +93,7 @@ const postResover = {
           throw new Error('An error occurred during upload.');
         });
 
-      return savedPost.ops[0]._id;
+      return savedPost.ops[0].number;
     },
 
     async editPost(
@@ -89,10 +101,10 @@ const postResover = {
       { editInput: { category, number, nickname, password, title, content } },
       ctx
     ) {
-      const db = ctx.db.collection(category);
+      const db = ctx.db.collection('post');
       await db
         .findOneAndUpdate(
-          { _id: number },
+          { category, number },
           {
             $set: { nickname, password, title, content },
           }
@@ -105,8 +117,8 @@ const postResover = {
     },
 
     async deletePost(_, { category, number }, ctx) {
-      const db = ctx.db.collection(category);
-      await db.deleteOne({ _id: number }).catch((e) => {
+      const db = ctx.db.collection('post');
+      await db.deleteOne({ category, number }).catch((e) => {
         throw new Error('delete Error');
       });
 
@@ -116,10 +128,10 @@ const postResover = {
     async likePost(_, { category, number }, ctx) {
       const clientIp = ip.address();
 
-      const db = ctx.db.collection(category);
+      const db = ctx.db.collection('post');
 
       await db.findOneAndUpdate(
-        { _id: number },
+        { category, number },
         {
           $addToSet: { likeUser: clientIp },
           $inc: { likeCount: 1 },
@@ -131,10 +143,10 @@ const postResover = {
     async unlikePost(_, { category, number }, ctx) {
       const clientIp = ip.address();
 
-      const db = ctx.db.collection(category);
+      const db = ctx.db.collection('post');
 
       await db.findOneAndUpdate(
-        { _id: number },
+        { category, number },
         {
           $pull: { likeUser: clientIp },
           $inc: { likeCount: -1 },

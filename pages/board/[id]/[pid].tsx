@@ -23,6 +23,7 @@ Post.getInitialProps = async (ctx) => {
       query: GETPOST,
       variables: { category: star, number: +pageNum },
     });
+
     return result.data.getPost;
   } catch (e) {
     const { id: star } = ctx.query;
@@ -36,6 +37,7 @@ Post.getInitialProps = async (ctx) => {
 function Post({
   post: {
     _id,
+    number,
     category,
     nickname,
     password,
@@ -63,7 +65,7 @@ function Post({
   }, [content]);
 
   const [deletePost] = useMutation(DELETEPOST, {
-    variables: { category, number: +_id },
+    variables: { category, number },
     onError() {
       alert('error');
     },
@@ -78,14 +80,14 @@ function Post({
         pathname: '/edit/[id]/[pid]',
         query: {
           id: category,
-          pid: _id,
+          pid: number,
           nickname,
           password,
           title,
           body: content,
         },
       },
-      `/edit/${category}/${_id}`,
+      `/edit/${category}/${number}`,
       { shallow: true }
     );
   }, []);
@@ -117,13 +119,13 @@ function Post({
   );
 
   const [likePost] = useMutation(LIKEPOST, {
-    variables: { category, number: +_id },
+    variables: { category, number: +number },
     onError() {
       alert('Error');
     },
   });
   const [unlikePost] = useMutation(UNLIKEPOST, {
-    variables: { category, number: +_id },
+    variables: { category, number: +number },
     onError() {
       alert('Error');
     },
@@ -212,7 +214,7 @@ function Post({
           comments={comments}
           category={category}
           commentCount={commentCount}
-          _id={_id}
+          number={number}
         />
       </div>
       <form
