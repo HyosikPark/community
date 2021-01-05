@@ -10,10 +10,10 @@ const commentResolver = {
     ) {
       const clientIp = ip.address();
 
-      const db = ctx.db.collection(category);
+      const db = ctx.db.collection('post');
 
       const post = await db.findOneAndUpdate(
-        { _id: number },
+        { category, number },
         {
           $push: {
             comments: {
@@ -35,10 +35,10 @@ const commentResolver = {
     },
 
     async deleteComment(_, { category, number, _id }, ctx) {
-      const db = ctx.db.collection(category);
+      const db = ctx.db.collection('post');
 
       await db.findOneAndUpdate(
-        { _id: number },
+        { category, number },
         {
           $pull: {
             comments: {

@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { withRouter, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { EDITPOST } from '../../../components/gqlFragment';
 import { useMutation } from '@apollo/client';
 import Head from 'next/head';
@@ -38,6 +38,7 @@ function Write() {
       window.location.href = `/board/${star}/${pid}`;
     },
   });
+
   const changeValue = useCallback(
     (e) => {
       if (e.target)

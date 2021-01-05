@@ -5,7 +5,7 @@ import moment from 'moment';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CREATECOMMENT, DELETECOMMENT } from './gqlFragment';
 
-function PostComment({ comments, category, commentCount, _id }) {
+function PostComment({ comments, category, commentCount, number }) {
   const commentsArr = useRef(comments);
   const commentPasswordForm = useRef(null);
   const commentNum = useRef(commentCount);
@@ -23,7 +23,7 @@ function PostComment({ comments, category, commentCount, _id }) {
   });
 
   const [createComment] = useMutation(CREATECOMMENT, {
-    variables: { category, number: +_id, ...value },
+    variables: { category, number: +number, ...value },
     onError(e) {
       alert('error');
       commentBtn.current.style.pointerEvents = '';
@@ -59,7 +59,7 @@ function PostComment({ comments, category, commentCount, _id }) {
       e.preventDefault();
       if (verifyComment.password == commentPassword) {
         deleteComment({
-          variables: { category, number: +_id, _id: verifyComment._id },
+          variables: { category, number: +number, _id: verifyComment._id },
         });
         commentsArr.current.splice(verifyComment.index, 1);
         commentNum.current--;

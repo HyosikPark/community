@@ -12,6 +12,7 @@ const typeDefs = gql`
 
   type Post {
     _id: ID!
+    number: Int!
     category: String!
     nickname: String!
     password: String!
@@ -44,11 +45,6 @@ const typeDefs = gql`
     post: Post!
   }
 
-  type Query {
-    allPosts(category: String!, curPage: Int!): AllPosts!
-    getPost(category: String!, number: Int!): getPost!
-  }
-
   input CommentInput {
     category: String!
     number: Int!
@@ -64,6 +60,12 @@ const typeDefs = gql`
     password: String!
     title: String!
     content: String!
+  }
+
+  type Query {
+    allPosts(category: String!, curPage: Int!): AllPosts!
+    hotPosts(number: Int!): [Post!]
+    getPost(category: String!, number: Int!): getPost!
   }
 
   type Mutation {
