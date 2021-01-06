@@ -64,7 +64,7 @@ const typeDefs = gql`
 
   type Query {
     allPosts(category: String!, curPage: Int!): AllPosts!
-    hotPosts(number: Int!): [Post!]
+    hotPosts: [Post!]
     getPost(category: String!, number: Int!): getPost!
   }
 
@@ -76,6 +76,7 @@ const typeDefs = gql`
     unlikePost(category: String!, number: Int!): Boolean!
     createComment(commentInput: CommentInput): Comment!
     deleteComment(category: String!, number: Int!, _id: ID!): Boolean!
+    hotPosts(number: Int!): [Post!]
   }
 `;
 
