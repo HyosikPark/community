@@ -19,12 +19,11 @@ const postResover = {
       return { postInfo: posts, postCount: count };
     },
 
-    async hotPosts(_, { number }, ctx) {
+    async hotPosts(_, __, ctx) {
       const db = ctx.db.collection('post');
       const posts = await db
         .find()
         .sort({ likeCount: -1, createdAt: -1 })
-        .skip(6 * number)
         .limit(6)
         .toArray();
       return posts;
@@ -153,6 +152,17 @@ const postResover = {
         }
       );
       return true;
+    },
+
+    async hotPosts(_, { number }, ctx) {
+      const db = ctx.db.collection('post');
+      const posts = await db
+        .find()
+        .sort({ likeCount: -1, createdAt: -1 })
+        .skip(6 * number)
+        .limit(6)
+        .toArray();
+      return posts;
     },
   },
 };

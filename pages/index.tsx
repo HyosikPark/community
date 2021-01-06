@@ -1,7 +1,7 @@
 import { faHotjar } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { HOTPOSTS } from '../components/gqlFragment';
+import { HOTPOSTS, HOTPOSTSMUTATION } from '../components/gqlFragment';
 import moment from 'moment';
 import {
   faCommentDots,
@@ -9,30 +9,29 @@ import {
   faHeart,
 } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import { useLazyQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 Home.getInitialProps = async (ctx) => {
   const result = await ctx.apolloClient.query({
     query: HOTPOSTS,
-    variables: { number: 0 },
   });
   return result.data;
 };
 
 export default function Home({ hotPosts }) {
-  const reFetchNum = useRef(1);
-  const posts = useRef(hotPosts);
+  const reFetchNum = useRef(0);
+  const [posts, setPosts] = useState(hotPosts);
+  const target = useRef(null);
 
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = useState(true);
 
-  const [fetchMore] = useLazyQuery(HOTPOSTS, {
-    variables: { number: reFetchNum.current },
-    onCompleted(data) {
-      reFetchNum.current++;
-      posts.current = posts.current.concat(data.hotPosts);
-      setFetching(!fetching);
+  const [fetchMore] = useMutation(HOTPOSTSMUTATION, {
+    onCompleted({ hotPosts }) {
+      if (!hotPosts.length) return setFetching(false);
+      setPosts(posts.concat(hotPosts));
     },
   });
+
   const haveImg = useCallback((content) => {
     const regEx = new RegExp(`https://kpop-app-image[^">]+`);
     const imgPath = content.match(regEx);
@@ -48,23 +47,22 @@ export default function Home({ hotPosts }) {
     window.location.href = `/board/${category}/${number}`;
   }, []);
 
-  const handleScroll = () => {
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = document.documentElement.scrollTop;
-    const clientHeight = document.documentElement.clientHeight;
-    if (scrollTop + clientHeight >= scrollHeight) {
-      setFetching(true);
-      fetchMore();
-    }
-  };
-
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
+    const handleIntersection = ([entry]) => {
+      if (entry.isIntersecting) {
+        reFetchNum.current++;
+        fetchMore({ variables: { number: reFetchNum.current } });
+      }
     };
-  }, []);
+
+    const io = new IntersectionObserver(handleIntersection, { threshold: 1 });
+
+    if (fetching && target.current) {
+      io.observe(target.current);
+    }
+
+    return () => io && io.disconnect();
+  }, [posts, fetching]);
 
   return (
     <>
@@ -77,11 +75,12 @@ export default function Home({ hotPosts }) {
             </h1>
           </div>
           <div className='posts_list'>
-            {posts.current.map((post) => (
+            {posts.map((post, i) => (
               <div
                 key={post._id}
                 className='post'
                 onClick={() => goToPost(post.category, post.number)}
+                ref={posts.length - 1 == i ? target : null}
               >
                 {haveImg(post.content)}
                 <div className='post_main'>

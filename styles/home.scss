@@ -26,6 +26,7 @@
         margin-bottom: 3%;
         border-radius: 4%;
         overflow: hidden;
+        transition: transform 0.2s;
         &:hover {
           cursor: pointer;
           transform: scale(1.05);

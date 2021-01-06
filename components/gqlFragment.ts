@@ -67,7 +67,34 @@ export const ALLPOSTS = gql`
 `;
 
 export const HOTPOSTS = gql`
-  query hotPosts($number: Int!) {
+  {
+    hotPosts {
+      _id
+      number
+      category
+      nickname
+      password
+      title
+      content
+      createdAt
+      comments {
+        _id
+        nickname
+        password
+        content
+        createdAt
+      }
+      commentCount
+      likeCount
+      views
+      likeUser
+      ip
+    }
+  }
+`;
+
+export const HOTPOSTSMUTATION = gql`
+  mutation hotPosts($number: Int!) {
     hotPosts(number: $number) {
       _id
       number
