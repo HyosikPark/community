@@ -10,6 +10,7 @@ import { ApolloProvider } from '@apollo/client';
 import Layout from '../components/Layout';
 import withApollo from '../components/apollo-client';
 import App from 'next/app';
+require('intersection-observer');
 
 function MyApp({ Component, pageProps, apollo }) {
   return (
