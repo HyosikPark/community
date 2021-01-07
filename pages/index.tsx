@@ -8,7 +8,6 @@ import {
   faEye,
   faHeart,
 } from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
 import { useMutation } from '@apollo/client';
 
 Home.getInitialProps = async (ctx) => {
@@ -86,7 +85,9 @@ export default function Home({ hotPosts }) {
                 <div className='post_main'>
                   <h3 className='title'>{post.title}</h3>
                   <div className='user_info'>
-                    <p className='user_nickname'>by {post.nickname}</p>
+                    <p className='user_nickname'>
+                      by <span className='nickname'>{post.nickname}</span>
+                    </p>
                     <p className='created_at'>
                       {moment(post.createdAt).format('YYYY.MM.DD')}
                     </p>
