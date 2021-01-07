@@ -35,12 +35,14 @@
       background-color: white;
     }
     .btn_bundle {
-      margin-top: 10%;
+      margin-top: 3%;
       display: flex;
       justify-content: flex-start;
       height: 60px;
       align-self: flex-end;
-
+      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        margin-top: 10%;
+      }
       button {
         width: 80px;
         font-size: 1.2rem;

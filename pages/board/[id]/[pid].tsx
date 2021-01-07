@@ -13,9 +13,6 @@ import { useMutation } from '@apollo/client';
 import PostComment from '../../../components/PostComment';
 import { useRouter } from 'next/router';
 
-const FROALA_AD =
-  '<p data-f-id="pbf" style="text-align: center; font-size: 14px; margin-top: 30px; opacity: 0.65; font-family: sans-serif;">Powered by <a href="https://www.froala.com/wysiwyg-editor?pb=1" title="Froala Editor">Froala Editor</a></p>';
-
 Post.getInitialProps = async (ctx) => {
   try {
     const { id: star, pid: pageNum } = ctx.query;
@@ -61,7 +58,7 @@ function Post({
   const [editOrDel, setEditOrDel] = useState('');
 
   const inputContent = useCallback(() => {
-    return { __html: content.replace(FROALA_AD, '') };
+    return { __html: content };
   }, [content]);
 
   const [deletePost] = useMutation(DELETEPOST, {
@@ -164,6 +161,14 @@ function Post({
     }
   }, []);
 
+  const toBoard = useCallback(() => {
+    window.location.href = `/board/${category}?curPage=1`;
+  }, []);
+
+  const toBack = useCallback(() => {
+    router.back();
+  }, []);
+
   useEffect(() => {
     alreadyLike ? setLike(true) : setLike(false);
     addEventListener('mousedown', handleClickOutside);
@@ -176,7 +181,17 @@ function Post({
       
       </Head> */}
       <div className='post_container'>
-        <p className='view_info'>Views: {views}</p>
+        <div className='post_top'>
+          <div className='btn_bundle'>
+            <button className='back_btn' onClick={toBack}>
+              Back
+            </button>
+            <button className='board_btn' onClick={toBoard}>
+              Board
+            </button>
+          </div>
+          <p className='view_info'>Views: {views}</p>
+        </div>
         <div className='post_head'>
           <h1>{title}</h1>
           <div className='head_util'>

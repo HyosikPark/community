@@ -4,9 +4,34 @@
   margin: 7% auto 5% auto;
   color: rgb(103, 104, 101);
   border-radius: 1%;
-  .view_info {
-    text-align: right;
+  .post_top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1%;
+    height: 40px;
+    .btn_bundle {
+      display: flex;
+      justify-content: flex-start;
+      height: 40px;
+      align-self: flex-end;
+      button {
+        width: 80px;
+        font-size: 1.1rem;
+        border-radius: 10%;
+        cursor: pointer;
+        border: 2px solid rgb(53, 53, 53);
+      }
+      .back_btn {
+        margin-right: 3%;
+      }
+      .board_btn {
+        background-color: rgb(96, 102, 133);
+        color: rgb(255, 255, 255);
+      }
+    }
   }
+
   .post_head {
     word-break: break-all;
     border-bottom: 1px solid;
