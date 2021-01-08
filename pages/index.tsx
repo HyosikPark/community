@@ -67,8 +67,9 @@ export default function Home({ hotPosts }) {
   return (
     <>
       <Head>
-        <title>hyogooz</title>
-        <meta name='description' content='hyogooz k-pop gogo' />
+        {/* <title>mongle</title> */}
+        {/* <meta name='description' content='hyogooz k-pop gogo' />
+        <meta name='viewport' content='initial-scale=1.0, width=device-width' /> */}
       </Head>
       <div className='home_container'>
         <div className='posts_container'>
