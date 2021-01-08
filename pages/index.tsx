@@ -9,6 +9,7 @@ import {
   faHeart,
 } from '@fortawesome/free-solid-svg-icons';
 import { useMutation } from '@apollo/client';
+import Head from 'next/head';
 
 Home.getInitialProps = async (ctx) => {
   const result = await ctx.apolloClient.query({
@@ -65,6 +66,9 @@ export default function Home({ hotPosts }) {
 
   return (
     <>
+      <Head>
+        <title>goosegoose</title>
+      </Head>
       <div className='home_container'>
         <div className='posts_container'>
           <div className='sort_by'>
