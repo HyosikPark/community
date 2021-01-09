@@ -28,6 +28,7 @@
       .board_btn {
         background-color: rgb(96, 102, 133);
         color: rgb(255, 255, 255);
+        height: 100%;
       }
     }
   }
@@ -45,6 +46,7 @@
       text-align: start;
       width: 80%;
       margin: 3% auto 3% auto;
+      word-break: keep-all;
     }
     .head_util {
       width: 100%;

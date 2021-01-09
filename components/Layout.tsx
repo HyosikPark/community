@@ -15,9 +15,11 @@ function Layout() {
           </Link>
           <ul className='nav'>
             <Link href='/category'>
-              <li>
-                <h2 className='board'>Category</h2>
-              </li>
+              <a>
+                <li>
+                  <h2 className='board'>Category</h2>
+                </li>
+              </a>
             </Link>
             <li>
               <FontAwesomeIcon className='search_icon' icon={faSearch} />

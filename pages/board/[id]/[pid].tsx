@@ -161,10 +161,6 @@ function Post({
     }
   }, []);
 
-  const toBoard = useCallback(() => {
-    window.location.href = `/board/${category}?curPage=1`;
-  }, []);
-
   const toBack = useCallback(() => {
     router.back();
   }, []);
@@ -186,9 +182,9 @@ function Post({
             <button className='back_btn' onClick={toBack}>
               Back
             </button>
-            <button className='board_btn' onClick={toBoard}>
-              Board
-            </button>
+            <a href={`/board/${category}?curPage=1`}>
+              <button className='board_btn'>Board</button>
+            </a>
           </div>
           <p className='view_info'>Views: {views}</p>
         </div>
@@ -196,7 +192,7 @@ function Post({
           <h1>{title}</h1>
           <div className='head_util'>
             <div className='user_info'>
-              <h3>{nickname}</h3>
+              <h3>by {nickname}</h3>
               <h3>{moment(createdAt).format('YYYY-MM-DD hh:mm:ss')}</h3>
             </div>
             <div className='post_edit'>

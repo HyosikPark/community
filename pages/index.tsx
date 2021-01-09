@@ -43,10 +43,6 @@ export default function Home({ hotPosts }) {
     return count > 1000 ? '1000+' : `${count}`;
   }, []);
 
-  const goToPost = useCallback((category, number) => {
-    window.location.href = `/board/${category}/${number}`;
-  }, []);
-
   useEffect(() => {
     const handleIntersection = ([entry]) => {
       if (entry.isIntersecting) {
@@ -85,51 +81,52 @@ export default function Home({ hotPosts }) {
           </div>
           <div className='posts_list'>
             {posts.map((post, i) => (
-              <div
-                key={post._id}
-                className='post'
-                onClick={() => goToPost(post.category, post.number)}
-                ref={posts.length - 1 == i ? target : null}
-              >
-                {haveImg(post.content)}
-                <div className='post_main'>
-                  <h3 className='title'>{post.title}</h3>
-                  <div className='user_info'>
-                    <p className='user_nickname'>
-                      by <span className='nickname'>{post.nickname}</span>
-                    </p>
-                    <p className='created_at'>
-                      {moment(post.createdAt).format('YYYY.MM.DD')}
-                    </p>
+              <a href={`/board/${post.category}/${post.number}`}>
+                <div
+                  key={post._id}
+                  className='post'
+                  ref={posts.length - 1 == i ? target : null}
+                >
+                  {haveImg(post.content)}
+                  <div className='post_main'>
+                    <h3 className='title'>{post.title}</h3>
+                    <div className='user_info'>
+                      <p className='user_nickname'>
+                        by <span className='nickname'>{post.nickname}</span>
+                      </p>
+                      <p className='created_at'>
+                        {moment(post.createdAt).format('YYYY.MM.DD')}
+                      </p>
+                    </div>
+                  </div>
+                  <div className='post_bottom'>
+                    <p className='category_info'>#{post.category}</p>
+                    <div className='post_count'>
+                      <p>
+                        <FontAwesomeIcon
+                          className='fontawesome_icon'
+                          icon={faEye}
+                        />{' '}
+                        {postCount(post.views)}
+                      </p>
+                      <p>
+                        <FontAwesomeIcon
+                          className='fontawesome_icon'
+                          icon={faCommentDots}
+                        />{' '}
+                        {postCount(post.commentCount)}
+                      </p>
+                      <p>
+                        <FontAwesomeIcon
+                          className='fontawesome_icon'
+                          icon={faHeart}
+                        />{' '}
+                        {postCount(post.likeCount)}
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <div className='post_bottom'>
-                  <p className='category_info'>#{post.category}</p>
-                  <div className='post_count'>
-                    <p>
-                      <FontAwesomeIcon
-                        className='fontawesome_icon'
-                        icon={faEye}
-                      />{' '}
-                      {postCount(post.views)}
-                    </p>
-                    <p>
-                      <FontAwesomeIcon
-                        className='fontawesome_icon'
-                        icon={faCommentDots}
-                      />{' '}
-                      {postCount(post.commentCount)}
-                    </p>
-                    <p>
-                      <FontAwesomeIcon
-                        className='fontawesome_icon'
-                        icon={faHeart}
-                      />{' '}
-                      {postCount(post.likeCount)}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

@@ -132,64 +132,68 @@ function Board({ postInfo, postCount, curPage, star }) {
           </div>
           <div className='page_number_container'>
             {curPage <= 1 ? null : (
-              <li
-                id='double_left'
-                onClick={movePage}
-                className='angle_double_left page_button'
-              >
-                <FontAwesomeIcon
-                  className='fontawesome_icon'
-                  icon={faAngleDoubleLeft}
-                />
-              </li>
+              <a href={`/board/${star}?curPage=1`}>
+                <li id='double_left' className='angle_double_left page_button'>
+                  <FontAwesomeIcon
+                    className='fontawesome_icon'
+                    icon={faAngleDoubleLeft}
+                  />
+                </li>
+              </a>
             )}
             {curPage <= 10 ? null : (
-              <li
-                id='left'
-                onClick={movePage}
-                className='angle_left page_button'
+              <a
+                href={
+                  curPage - 10 > 1
+                    ? `/board/${star}?curPage=${curPage - 10}`
+                    : `/board/${star}?curPage=1`
+                }
               >
-                <FontAwesomeIcon
-                  className='fontawesome_icon'
-                  icon={faAngleLeft}
-                />
-              </li>
+                <li id='left' className='angle_left page_button'>
+                  <FontAwesomeIcon
+                    className='fontawesome_icon'
+                    icon={faAngleLeft}
+                  />
+                </li>
+              </a>
             )}
 
             {pageNums(postCount, curPage).map((e) => (
-              <li
-                id={e}
-                onClick={movePage}
-                key={e}
-                className={`${e}page page_button`}
-              >
-                {e}
-              </li>
+              <a href={`/board/${star}?curPage=${e}`}>
+                <li id={e} key={e} className={`${e}page page_button`}>
+                  {e}
+                </li>
+              </a>
             ))}
             {curPage >= Math.floor((lastPage - 1) / 10) * 10 + 1 ? null : (
-              <li
-                id='right'
-                onClick={movePage}
-                className='angle_right page_button'
+              <a
+                href={
+                  curPage + 10 > lastPage
+                    ? `/board/${star}?curPage=${lastPage}`
+                    : `/board/${star}?curPage=${curPage + 10}`
+                }
               >
-                <FontAwesomeIcon
-                  className='fontawesome_icon'
-                  icon={faAngleRight}
-                />
-              </li>
+                <li id='right' className='angle_right page_button'>
+                  <FontAwesomeIcon
+                    className='fontawesome_icon'
+                    icon={faAngleRight}
+                  />
+                </li>
+              </a>
             )}
 
             {lastPage == curPage || postCount == 0 ? null : (
-              <li
-                id='double_right'
-                onClick={movePage}
-                className='angle_double_right page_button'
-              >
-                <FontAwesomeIcon
-                  className='fontawesome_icon'
-                  icon={faAngleDoubleRight}
-                />
-              </li>
+              <a href={`/board/${star}?curPage=${lastPage}`}>
+                <li
+                  id='double_right'
+                  className='angle_double_right page_button'
+                >
+                  <FontAwesomeIcon
+                    className='fontawesome_icon'
+                    icon={faAngleDoubleRight}
+                  />
+                </li>
+              </a>
             )}
           </div>
         </div>
