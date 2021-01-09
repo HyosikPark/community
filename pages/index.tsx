@@ -70,6 +70,10 @@ export default function Home({ hotPosts }) {
         {/* <title>mongle</title> */}
         {/* <meta name='description' content='hyogooz k-pop gogo' />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' /> */}
+        <meta
+          name='google-site-verification'
+          content='kWEWXScZh5fUQRX-Fa8OYYI_3zHf5MnBZrdypXavGkA'
+        />
       </Head>
       <div className='home_container'>
         <div className='posts_container'>
