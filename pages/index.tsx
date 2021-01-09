@@ -63,13 +63,19 @@ export default function Home({ hotPosts }) {
   return (
     <>
       <Head>
-        {/* <title>mongle</title> */}
-        {/* <meta name='description' content='hyogooz k-pop gogo' />
-        <meta name='viewport' content='initial-scale=1.0, width=device-width' /> */}
+        <title>mongle</title>
+        <meta
+          name='description'
+          content="It's an online forum for K-pop fans around the world! Post freely without signing up for membership."
+        />
+        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
         <meta
           name='google-site-verification'
           content='kWEWXScZh5fUQRX-Fa8OYYI_3zHf5MnBZrdypXavGkA'
         />
+        <meta name='robots' content='index,follow' />
+        // image meta tag 만들것
+        {/* <meta property="og:image" content="" /> */}
       </Head>
       <div className='home_container'>
         <div className='posts_container'>

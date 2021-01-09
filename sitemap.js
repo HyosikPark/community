@@ -1,4 +1,4 @@
 module.exports = {
-  siteUrl: 'https://k-pop-community.vercel.app/',
+  siteUrl: 'https://k-community.vercel.app/',
   generateRobotsTxt: false,
 };
