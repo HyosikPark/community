@@ -1,5 +1,10 @@
 import Link from 'next/link';
-import { ALLPOSTS_SORTBY_VIEWS } from '../../../components/gqlFragment';
+import {
+  SEARCH_BY_CONTENT,
+  SEARCH_BY_NICKNAME,
+  SEARCH_BY_TITLE,
+  SEARCH_BY_TITLE_AND_CONTENT,
+} from '../../../components/gqlFragment';
 import moment from 'moment';
 import { useCallback } from 'react';
 import Head from 'next/head';
@@ -31,19 +36,48 @@ function postDate(date) {
   else return moment(date).format('YYYY-MM-DD');
 }
 
-SortByViewsBoard.getInitialProps = async (ctx) => {
+SearchBoard.getInitialProps = async (ctx) => {
   try {
-    const { curPage, id: star } = ctx.query;
-    const result = await ctx.apolloClient.query({
-      query: ALLPOSTS_SORTBY_VIEWS,
-      variables: { category: `${star}`, curPage: +curPage },
-    });
+    const { curPage, id: star, option, keyword } = ctx.query;
+    let result;
+    if (option == 'title') {
+      result = await ctx.apolloClient
+        .query({
+          query: SEARCH_BY_TITLE,
+          variables: { category: `${star}`, curPage: +curPage, value: keyword },
+        })
+        .then((e) => e.data.searchByTitle);
+    } else if (option == 'content') {
+      result = await ctx.apolloClient
+        .query({
+          query: SEARCH_BY_CONTENT,
+          variables: { category: `${star}`, curPage: +curPage, value: keyword },
+        })
+        .then((e) => e.data.searchByContent);
+    } else if (option == 'title_content') {
+      result = await ctx.apolloClient
+        .query({
+          query: SEARCH_BY_TITLE_AND_CONTENT,
+          variables: { category: `${star}`, curPage: +curPage, value: keyword },
+        })
+        .then((e) => e.data.searchByTitleAndContent);
+    } else if (option == 'nickname') {
+      result = await ctx.apolloClient
+        .query({
+          query: SEARCH_BY_NICKNAME,
+          variables: { category: `${star}`, curPage: +curPage, value: keyword },
+        })
+        .then((e) => e.data.searchByNickname);
+    }
     return {
-      ...result.data.allPostsSortByViews,
+      ...result,
       curPage: Number(curPage),
       star,
+      option,
+      keyword,
     };
   } catch (e) {
+    console.log(e);
     ctx.res.writeHead(302, {
       Location: `/category`,
     });
@@ -52,7 +86,7 @@ SortByViewsBoard.getInitialProps = async (ctx) => {
   }
 };
 
-function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
+function SearchBoard({ postInfo, postCount, curPage, star, option, keyword }) {
   const lastPage = Math.ceil(postCount / 15);
 
   const countUnit = useCallback((count) => {
@@ -84,9 +118,7 @@ function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
               <button>Hot</button>
             </a>
             <a href={`/board/views/${star}?curPage=1`}>
-              <button style={{ background: '#485a92', color: 'white' }}>
-                Views
-              </button>
+              <button>Views</button>
             </a>
           </div>
           <div className='board'>
@@ -136,7 +168,9 @@ function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
           </div>
           <div className='page_number_container'>
             {curPage <= 1 ? null : (
-              <a href={`/board/views/${star}?curPage=1`}>
+              <a
+                href={`/board/search/${star}?curPage=1&option=${option}&keyword=${keyword}`}
+              >
                 <li id='double_left' className='angle_double_left page_button'>
                   <i aria-hidden className='fas fa-angle-double-left'></i>
                 </li>
@@ -146,8 +180,10 @@ function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
               <a
                 href={
                   curPage - 10 > 1
-                    ? `/board/views/${star}?curPage=${curPage - 10}`
-                    : `/board/views/${star}?curPage=1`
+                    ? `/board/search/${star}?curPage=${
+                        curPage - 10
+                      }&option=${option}&keyword=${keyword}`
+                    : `/board/search/${star}?curPage=1&option=${option}&keyword=${keyword}`
                 }
               >
                 <li id='left' className='angle_left page_button'>
@@ -157,7 +193,10 @@ function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
             )}
 
             {pageNums(postCount, curPage).map((e) => (
-              <a key={e} href={`/board/views/${star}?curPage=${e}`}>
+              <a
+                key={e}
+                href={`/board/search/${star}?curPage=${e}&option=${option}&keyword=${keyword}`}
+              >
                 <li id={e} className={`${e}page page_button`}>
                   {e}
                 </li>
@@ -167,8 +206,10 @@ function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
               <a
                 href={
                   curPage + 10 > lastPage
-                    ? `/board/views/${star}?curPage=${lastPage}`
-                    : `/board/views/${star}?curPage=${curPage + 10}`
+                    ? `/board/search/${star}?curPage=${lastPage}&option=${option}&keyword=${keyword}`
+                    : `/board/search/${star}?curPage=${
+                        curPage + 10
+                      }&option=${option}&keyword=${keyword}`
                 }
               >
                 <li id='right' className='angle_right page_button'>
@@ -178,7 +219,9 @@ function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
             )}
 
             {lastPage == curPage || postCount == 0 ? null : (
-              <a href={`/board/views/${star}?curPage=${lastPage}`}>
+              <a
+                href={`/board/search/${star}?curPage=${lastPage}&option=${option}&keyword=${keyword}`}
+              >
                 <li
                   id='double_right'
                   className='angle_double_right page_button'
@@ -194,4 +237,4 @@ function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
   );
 }
 
-export default SortByViewsBoard;
+export default SearchBoard;

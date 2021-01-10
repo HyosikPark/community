@@ -231,3 +231,87 @@ export const DELETECOMMENT = gql`
     deleteComment(category: $category, number: $number, _id: $_id)
   }
 `;
+
+export const SEARCH_BY_TITLE = gql`
+  query searchByTitle($category: String!, $curPage: Int!, $value: String!) {
+    searchByTitle(category: $category, curPage: $curPage, value: $value) {
+      postCount
+      postInfo {
+        _id
+        number
+        nickname
+        title
+        createdAt
+        commentCount
+        likeCount
+        views
+        content
+      }
+    }
+  }
+`;
+
+export const SEARCH_BY_CONTENT = gql`
+  query searchByContent($category: String!, $curPage: Int!, $value: String!) {
+    searchByContent(category: $category, curPage: $curPage, value: $value) {
+      postCount
+      postInfo {
+        _id
+        number
+        nickname
+        title
+        createdAt
+        commentCount
+        likeCount
+        views
+        content
+      }
+    }
+  }
+`;
+
+export const SEARCH_BY_TITLE_AND_CONTENT = gql`
+  query searchByTitleAndContent(
+    $category: String!
+    $curPage: Int!
+    $value: String!
+  ) {
+    searchByTitleAndContent(
+      category: $category
+      curPage: $curPage
+      value: $value
+    ) {
+      postCount
+      postInfo {
+        _id
+        number
+        nickname
+        title
+        createdAt
+        commentCount
+        likeCount
+        views
+        content
+      }
+    }
+  }
+`;
+
+export const SEARCH_BY_NICKNAME = gql`
+  query searchByNickname($category: String!, $curPage: Int!, $value: String!) {
+    searchByNickname(category: $category, curPage: $curPage, value: $value) {
+      postCount
+      postInfo {
+        _id
+        number
+        nickname
+        title
+        createdAt
+        commentCount
+        likeCount
+        views
+        content
+      }
+    }
+  }
+`;

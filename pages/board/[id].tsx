@@ -3,6 +3,7 @@ import { ALLPOSTS } from '../../components/gqlFragment';
 import moment from 'moment';
 import { useCallback } from 'react';
 import Head from 'next/head';
+import SearchPosts from '../../components/SearchPosts';
 
 function pageNums(postCount: number, curPage: number) {
   if (!postCount) return [1];
@@ -124,19 +125,7 @@ function Board({ postInfo, postCount, curPage, star }) {
             </ul>
           </div>
           <div className='board_bottom'>
-            <form className='search_post'>
-              <select name='' id=''>
-                <option value='title'>Title</option>
-                <option value='content'>Content</option>
-                <option value='title_content'>Title+Content</option>
-                <option value='nickname'>Nickname</option>
-              </select>
-              <input type='text' placeholder='search...' />
-              <button>
-                <i aria-hidden className='fas fa-search'></i>
-              </button>
-            </form>
-
+            <SearchPosts />
             <Link href={`/write/${star}`}>
               <button className='write_btn btn'>Write</button>
             </Link>

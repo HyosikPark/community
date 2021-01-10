@@ -5,11 +5,11 @@ import searchPostResolver from './searchPostResolver';
 const resolvers = {
   Query: {
     ...postResover.Query,
+    ...searchPostResolver.Query,
   },
   Mutation: {
     ...postResover.Mutation,
     ...commentResolver.Mutation,
-    ...searchPostResolver.Mutation,
   },
 };
 

@@ -68,6 +68,18 @@ const typeDefs = gql`
     allPostsSortByViews(category: String!, curPage: Int!): AllPosts!
     hotPosts: [Post!]
     getPost(category: String!, number: Int!): getPost!
+    searchByTitle(category: String!, curPage: Int!, value: String!): AllPosts!
+    searchByContent(category: String!, curPage: Int!, value: String!): AllPosts!
+    searchByTitleAndContent(
+      category: String!
+      curPage: Int!
+      value: String!
+    ): AllPosts!
+    searchByNickname(
+      category: String!
+      curPage: Int!
+      value: String!
+    ): AllPosts!
   }
 
   type Mutation {

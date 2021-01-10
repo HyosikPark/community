@@ -41,23 +41,21 @@ function Category({ menu }) {
   }, [search]);
 
   return (
-    <>
-      <div className='category_container'>
-        <div className='category_head'>
-          <label htmlFor='search'>
-            <input
-              type='text'
-              id='search'
-              name='search'
-              placeholder='Search...'
-              value={search}
-              onChange={findStar}
-            />
-          </label>
-        </div>
-        <div className='category'>{category()}</div>
+    <div className='category_container'>
+      <div className='category_head'>
+        <label htmlFor='search'>
+          <input
+            type='text'
+            id='search'
+            name='search'
+            placeholder='Search...'
+            value={search}
+            onChange={findStar}
+          />
+        </label>
       </div>
-    </>
+      <div className='category'>{category()}</div>
+    </div>
   );
 }
 
