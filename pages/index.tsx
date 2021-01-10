@@ -1,3 +1,4 @@
+import { faHotjar } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { HOTPOSTS, HOTPOSTSMUTATION } from '../components/gqlFragment';
@@ -77,20 +78,12 @@ export default function Home({ hotPosts }) {
         <meta name='robots' content='index,follow' />
         // image meta tag 만들것
         {/* <meta property="og:image" content="" /> */}
-        <script
-          src='https://kit.fontawesome.com/e14cfa2f4b.js'
-          crossOrigin='anonymous'
-        ></script>
       </Head>
       <div className='home_container'>
         <div className='posts_container'>
           <div className='sort_by'>
             <h1 className='hot_posts'>
-              <i
-                aria-hidden
-                className='fab fa-hotjar'
-                style={{ color: ' rgb(255, 66, 66)' }}
-              ></i>
+              <FontAwesomeIcon className='hot_icon' icon={faHotjar} />
               HOT
             </h1>
           </div>
@@ -117,15 +110,24 @@ export default function Home({ hotPosts }) {
                     <p className='category_info'>#{post.category}</p>
                     <div className='post_count'>
                       <p className='view_info'>
-                        <i aria-hidden className='fas fa-eye'></i>
+                        <FontAwesomeIcon
+                          className='fontawesome_icon'
+                          icon={faEye}
+                        />{' '}
                         {postCount(post.views)}
                       </p>
                       <p className='comment_info'>
-                        <i aria-hidden className='fas fa-comment'></i>
+                        <FontAwesomeIcon
+                          className='fontawesome_icon'
+                          icon={faCommentDots}
+                        />{' '}
                         {postCount(post.commentCount)}
                       </p>
                       <p className='like_info'>
-                        <i aria-hidden className='fas fa-heart'></i>
+                        <FontAwesomeIcon
+                          className='fontawesome_icon'
+                          icon={faHeart}
+                        />{' '}
                         {postCount(post.likeCount)}
                       </p>
                     </div>
