@@ -61,6 +61,7 @@ export const ALLPOSTS = gql`
         commentCount
         likeCount
         views
+        content
       }
     }
   }

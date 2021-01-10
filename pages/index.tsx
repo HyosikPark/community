@@ -40,7 +40,9 @@ export default function Home({ hotPosts }) {
   }, []);
 
   const postCount = useCallback((count) => {
-    return count > 1000 ? '1000+' : `${count}`;
+    if (count >= 1000) {
+      return <span className='big_count'>{(count / 1000).toFixed(1)}k</span>;
+    } else return `${count}`;
   }, []);
 
   useEffect(() => {
@@ -87,9 +89,8 @@ export default function Home({ hotPosts }) {
           </div>
           <div className='posts_list'>
             {posts.map((post, i) => (
-              <a href={`/board/${post.category}/${post.number}`}>
+              <a key={post._id} href={`/board/${post.category}/${post.number}`}>
                 <div
-                  key={post._id}
                   className='post'
                   ref={posts.length - 1 == i ? target : null}
                 >
@@ -108,21 +109,21 @@ export default function Home({ hotPosts }) {
                   <div className='post_bottom'>
                     <p className='category_info'>#{post.category}</p>
                     <div className='post_count'>
-                      <p>
+                      <p className='view_info'>
                         <FontAwesomeIcon
                           className='fontawesome_icon'
                           icon={faEye}
                         />{' '}
                         {postCount(post.views)}
                       </p>
-                      <p>
+                      <p className='comment_info'>
                         <FontAwesomeIcon
                           className='fontawesome_icon'
                           icon={faCommentDots}
                         />{' '}
                         {postCount(post.commentCount)}
                       </p>
-                      <p>
+                      <p className='like_info'>
                         <FontAwesomeIcon
                           className='fontawesome_icon'
                           icon={faHeart}

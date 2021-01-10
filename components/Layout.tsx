@@ -16,8 +16,8 @@ function Layout() {
           <ul className='nav'>
             <Link href='/category'>
               <a>
-                <li>
-                  <h2 className='board'>Category</h2>
+                <li className='categories_container'>
+                  <h2 className='board'>Categories</h2>
                 </li>
               </a>
             </Link>

@@ -6,6 +6,10 @@ import {
   faAngleDoubleRight,
   faAngleLeft,
   faAngleRight,
+  faImage,
+  faComment,
+  faCommentAlt,
+  faCommentDots,
 } from '@fortawesome/free-solid-svg-icons';
 import { ALLPOSTS } from '../../components/gqlFragment';
 import moment from 'moment';
@@ -57,37 +61,41 @@ Board.getInitialProps = async (ctx) => {
 function Board({ postInfo, postCount, curPage, star }) {
   const lastPage = Math.ceil(postCount / 15);
 
-  const movePage = useCallback(
-    (e) => {
-      const elem = e.target.id;
-      if (elem == 'double_left')
-        return (window.location.href = `/board/${star}?curPage=1`);
+  const countUnit = useCallback((count) => {
+    if (count >= 1000) {
+      return <span className='big_count'>{(count / 1000).toFixed(1)}k</span>;
+    } else return `${count}`;
+  }, []);
 
-      if (elem == 'left')
-        return (window.location.href =
-          curPage - 10 > 1
-            ? `/board/${star}?curPage=${curPage - 10}`
-            : `/board/${star}?curPage=1`);
+  const titleUI = useCallback((title, content, commentCount) => {
+    const haveImg = content.includes('<img src=');
 
-      if (elem == 'right')
-        return (window.location.href =
-          curPage + 10 > lastPage
-            ? `/board/${star}?curPage=${lastPage}`
-            : `/board/${star}?curPage=${curPage + 10}`);
-
-      if (elem == 'double_right')
-        return (window.location.href = `/board/${star}?curPage=${lastPage}`);
-
-      window.location.href = `/board/${star}?curPage=${elem}`;
-    },
-    [curPage, lastPage, star]
-  );
+    return (
+      <>
+        <span className='title_info'>{title} </span>
+        {haveImg ? (
+          <FontAwesomeIcon color='#079653' icon={faImage} />
+        ) : null}{' '}
+        <span className='comment_info'>
+          <FontAwesomeIcon color='#11bfeb' icon={faCommentDots} />[
+          {commentCount}]
+        </span>
+      </>
+    );
+  }, []);
 
   return (
     <>
       <div className='star_container'>
         <div className='board_container'>
-          {star && <h2>{`${star} Board`}</h2>}
+          {star && <h2 className='category_info'>{`${star}`}</h2>}
+          <div className='sort_by_container'>
+            <button style={{ background: '#485a92', color: '#fffff' }}>
+              Latest
+            </button>
+            <button>hot</button>
+            <button>views</button>
+          </div>
           <div className='board'>
             <div className='board_head'>
               <h3 className='number_head'>Number</h3>
@@ -102,11 +110,13 @@ function Board({ postInfo, postCount, curPage, star }) {
                 <a key={e._id} href={`/board/${star}/${e.number}`}>
                   <li>
                     <p className='number_post'>{e.number}</p>
-                    <p className='title_post'>{e.title}</p>
+                    <p className='title_post'>
+                      {titleUI(e.title, e.content, e.commentCount)}
+                    </p>
                     <p className='nickname_post'>{e.nickname}</p>
                     <p className='date_post'>{postDate(e.createdAt)}</p>
-                    <p className='views_post'>{e.views}</p>
-                    <p className='hot_post'>{e.likeCount}</p>
+                    <p className='views_post'>{countUnit(e.views)}</p>
+                    <p className='hot_post'>{countUnit(e.likeCount)}</p>
                   </li>
                 </a>
               ))}
@@ -159,8 +169,8 @@ function Board({ postInfo, postCount, curPage, star }) {
             )}
 
             {pageNums(postCount, curPage).map((e) => (
-              <a href={`/board/${star}?curPage=${e}`}>
-                <li id={e} key={e} className={`${e}page page_button`}>
+              <a key={e} href={`/board/${star}?curPage=${e}`}>
+                <li id={e} className={`${e}page page_button`}>
                   {e}
                 </li>
               </a>

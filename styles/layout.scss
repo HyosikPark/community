@@ -10,11 +10,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: rgb(103, 125, 143);
+      background-color: rgb(68, 112, 148);
       color: white;
-      h1 {
-        margin: 0;
-      }
+
       .nav {
         display: flex;
         align-items: center;
@@ -22,6 +20,7 @@
         li {
           &:hover {
             cursor: pointer;
+            color: rgb(155, 155, 155);
           }
           .search_icon {
             font-size: 1.4rem;

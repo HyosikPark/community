@@ -176,70 +176,72 @@ function Post({
       {/* <Head>
       
       </Head> */}
-      <div className='post_container'>
-        <div className='post_top'>
-          <div className='btn_bundle'>
-            <button className='back_btn' onClick={toBack}>
-              Back
-            </button>
-            <a href={`/board/${category}?curPage=1`}>
-              <button className='board_btn'>Board</button>
-            </a>
-          </div>
-          <p className='view_info'>Views: {views}</p>
-        </div>
-        <div className='post_head'>
-          <h1>{title}</h1>
-          <div className='head_util'>
-            <div className='user_info'>
-              <h3>by {nickname}</h3>
-              <h3>{moment(createdAt).format('YYYY-MM-DD hh:mm:ss')}</h3>
+      <div className='post_page_container'>
+        <div className='post_container'>
+          <div className='post_top'>
+            <div className='btn_bundle'>
+              <button className='back_btn' onClick={toBack}>
+                Back
+              </button>
+              <a href={`/board/${category}?curPage=1`}>
+                <button className='board_btn'>Board</button>
+              </a>
             </div>
-            <div className='post_edit'>
-              <h3 id='edit' className='edit' onClick={clickEvent}>
-                EDIT |{' '}
-              </h3>
-              <h3 id='delete' className='delete' onClick={clickEvent}>
-                &nbsp; DELETE
-              </h3>
+            <p className='view_info'>Views: {views}</p>
+          </div>
+          <div className='post_head'>
+            <h1>{title}</h1>
+            <div className='head_util'>
+              <div className='user_info'>
+                <h3>by {nickname}</h3>
+                <h3>{moment(createdAt).format('YYYY-MM-DD hh:mm:ss')}</h3>
+              </div>
+              <div className='post_edit'>
+                <h3 id='edit' className='edit' onClick={clickEvent}>
+                  EDIT |{' '}
+                </h3>
+                <h3 id='delete' className='delete' onClick={clickEvent}>
+                  &nbsp; DELETE
+                </h3>
+              </div>
             </div>
           </div>
-        </div>
-        <div className='for_underline'></div>
-        <div
-          className='post_body'
-          dangerouslySetInnerHTML={inputContent()}
-        ></div>
-        <div className='icon_container'>
-          <div className='heart_icon_container' onClick={likeToggle}>
-            <FontAwesomeIcon
-              color={like ? 'rgb(248, 63, 63)' : null}
-              icon={faHeart}
-              className='heart_icon'
-            />
+          <div className='for_underline'></div>
+          <div
+            className='post_body'
+            dangerouslySetInnerHTML={inputContent()}
+          ></div>
+          <div className='icon_container'>
+            <div className='heart_icon_container' onClick={likeToggle}>
+              <FontAwesomeIcon
+                color={like ? 'rgb(248, 63, 63)' : null}
+                icon={faHeart}
+                className='heart_icon'
+              />
+            </div>
+            <h3 className='like_count'>{likeNum.current}</h3>
           </div>
-          <h3 className='like_count'>{likeNum.current}</h3>
+          <PostComment
+            comments={comments}
+            category={category}
+            commentCount={commentCount}
+            number={number}
+          />
         </div>
-        <PostComment
-          comments={comments}
-          category={category}
-          commentCount={commentCount}
-          number={number}
-        />
+        <form
+          ref={postPasswordForm}
+          className='post_password'
+          onSubmit={submitPostPassword}
+        >
+          <input
+            type='password'
+            placeholder='password'
+            value={postPassword}
+            onChange={changePostPassword}
+          />
+          <button>Check</button>
+        </form>
       </div>
-      <form
-        ref={postPasswordForm}
-        className='post_password'
-        onSubmit={submitPostPassword}
-      >
-        <input
-          type='password'
-          placeholder='password'
-          value={postPassword}
-          onChange={changePostPassword}
-        />
-        <button>Check</button>
-      </form>
     </>
   );
 }
