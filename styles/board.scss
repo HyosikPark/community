@@ -12,13 +12,14 @@
       margin-bottom: 1%;
       button {
         height: 40px;
-        width: 60px;
+        width: 70px;
         background-color: #ffff;
         color: rgb(109, 109, 109);
         font-weight: bold;
         border: none;
         &:hover {
           cursor: pointer;
+          background-color: rgb(110, 114, 153);
         }
       }
     }

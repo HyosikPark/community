@@ -64,6 +64,8 @@ const typeDefs = gql`
 
   type Query {
     allPosts(category: String!, curPage: Int!): AllPosts!
+    allPostsSortByLike(category: String!, curPage: Int!): AllPosts!
+    allPostsSortByViews(category: String!, curPage: Int!): AllPosts!
     hotPosts: [Post!]
     getPost(category: String!, number: Int!): getPost!
   }

@@ -48,6 +48,44 @@ export const DELETEPOST = gql`
   }
 `;
 
+export const ALLPOSTS_SORTBY_LIKE = gql`
+  query allPostsSortByLike($category: String!, $curPage: Int!) {
+    allPostsSortByLike(category: $category, curPage: $curPage) {
+      postCount
+      postInfo {
+        _id
+        number
+        nickname
+        title
+        createdAt
+        commentCount
+        likeCount
+        views
+        content
+      }
+    }
+  }
+`;
+
+export const ALLPOSTS_SORTBY_VIEWS = gql`
+  query allPostsSortByViews($category: String!, $curPage: Int!) {
+    allPostsSortByViews(category: $category, curPage: $curPage) {
+      postCount
+      postInfo {
+        _id
+        number
+        nickname
+        title
+        createdAt
+        commentCount
+        likeCount
+        views
+        content
+      }
+    }
+  }
+`;
+
 export const ALLPOSTS = gql`
   query allPosts($category: String!, $curPage: Int!) {
     allPosts(category: $category, curPage: $curPage) {

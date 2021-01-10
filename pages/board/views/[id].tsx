@@ -9,7 +9,7 @@ import {
   faImage,
   faCommentDots,
 } from '@fortawesome/free-solid-svg-icons';
-import { ALLPOSTS } from '../../components/gqlFragment';
+import { ALLPOSTS_SORTBY_VIEWS } from '../../../components/gqlFragment';
 import moment from 'moment';
 import { useCallback } from 'react';
 
@@ -39,14 +39,18 @@ function postDate(date) {
   else return moment(date).format('YYYY-MM-DD');
 }
 
-Board.getInitialProps = async (ctx) => {
+SortByViewsBoard.getInitialProps = async (ctx) => {
   try {
     const { curPage, id: star } = ctx.query;
     const result = await ctx.apolloClient.query({
-      query: ALLPOSTS,
+      query: ALLPOSTS_SORTBY_VIEWS,
       variables: { category: `${star}`, curPage: +curPage },
     });
-    return { ...result.data.allPosts, curPage: Number(curPage), star };
+    return {
+      ...result.data.allPostsSortByViews,
+      curPage: Number(curPage),
+      star,
+    };
   } catch (e) {
     ctx.res.writeHead(302, {
       Location: `/category`,
@@ -56,7 +60,7 @@ Board.getInitialProps = async (ctx) => {
   }
 };
 
-function Board({ postInfo, postCount, curPage, star }) {
+function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
   const lastPage = Math.ceil(postCount / 15);
 
   const countUnit = useCallback((count) => {
@@ -89,15 +93,15 @@ function Board({ postInfo, postCount, curPage, star }) {
           {star && <h2 className='category_info'>{`${star}`}</h2>}
           <div className='sort_by_container'>
             <a href={`/board/${star}?curPage=1`}>
-              <button style={{ background: '#485a92', color: 'white' }}>
-                Latest
-              </button>
+              <button>Latest</button>
             </a>
             <a href={`/board/hot/${star}?curPage=1`}>
               <button>Hot</button>
             </a>
             <a href={`/board/views/${star}?curPage=1`}>
-              <button>Views</button>
+              <button style={{ background: '#485a92', color: 'white' }}>
+                Views
+              </button>
             </a>
           </div>
           <div className='board'>
@@ -146,7 +150,7 @@ function Board({ postInfo, postCount, curPage, star }) {
           </div>
           <div className='page_number_container'>
             {curPage <= 1 ? null : (
-              <a href={`/board/${star}?curPage=1`}>
+              <a href={`/board/views/${star}?curPage=1`}>
                 <li id='double_left' className='angle_double_left page_button'>
                   <FontAwesomeIcon
                     className='fontawesome_icon'
@@ -159,8 +163,8 @@ function Board({ postInfo, postCount, curPage, star }) {
               <a
                 href={
                   curPage - 10 > 1
-                    ? `/board/${star}?curPage=${curPage - 10}`
-                    : `/board/${star}?curPage=1`
+                    ? `/board/views/${star}?curPage=${curPage - 10}`
+                    : `/board/views/${star}?curPage=1`
                 }
               >
                 <li id='left' className='angle_left page_button'>
@@ -173,7 +177,7 @@ function Board({ postInfo, postCount, curPage, star }) {
             )}
 
             {pageNums(postCount, curPage).map((e) => (
-              <a key={e} href={`/board/${star}?curPage=${e}`}>
+              <a key={e} href={`/board/views/${star}?curPage=${e}`}>
                 <li id={e} className={`${e}page page_button`}>
                   {e}
                 </li>
@@ -183,8 +187,8 @@ function Board({ postInfo, postCount, curPage, star }) {
               <a
                 href={
                   curPage + 10 > lastPage
-                    ? `/board/${star}?curPage=${lastPage}`
-                    : `/board/${star}?curPage=${curPage + 10}`
+                    ? `/board/views/${star}?curPage=${lastPage}`
+                    : `/board/views/${star}?curPage=${curPage + 10}`
                 }
               >
                 <li id='right' className='angle_right page_button'>
@@ -197,7 +201,7 @@ function Board({ postInfo, postCount, curPage, star }) {
             )}
 
             {lastPage == curPage || postCount == 0 ? null : (
-              <a href={`/board/${star}?curPage=${lastPage}`}>
+              <a href={`/board/views/${star}?curPage=${lastPage}`}>
                 <li
                   id='double_right'
                   className='angle_double_right page_button'
@@ -216,4 +220,4 @@ function Board({ postInfo, postCount, curPage, star }) {
   );
 }
 
-export default Board;
+export default SortByViewsBoard;

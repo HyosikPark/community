@@ -1,5 +1,6 @@
 import commentResolver from './commentResolver';
 import postResover from './postResolver';
+import searchPostResolver from './searchPostResolver';
 
 const resolvers = {
   Query: {
@@ -8,6 +9,7 @@ const resolvers = {
   Mutation: {
     ...postResover.Mutation,
     ...commentResolver.Mutation,
+    ...searchPostResolver.Mutation,
   },
 };
 

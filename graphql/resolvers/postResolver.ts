@@ -19,6 +19,40 @@ const postResover = {
       return { postInfo: posts, postCount: count };
     },
 
+    async allPostsSortByLike(_, { category, curPage }, ctx) {
+      const db = ctx.db.collection('post');
+      const posts = await db
+        .find({ category })
+        .sort({ likeCount: -1, createdAt: -1 })
+        .skip(15 * (curPage - 1))
+        .limit(15)
+        .toArray()
+        .catch((e) => {
+          throw new Error('An error occurred while loading the data.');
+        });
+
+      const count = await db.find({ category }).count();
+
+      return { postInfo: posts, postCount: count };
+    },
+
+    async allPostsSortByViews(_, { category, curPage }, ctx) {
+      const db = ctx.db.collection('post');
+      const posts = await db
+        .find({ category })
+        .sort({ views: -1, createdAt: -1 })
+        .skip(15 * (curPage - 1))
+        .limit(15)
+        .toArray()
+        .catch((e) => {
+          throw new Error('An error occurred while loading the data.');
+        });
+
+      const count = await db.find({ category }).count();
+
+      return { postInfo: posts, postCount: count };
+    },
+
     async hotPosts(_, __, ctx) {
       const db = ctx.db.collection('post');
       const posts = await db
