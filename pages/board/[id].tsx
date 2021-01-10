@@ -1,14 +1,4 @@
 import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faSearch,
-  faAngleDoubleLeft,
-  faAngleDoubleRight,
-  faAngleLeft,
-  faAngleRight,
-  faImage,
-  faCommentDots,
-} from '@fortawesome/free-solid-svg-icons';
 import { ALLPOSTS } from '../../components/gqlFragment';
 import moment from 'moment';
 import { useCallback } from 'react';
@@ -111,13 +101,17 @@ function Board({ postInfo, postCount, curPage, star }) {
                     <p className='title_post'>
                       <span className='title_info'>{e.title} </span>
                       {titleUI(e.content) ? (
-                        // <FontAwesomeIcon color='#079653' icon={faImage} />
-                        <i className='fas fa-image'></i>
+                        <i
+                          style={{ color: '#079653' }}
+                          className='fas fa-image'
+                        ></i>
                       ) : null}{' '}
                       <span className='comment_info'>
-                        {/* <FontAwesomeIcon color='#11bfeb' icon={faCommentDots} /> */}
-                        <i className='fas fa-comment-dots'></i>[{e.commentCount}
-                        ]
+                        <i
+                          style={{ color: '#11bfeb' }}
+                          className='fas fa-comment-dots'
+                        ></i>
+                        [{e.commentCount}]
                       </span>
                     </p>
                     <p className='nickname_post'>{e.nickname}</p>
@@ -139,7 +133,7 @@ function Board({ postInfo, postCount, curPage, star }) {
               </select>
               <input type='text' placeholder='search...' />
               <button>
-                <FontAwesomeIcon className='search_icon' icon={faSearch} />
+                <i aria-hidden className='fas fa-search'></i>
               </button>
             </form>
 
@@ -151,10 +145,7 @@ function Board({ postInfo, postCount, curPage, star }) {
             {curPage <= 1 ? null : (
               <a href={`/board/${star}?curPage=1`}>
                 <li id='double_left' className='angle_double_left page_button'>
-                  <FontAwesomeIcon
-                    className='fontawesome_icon'
-                    icon={faAngleDoubleLeft}
-                  />
+                  <i aria-hidden className='fas fa-angle-double-left'></i>
                 </li>
               </a>
             )}
@@ -167,10 +158,7 @@ function Board({ postInfo, postCount, curPage, star }) {
                 }
               >
                 <li id='left' className='angle_left page_button'>
-                  <FontAwesomeIcon
-                    className='fontawesome_icon'
-                    icon={faAngleLeft}
-                  />
+                  <i aria-hidden className='fas fa-angle-left'></i>
                 </li>
               </a>
             )}
@@ -191,10 +179,7 @@ function Board({ postInfo, postCount, curPage, star }) {
                 }
               >
                 <li id='right' className='angle_right page_button'>
-                  <FontAwesomeIcon
-                    className='fontawesome_icon'
-                    icon={faAngleRight}
-                  />
+                  <i aria-hidden className='fas fa-angle-right'></i>
                 </li>
               </a>
             )}
@@ -205,10 +190,7 @@ function Board({ postInfo, postCount, curPage, star }) {
                   id='double_right'
                   className='angle_double_right page_button'
                 >
-                  <FontAwesomeIcon
-                    className='fontawesome_icon'
-                    icon={faAngleDoubleRight}
-                  />
+                  <i aria-hidden className='fas fa-angle-double-right'></i>
                 </li>
               </a>
             )}

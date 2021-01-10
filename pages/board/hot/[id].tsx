@@ -1,17 +1,8 @@
 import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faSearch,
-  faAngleDoubleLeft,
-  faAngleDoubleRight,
-  faAngleLeft,
-  faAngleRight,
-  faImage,
-  faCommentDots,
-} from '@fortawesome/free-solid-svg-icons';
 import { ALLPOSTS_SORTBY_LIKE } from '../../../components/gqlFragment';
 import moment from 'moment';
 import { useCallback } from 'react';
+import Head from 'next/head';
 
 function pageNums(postCount: number, curPage: number) {
   if (!postCount) return [1];
@@ -75,6 +66,12 @@ function SortByHotBoard({ postInfo, postCount, curPage, star }) {
 
   return (
     <>
+      <Head>
+        <script
+          src='https://kit.fontawesome.com/e14cfa2f4b.js'
+          crossOrigin='anonymous'
+        ></script>
+      </Head>
       <div className='star_container'>
         <div className='board_container'>
           {star && <h2 className='category_info'>{`${star}`}</h2>}
@@ -108,10 +105,16 @@ function SortByHotBoard({ postInfo, postCount, curPage, star }) {
                     <p className='title_post'>
                       <span className='title_info'>{e.title} </span>
                       {titleUI(e.content) ? (
-                        <FontAwesomeIcon color='#079653' icon={faImage} />
+                        <i
+                          style={{ color: '#079653' }}
+                          className='fas fa-image'
+                        ></i>
                       ) : null}{' '}
                       <span className='comment_info'>
-                        <FontAwesomeIcon color='#11bfeb' icon={faCommentDots} />
+                        <i
+                          style={{ color: '#11bfeb' }}
+                          className='fas fa-comment-dots'
+                        ></i>
                         [{e.commentCount}]
                       </span>
                     </p>
@@ -134,7 +137,7 @@ function SortByHotBoard({ postInfo, postCount, curPage, star }) {
               </select>
               <input type='text' placeholder='search...' />
               <button>
-                <FontAwesomeIcon className='search_icon' icon={faSearch} />
+                <i aria-hidden className='fas fa-search'></i>
               </button>
             </form>
 
@@ -146,10 +149,7 @@ function SortByHotBoard({ postInfo, postCount, curPage, star }) {
             {curPage <= 1 ? null : (
               <a href={`/board/hot/${star}?curPage=1`}>
                 <li id='double_left' className='angle_double_left page_button'>
-                  <FontAwesomeIcon
-                    className='fontawesome_icon'
-                    icon={faAngleDoubleLeft}
-                  />
+                  <i aria-hidden className='fas fa-angle-double-left'></i>
                 </li>
               </a>
             )}
@@ -162,10 +162,7 @@ function SortByHotBoard({ postInfo, postCount, curPage, star }) {
                 }
               >
                 <li id='left' className='angle_left page_button'>
-                  <FontAwesomeIcon
-                    className='fontawesome_icon'
-                    icon={faAngleLeft}
-                  />
+                  <i aria-hidden className='fas fa-angle-left'></i>
                 </li>
               </a>
             )}
@@ -186,10 +183,7 @@ function SortByHotBoard({ postInfo, postCount, curPage, star }) {
                 }
               >
                 <li id='right' className='angle_right page_button'>
-                  <FontAwesomeIcon
-                    className='fontawesome_icon'
-                    icon={faAngleRight}
-                  />
+                  <i aria-hidden className='fas fa-angle-right'></i>
                 </li>
               </a>
             )}
@@ -200,10 +194,7 @@ function SortByHotBoard({ postInfo, postCount, curPage, star }) {
                   id='double_right'
                   className='angle_double_right page_button'
                 >
-                  <FontAwesomeIcon
-                    className='fontawesome_icon'
-                    icon={faAngleDoubleRight}
-                  />
+                  <i aria-hidden className='fas fa-angle-double-right'></i>
                 </li>
               </a>
             )}

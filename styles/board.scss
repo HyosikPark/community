@@ -127,6 +127,9 @@
         height: 35px;
         button {
           width: 35px;
+          &:hover {
+            cursor: pointer;
+          }
         }
       }
 
@@ -161,9 +164,7 @@
           justify-content: center;
           align-items: center;
           background-color: rgb(255, 255, 255);
-          .fontawesome_icon {
-            pointer-events: none;
-          }
+
           &:hover {
             background-color: rgb(168, 233, 233);
             cursor: pointer;

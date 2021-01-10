@@ -1,4 +1,3 @@
-import { faHotjar } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { HOTPOSTS, HOTPOSTSMUTATION } from '../components/gqlFragment';
@@ -87,7 +86,11 @@ export default function Home({ hotPosts }) {
         <div className='posts_container'>
           <div className='sort_by'>
             <h1 className='hot_posts'>
-              <FontAwesomeIcon className='hot_icon' icon={faHotjar} />
+              <i
+                aria-hidden
+                className='fab fa-hotjar'
+                style={{ color: ' rgb(255, 66, 66)' }}
+              ></i>
               HOT
             </h1>
           </div>
@@ -114,24 +117,15 @@ export default function Home({ hotPosts }) {
                     <p className='category_info'>#{post.category}</p>
                     <div className='post_count'>
                       <p className='view_info'>
-                        <FontAwesomeIcon
-                          className='fontawesome_icon'
-                          icon={faEye}
-                        />{' '}
+                        <i aria-hidden className='fas fa-eye'></i>
                         {postCount(post.views)}
                       </p>
                       <p className='comment_info'>
-                        <FontAwesomeIcon
-                          className='fontawesome_icon'
-                          icon={faCommentDots}
-                        />{' '}
+                        <i aria-hidden className='fas fa-comment'></i>
                         {postCount(post.commentCount)}
                       </p>
                       <p className='like_info'>
-                        <FontAwesomeIcon
-                          className='fontawesome_icon'
-                          icon={faHeart}
-                        />{' '}
+                        <i aria-hidden className='fas fa-heart'></i>
                         {postCount(post.likeCount)}
                       </p>
                     </div>
