@@ -69,21 +69,8 @@ function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
     } else return `${count}`;
   }, []);
 
-  const titleUI = useCallback((title, content, commentCount) => {
-    const haveImg = content.includes('<img src=');
-
-    return (
-      <>
-        <span className='title_info'>{title} </span>
-        {haveImg ? (
-          <FontAwesomeIcon color='#079653' icon={faImage} />
-        ) : null}{' '}
-        <span className='comment_info'>
-          <FontAwesomeIcon color='#11bfeb' icon={faCommentDots} />[
-          {commentCount}]
-        </span>
-      </>
-    );
+  const titleUI = useCallback((content) => {
+    return content.includes('<img src=');
   }, []);
 
   return (
@@ -119,7 +106,14 @@ function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
                   <li>
                     <p className='number_post'>{e.number}</p>
                     <p className='title_post'>
-                      {titleUI(e.title, e.content, e.commentCount)}
+                      <span className='title_info'>{e.title} </span>
+                      {titleUI(e.content) ? (
+                        <FontAwesomeIcon color='#079653' icon={faImage} />
+                      ) : null}{' '}
+                      <span className='comment_info'>
+                        <FontAwesomeIcon color='#11bfeb' icon={faCommentDots} />
+                        [{e.commentCount}]
+                      </span>
                     </p>
                     <p className='nickname_post'>{e.nickname}</p>
                     <p className='date_post'>{postDate(e.createdAt)}</p>
