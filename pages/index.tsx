@@ -78,6 +78,10 @@ export default function Home({ hotPosts }) {
         <meta name='robots' content='index,follow' />
         // image meta tag 만들것
         {/* <meta property="og:image" content="" /> */}
+        <script
+          src='https://kit.fontawesome.com/e14cfa2f4b.js'
+          crossOrigin='anonymous'
+        ></script>
       </Head>
       <div className='home_container'>
         <div className='posts_container'>

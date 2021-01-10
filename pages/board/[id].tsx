@@ -12,6 +12,7 @@ import {
 import { ALLPOSTS } from '../../components/gqlFragment';
 import moment from 'moment';
 import { useCallback } from 'react';
+import Head from 'next/head';
 
 function pageNums(postCount: number, curPage: number) {
   if (!postCount) return [1];
@@ -71,6 +72,12 @@ function Board({ postInfo, postCount, curPage, star }) {
 
   return (
     <>
+      <Head>
+        <script
+          src='https://kit.fontawesome.com/e14cfa2f4b.js'
+          crossOrigin='anonymous'
+        ></script>
+      </Head>
       <div className='star_container'>
         <div className='board_container'>
           {star && <h2 className='category_info'>{`${star}`}</h2>}
@@ -104,11 +111,13 @@ function Board({ postInfo, postCount, curPage, star }) {
                     <p className='title_post'>
                       <span className='title_info'>{e.title} </span>
                       {titleUI(e.content) ? (
-                        <FontAwesomeIcon color='#079653' icon={faImage} />
+                        // <FontAwesomeIcon color='#079653' icon={faImage} />
+                        <i className='fas fa-image'></i>
                       ) : null}{' '}
                       <span className='comment_info'>
-                        <FontAwesomeIcon color='#11bfeb' icon={faCommentDots} />
-                        [{e.commentCount}]
+                        {/* <FontAwesomeIcon color='#11bfeb' icon={faCommentDots} /> */}
+                        <i className='fas fa-comment-dots'></i>[{e.commentCount}
+                        ]
                       </span>
                     </p>
                     <p className='nickname_post'>{e.nickname}</p>
