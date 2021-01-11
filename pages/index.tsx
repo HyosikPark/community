@@ -83,7 +83,7 @@ export default function Home({ hotPosts }) {
         <div className='posts_container'>
           <div className='sort_by'>
             <h1 className='hot_posts'>
-              <FontAwesomeIcon className='hot_icon' icon={faHotjar} />
+              {/* <FontAwesomeIcon className='hot_icon' icon={faHotjar} /> */}
               HOT
             </h1>
           </div>
