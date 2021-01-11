@@ -127,7 +127,7 @@ function PostComment({ comments, category, commentCount, number }) {
             <div className='comment_left'>
               <p className='comment_nickname'>{comment.nickname}</p>
               <p className='comment_date'>
-                {moment(comment.createdAt).format('MM.DD hh:mm:ss')}
+                {moment(comment.createdAt).format('MM.DD hh:mm')}
               </p>
             </div>
             <div className='comment_body'>
@@ -184,6 +184,7 @@ function PostComment({ comments, category, commentCount, number }) {
             className='comment_body'
             value={value.content}
             onChange={changeValue}
+            maxLength={160}
           ></textarea>
           <button
             ref={commentBtn}

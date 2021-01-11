@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { menu } from '../util/Menu';
 
 export async function getStaticProps() {
@@ -10,35 +10,24 @@ export async function getStaticProps() {
 
 function Category({ menu }) {
   const [search, setSearch] = useState('');
-  const findStar = useCallback(
-    (e) => {
-      setSearch(e.target.value);
+
+  const findStar = useCallback((e) => {
+    setSearch(e.target.value);
+  }, []);
+
+  const category = useCallback(
+    (a) => {
+      const filtered = a.names.filter((x) => x.toLowerCase().includes(search));
+      return filtered.sort().map((name, i) => (
+        <Link key={i} href={`/board/${name}?curPage=1`}>
+          <a>
+            <li>{name}</li>
+          </a>
+        </Link>
+      ));
     },
     [search]
   );
-
-  const category = useCallback(() => {
-    return menu.map((a) => (
-      <ul key={a.initial} className={a.initial}>
-        <div
-          className={`${a.initial.slice(0, 1)} category_title`}
-        >{`${a.initial.slice(0, 1).toUpperCase()} `}</div>
-        {a.names
-          .map((name, i) => (
-            <Link key={i} href={`/board/${name}?curPage=1`}>
-              <a>
-                <li>{name}</li>
-              </a>
-            </Link>
-          ))
-          .filter((x) =>
-            x.props.children.props.children.props.children
-              .toLowerCase()
-              .includes(search)
-          )}
-      </ul>
-    ));
-  }, [search]);
 
   return (
     <div className='category_container'>
@@ -54,7 +43,16 @@ function Category({ menu }) {
           />
         </label>
       </div>
-      <div className='category'>{category()}</div>
+      <div className='category'>
+        {menu.map((a) => (
+          <ul key={a.initial} className={a.initial}>
+            <div
+              className={`${a.initial.slice(0, 1)} category_title`}
+            >{`${a.initial.slice(0, 1).toUpperCase()} `}</div>
+            <div className='artist_list'>{category(a)}</div>
+          </ul>
+        ))}
+      </div>
     </div>
   );
 }

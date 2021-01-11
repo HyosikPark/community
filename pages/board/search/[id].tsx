@@ -41,8 +41,8 @@ function postDate(date) {
   const now = moment(new Date().toISOString());
   const postDate = moment(date);
   if (moment.duration(now.diff(postDate)).asDays() < 1)
-    return moment(date).fromNow();
-  else return moment(date).format('YYYY-MM-DD');
+    return moment(date).format('hh:mm');
+  else return moment(date).format('MM.DD');
 }
 
 SearchBoard.getInitialProps = async (ctx) => {
@@ -138,9 +138,9 @@ function SearchBoard({ postInfo, postCount, curPage, star, option, keyword }) {
                 <a key={e._id} href={`/board/${star}/${e.number}`}>
                   <li>
                     <p className='number_post'>{e.number}</p>
-                    <div className='title_post'>
-                      <span className='title_info'>{e.title} </span>
-                      <span className='font_awe'>
+                    <p className='title_post'>
+                      <span className='title'>{e.title} </span>
+                      <span className='post_info'>
                         {titleUI(e.content) ? (
                           <FontAwesomeIcon color={'#079653'} icon={faImage} />
                         ) : null}{' '}
@@ -148,9 +148,9 @@ function SearchBoard({ postInfo, postCount, curPage, star, option, keyword }) {
                           color={'#11bfeb'}
                           icon={faCommentDots}
                         />
+                        <span className='comment_info'>[{e.commentCount}]</span>
                       </span>
-                      <span className='comment_info'>[{e.commentCount}]</span>
-                    </div>
+                    </p>
                     <p className='nickname_post'>{e.nickname}</p>
                     <p className='date_post'>{postDate(e.createdAt)}</p>
                     <p className='views_post'>{countUnit(e.views)}</p>

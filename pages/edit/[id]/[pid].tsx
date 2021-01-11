@@ -87,7 +87,7 @@ function Write() {
         ></link>
       </Head>
       <div className='write_container'>
-        <div>
+        <div className='write_post_container'>
           <div className='auth'>
             <input
               type='text'

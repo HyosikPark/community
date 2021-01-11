@@ -1,3 +1,5 @@
+@import './MediaQuery';
+
 .write_container {
   margin: 5% 0 5% 0;
   width: 100vw;
@@ -14,6 +16,12 @@
     margin-bottom: 1%;
     input {
       margin-right: 20%;
+      @include L-mobile {
+        width: 120px;
+      }
+      @include mobile {
+        width: 100px;
+      }
       &::placeholder {
         font-size: 1rem;
       }
@@ -53,6 +61,11 @@
         font-size: 1.2rem;
         border-radius: 10%;
         cursor: pointer;
+        @include mobile {
+          font-size: 1rem;
+          width: 70px;
+          height: 55px;
+        }
       }
       .back_btn {
         margin-right: 5%;

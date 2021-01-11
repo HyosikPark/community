@@ -1,20 +1,28 @@
+@import './MediaQuery';
 .home_container {
   display: flex;
   justify-content: center;
   .posts_container {
     width: 70%;
     margin: 5%;
+    display: flex;
+    flex-flow: column;
     .sort_by {
       margin-bottom: 3%;
       .sort_by_hot {
         display: flex;
         align-items: center;
-        font-size: 2rem;
+        justify-content: center;
+        font-size: 1.7rem;
+        background-color: rgb(91, 113, 172);
+        width: 90px;
+        height: 40px;
+        border-radius: 5%;
         .hot_icon {
-          color: rgb(255, 66, 66);
+          color: rgb(255, 4, 4);
         }
         .hot_posts {
-          color: rgb(112, 108, 108);
+          color: rgb(247, 245, 245);
         }
       }
     }
@@ -22,6 +30,7 @@
     .posts_list {
       display: flex;
       flex-flow: row wrap;
+      // justify-content: center;
       a {
         -webkit-box-shadow: 0px 2px 13px 1px #000000;
         box-shadow: 0px 2px 13px 1px #000000;
@@ -29,10 +38,17 @@
         width: 30%;
         height: 400px;
         margin-right: 3%;
-        margin-bottom: 3%;
+        margin-bottom: 20px;
         border-radius: 4%;
         overflow: hidden;
         transition: transform 0.2s;
+        @include desktop {
+          width: 46%;
+        }
+        @include tablet {
+          width: 100%;
+          height: 500px;
+        }
         &:hover {
           cursor: pointer;
           transform: scale(1.05);

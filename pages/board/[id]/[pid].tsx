@@ -180,11 +180,11 @@ function Post({
         <div className='post_container'>
           <div className='post_top'>
             <div className='btn_bundle'>
-              <button className='back_btn' onClick={toBack}>
+              <button className='back_btn btn' onClick={toBack}>
                 Back
               </button>
               <a href={`/board/${category}?curPage=1`}>
-                <button className='board_btn'>Board</button>
+                <button className='board_btn btn'>Board</button>
               </a>
             </div>
             <p className='view_info'>Views: {views}</p>
@@ -193,8 +193,10 @@ function Post({
             <h1>{title}</h1>
             <div className='head_util'>
               <div className='user_info'>
-                <h3>by {nickname}</h3>
-                <h3>{moment(createdAt).format('YYYY-MM-DD hh:mm:ss')}</h3>
+                <h3>
+                  by <span className='nickname'>{nickname}</span>
+                </h3>
+                <h3>{moment(createdAt).format('YYYY.MM.DD')}</h3>
               </div>
               <div className='post_edit'>
                 <h3 id='edit' className='edit' onClick={clickEvent}>
