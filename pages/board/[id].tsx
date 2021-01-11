@@ -4,6 +4,15 @@ import moment from 'moment';
 import { useCallback } from 'react';
 import Head from 'next/head';
 import SearchPosts from '../../components/SearchPosts';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
+  faAngleLeft,
+  faAngleRight,
+  faCommentDots,
+  faImage,
+} from '@fortawesome/free-solid-svg-icons';
 
 function pageNums(postCount: number, curPage: number) {
   if (!postCount) return [1];
@@ -63,12 +72,6 @@ function Board({ postInfo, postCount, curPage, star }) {
 
   return (
     <>
-      <Head>
-        <script
-          src='https://kit.fontawesome.com/e14cfa2f4b.js'
-          crossOrigin='anonymous'
-        ></script>
-      </Head>
       <div className='star_container'>
         <div className='board_container'>
           {star && <h2 className='category_info'>{`${star}`}</h2>}
@@ -99,22 +102,18 @@ function Board({ postInfo, postCount, curPage, star }) {
                 <a key={e._id} href={`/board/${star}/${e.number}`}>
                   <li>
                     <p className='number_post'>{e.number}</p>
-                    <p className='title_post'>
+                    <div className='title_post'>
                       <span className='title_info'>{e.title} </span>
                       {titleUI(e.content) ? (
-                        <i
-                          style={{ color: '#079653' }}
-                          className='fas fa-image'
-                        ></i>
+                        <FontAwesomeIcon color={'#079653'} icon={faImage} />
                       ) : null}{' '}
-                      <span className='comment_info'>
-                        <i
-                          style={{ color: '#11bfeb' }}
-                          className='fas fa-comment-dots'
-                        ></i>
-                        [{e.commentCount}]
-                      </span>
-                    </p>
+                      <i
+                        style={{ color: '#11bfeb' }}
+                        className='fas fa-comment-dots'
+                      ></i>
+                      <FontAwesomeIcon color={'#11bfeb'} icon={faCommentDots} />
+                      <span className='comment_info'>[{e.commentCount}]</span>
+                    </div>
                     <p className='nickname_post'>{e.nickname}</p>
                     <p className='date_post'>{postDate(e.createdAt)}</p>
                     <p className='views_post'>{countUnit(e.views)}</p>
@@ -134,7 +133,7 @@ function Board({ postInfo, postCount, curPage, star }) {
             {curPage <= 1 ? null : (
               <a href={`/board/${star}?curPage=1`}>
                 <li id='double_left' className='angle_double_left page_button'>
-                  <i aria-hidden className='fas fa-angle-double-left'></i>
+                  <FontAwesomeIcon icon={faAngleDoubleLeft} />
                 </li>
               </a>
             )}
@@ -147,7 +146,7 @@ function Board({ postInfo, postCount, curPage, star }) {
                 }
               >
                 <li id='left' className='angle_left page_button'>
-                  <i aria-hidden className='fas fa-angle-left'></i>
+                  <FontAwesomeIcon icon={faAngleLeft} />
                 </li>
               </a>
             )}
@@ -168,7 +167,7 @@ function Board({ postInfo, postCount, curPage, star }) {
                 }
               >
                 <li id='right' className='angle_right page_button'>
-                  <i aria-hidden className='fas fa-angle-right'></i>
+                  <FontAwesomeIcon icon={faAngleRight} />
                 </li>
               </a>
             )}
@@ -179,7 +178,7 @@ function Board({ postInfo, postCount, curPage, star }) {
                   id='double_right'
                   className='angle_double_right page_button'
                 >
-                  <i aria-hidden className='fas fa-angle-double-right'></i>
+                  <FontAwesomeIcon icon={faAngleDoubleRight} />
                 </li>
               </a>
             )}

@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface SearchPostsprops {}
 
@@ -45,7 +47,7 @@ function SearchPosts() {
           placeholder='search...'
         />
         <button>
-          <i aria-hidden className='fas fa-search'></i>
+          <FontAwesomeIcon icon={faSearch} />
         </button>
       </form>
     </>
