@@ -104,14 +104,19 @@ function Board({ postInfo, postCount, curPage, star }) {
                     <p className='number_post'>{e.number}</p>
                     <div className='title_post'>
                       <span className='title_info'>{e.title} </span>
-                      {titleUI(e.content) ? (
-                        <FontAwesomeIcon color={'#079653'} icon={faImage} />
-                      ) : null}{' '}
-                      <i
-                        style={{ color: '#11bfeb' }}
-                        className='fas fa-comment-dots'
-                      ></i>
-                      <FontAwesomeIcon color={'#11bfeb'} icon={faCommentDots} />
+                      <span>
+                        {titleUI(e.content) ? (
+                          <FontAwesomeIcon color={'#079653'} icon={faImage} />
+                        ) : null}{' '}
+                        <i
+                          style={{ color: '#11bfeb' }}
+                          className='fas fa-comment-dots'
+                        ></i>
+                        <FontAwesomeIcon
+                          color={'#11bfeb'}
+                          icon={faCommentDots}
+                        />
+                      </span>
                       <span className='comment_info'>[{e.commentCount}]</span>
                     </div>
                     <p className='nickname_post'>{e.nickname}</p>
