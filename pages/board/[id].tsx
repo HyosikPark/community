@@ -112,7 +112,7 @@ function Board({ postInfo, postCount, curPage, star }) {
                     <p className='views_post'>{countUnit(e.views)}</p>
                     <p className='hot_post'>{countUnit(e.likeCount)}</p>
                   </li>
-                  <div>
+                  <div className='font_awe'>
                     {titleUI(e.content) ? (
                       <FontAwesomeIcon color={'#079653'} icon={faImage} />
                     ) : null}{' '}
