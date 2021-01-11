@@ -5,12 +5,16 @@
     width: 70%;
     margin: 5%;
     .sort_by {
-      .hot_posts {
-        width: 100px;
-        color: rgb(112, 108, 108);
-        border-bottom: 3px solid;
+      margin-bottom: 3%;
+      .sort_by_hot {
+        display: flex;
+        align-items: center;
+        font-size: 2rem;
         .hot_icon {
           color: rgb(255, 66, 66);
+        }
+        .hot_posts {
+          color: rgb(112, 108, 108);
         }
       }
     }

@@ -82,10 +82,10 @@ export default function Home({ hotPosts }) {
       <div className='home_container'>
         <div className='posts_container'>
           <div className='sort_by'>
-            <h1 className='hot_posts'>
-              {/* <FontAwesomeIcon className='hot_icon' icon={faHotjar} /> */}
-              HOT
-            </h1>
+            <div className='sort_by_hot'>
+              <FontAwesomeIcon className='hot_icon' icon={faHotjar} />
+              <div className='hot_posts'>HOT</div>
+            </div>
           </div>
           <div className='posts_list'>
             {posts.map((post, i) => (
