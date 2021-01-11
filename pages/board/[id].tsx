@@ -109,7 +109,6 @@ function Board({ postInfo, postCount, curPage, star }) {
                           <FontAwesomeIcon color={'#079653'} icon={faImage} />
                         ) : null}{' '}
                         <FontAwesomeIcon
-                          size='1x'
                           color={'#11bfeb'}
                           icon={faCommentDots}
                         />
