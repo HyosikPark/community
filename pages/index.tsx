@@ -80,6 +80,7 @@ export default function Home({ hotPosts }) {
           property='og:image'
           content='https://kpop-app-image-storage.s3.us-east-2.amazonaws.com/biaskpop.png'
         />
+        <meta name='msvalidate.01' content='FF33EEABEE4049B79C7EF5EAFFB03E72' />
       </Head>
       <div className='home_container'>
         <div className='posts_container'>
