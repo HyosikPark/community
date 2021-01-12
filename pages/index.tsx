@@ -72,7 +72,7 @@ export default function Home({ hotPosts }) {
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
         <meta
           name='google-site-verification'
-          content='kWEWXScZh5fUQRX-Fa8OYYI_3zHf5MnBZrdypXavGkA'
+          content='ntTeC9gGZQikjYJC695zknszT4Y0idIMv896Qaqa2Ps'
         />
         <meta name='robots' content='index,follow' />
         // image meta tag 만들것
