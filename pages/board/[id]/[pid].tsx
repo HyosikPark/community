@@ -91,9 +91,15 @@ function Post({
 
   const clickEvent = useCallback((e) => {
     setPostPassword('');
-    postPasswordForm.current.style.top = `${e.pageY}px`;
-    postPasswordForm.current.style.left = `${e.pageX - 250}px`;
     postPasswordForm.current.style.display = 'block';
+    if (window.innerWidth > 480) {
+      postPasswordForm.current.style.top = `${e.pageY}px`;
+      postPasswordForm.current.style.left = `${e.pageX - 250}px`;
+    } else {
+      postPasswordForm.current.style.top = `${e.pageY}px`;
+      postPasswordForm.current.style.left = `${e.pageX - 150}px`;
+    }
+
     setEditOrDel(e.target.id);
   }, []);
 

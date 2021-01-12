@@ -48,8 +48,14 @@ function PostComment({ comments, category, commentCount, number }) {
 
   const commentDel = useCallback((e, commentId, commentPassword, index) => {
     setCommentPassword('');
-    commentPasswordForm.current.style.top = `${e.pageY}px`;
-    commentPasswordForm.current.style.left = `${e.pageX - 250}px`;
+    if (window.innerWidth > 480) {
+      commentPasswordForm.current.style.top = `${e.pageY}px`;
+      commentPasswordForm.current.style.left = `${e.pageX - 250}px`;
+    } else {
+      commentPasswordForm.current.style.top = `${e.pageY}px`;
+      commentPasswordForm.current.style.left = `${e.pageX - 150}px`;
+    }
+
     commentPasswordForm.current.style.display = 'block';
     setVerifyComment({ _id: commentId, password: commentPassword, index });
   }, []);
