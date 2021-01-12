@@ -10,7 +10,7 @@ function Layout() {
         <div className='log'>
           <Link href='/'>
             <a>
-              <h2>Mongle</h2>
+              <h2>BK</h2>
             </a>
           </Link>
           <ul className='nav'>

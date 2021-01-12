@@ -39,7 +39,6 @@ function QuillEditor({ QuillChange, value }) {
     input.onchange = function () {
       const file = input.files[0];
       const maxSize = 2097152;
-      console.log(file);
 
       if (file.size > maxSize) {
         return alert('Image size cannot exceed 2Mb.');
