@@ -54,7 +54,7 @@
     }
 
     .post_head {
-      word-break: break-all;
+      word-wrap: break-word;
       border-bottom: 1px solid;
       padding: 1%;
       background-color: beige;
@@ -66,7 +66,8 @@
         text-align: start;
         width: 80%;
         margin: 1rem auto 1rem auto;
-        word-break: break-all;
+        word-wrap: break-word;
+        text-align: center;
         @include tablet {
           font-size: 1.5rem;
         }
@@ -136,7 +137,7 @@
       background-color: white;
       border-radius: 2%;
       padding: 3%;
-      word-break: break-all;
+      word-wrap: break-word;
       object-fit: fill;
       img {
         max-width: 100%;
@@ -209,7 +210,8 @@
           margin-right: 5%;
           display: flex;
           flex-wrap: wrap;
-          word-break: break-all;
+          word-wrap: break-word;
+
           p {
             margin: 0;
             @include tablet {

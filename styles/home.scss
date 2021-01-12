@@ -76,7 +76,8 @@
             .title {
               margin-top: 10%;
               font-size: 1.2rem;
-              word-break: break-all;
+              word-wrap: break-word;
+
               text-overflow: ellipsis;
               overflow: hidden;
               line-height: 1.2;
@@ -110,7 +111,7 @@
             margin: auto;
             .category_info {
               border-radius: 40%;
-              color: rgb(139, 111, 31);
+              color: rgb(146, 126, 72);
             }
             .post_count {
               display: flex;
