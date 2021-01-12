@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Link from 'next/link';
 import React, { useCallback, useState, useRef } from 'react';
 import { menu } from '../util/Menu';
@@ -30,30 +31,39 @@ function Category({ menu }) {
   );
 
   return (
-    <div className='category_container'>
-      <div className='category_head'>
-        <label htmlFor='search'>
-          <input
-            type='text'
-            id='search'
-            name='search'
-            placeholder='Search...'
-            value={search}
-            onChange={findStar}
-          />
-        </label>
+    <>
+      <Head>
+        <title>Categories - biaskpop Forum</title>
+        <meta
+          name='description'
+          content='BTS BlackPink TWICE NCT SEVENTEEN EXO The Boyz GOT7 IZONE GI-DLE Oh My Girl SHINEE...'
+        />
+      </Head>
+      <div className='category_container'>
+        <div className='category_head'>
+          <label htmlFor='search'>
+            <input
+              type='text'
+              id='search'
+              name='search'
+              placeholder='Search...'
+              value={search}
+              onChange={findStar}
+            />
+          </label>
+        </div>
+        <div className='category'>
+          {menu.map((a) => (
+            <ul key={a.initial} className={a.initial}>
+              <div
+                className={`${a.initial.slice(0, 1)} category_title`}
+              >{`${a.initial.slice(0, 1).toUpperCase()} `}</div>
+              <div className='artist_list'>{category(a)}</div>
+            </ul>
+          ))}
+        </div>
       </div>
-      <div className='category'>
-        {menu.map((a) => (
-          <ul key={a.initial} className={a.initial}>
-            <div
-              className={`${a.initial.slice(0, 1)} category_title`}
-            >{`${a.initial.slice(0, 1).toUpperCase()} `}</div>
-            <div className='artist_list'>{category(a)}</div>
-          </ul>
-        ))}
-      </div>
-    </div>
+    </>
   );
 }
 

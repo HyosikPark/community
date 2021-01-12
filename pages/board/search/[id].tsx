@@ -110,6 +110,22 @@ function SearchBoard({ postInfo, postCount, curPage, star, option, keyword }) {
 
   return (
     <>
+      <Head>
+        <title>{star} K-POP Forum - biaskpop</title>
+        <meta
+          name='description'
+          content={`This is the ${star} fan page. Feel free to share your writing without signing up.`}
+        />
+        <meta property='og:title' content={`${star} K-POP Forum - biaskpop`} />
+        <meta
+          property='og:description'
+          content={`This is the ${star} fan page. Feel free to share your writing without signing up.`}
+        />
+        <meta
+          property='og:image'
+          content='https://kpop-app-image-storage.s3.us-east-2.amazonaws.com/biaskpop.png'
+        />
+      </Head>
       <div className='star_container'>
         <div className='board_container'>
           {star && <h2 className='category_info'>{`${star}`}</h2>}

@@ -52,7 +52,6 @@ function Post({
   const router = useRouter();
   const likeNum = useRef(likeCount);
   const postPasswordForm = useRef(null);
-
   const [like, setLike] = useState(false);
   const [postPassword, setPostPassword] = useState('');
   const [editOrDel, setEditOrDel] = useState('');
@@ -171,6 +170,21 @@ function Post({
     router.back();
   }, []);
 
+  const metaContent = useCallback(() => {
+    const regEx = /<[^>]+>/gs;
+
+    return content.replace(regEx, '').slice(0, 161);
+  }, [content]);
+
+  const metaImg = useCallback(() => {
+    const regEx = new RegExp(`https://kpop-app-image[^">]+`);
+    const imgPath = content.match(regEx);
+
+    if (imgPath) return imgPath;
+    else
+      return 'https://kpop-app-image-storage.s3.us-east-2.amazonaws.com/biaskpop.png';
+  }, []);
+
   useEffect(() => {
     alreadyLike ? setLike(true) : setLike(false);
     addEventListener('mousedown', handleClickOutside);
@@ -179,9 +193,13 @@ function Post({
   }, []);
   return (
     <>
-      {/* <Head>
-      
-      </Head> */}
+      <Head>
+        <title>{title} - biaskpop Forum</title>
+        <meta name='description' content={metaContent()} />
+        <meta property='og:title' content={title} />
+        <meta property='og:description' content={metaContent()} />
+        <meta property='og:image' content={metaImg()} />
+      </Head>
       <div className='post_page_container'>
         <div className='post_container'>
           <div className='post_top'>

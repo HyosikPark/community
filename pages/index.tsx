@@ -64,10 +64,10 @@ export default function Home({ hotPosts }) {
   return (
     <>
       <Head>
-        <title>K-POP Fan Forum | biaskpop</title>
+        <title>biaskpop | K-POP Forum</title>
         <meta
           name='description'
-          content='K-POP forum for K-pop fans around the world! Post freely without signing up for membership.'
+          content='K-POP forum for K-pop fans around the world! Post freely without signing up for membership. BTS, BlackPink, EXO, NCT, SEVENTEEN, TWICE... '
         />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
         <meta
