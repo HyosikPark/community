@@ -3,7 +3,6 @@
   display: flex;
   justify-content: center;
   width: 100vw;
-  background-color: rgb(238, 238, 238);
   .posts_container {
     width: 70%;
     margin: 5%;
@@ -89,6 +88,9 @@
               .user_nickname {
                 color: rgb(165, 149, 149);
                 margin: 0;
+                .nickname {
+                  color: rgb(67, 133, 82);
+                }
               }
               .created_at {
                 margin: 0;
@@ -108,7 +110,7 @@
             margin: auto;
             .category_info {
               border-radius: 40%;
-              color: rgb(117, 101, 57);
+              color: rgb(139, 111, 31);
             }
             .post_count {
               display: flex;

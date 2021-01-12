@@ -100,7 +100,7 @@ function Board({ postInfo, postCount, curPage, star }) {
               {postInfo.map((e) => (
                 <a key={e._id} href={`/board/${star}/${e.number}`}>
                   <li>
-                    <p className='number_post'>1000000</p>
+                    <p className='number_post'>{e.number}</p>
                     <p className='title_post'>
                       <span className='title'>{e.title} </span>
                       <span className='post_info'>
