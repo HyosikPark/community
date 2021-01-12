@@ -64,10 +64,10 @@ export default function Home({ hotPosts }) {
   return (
     <>
       <Head>
-        <title>K-POP Forum | Bias Idol</title>
+        <title>K-POP Fan Forum | biaskpop</title>
         <meta
           name='description'
-          content='k-pop forum fbor K-pop fans, kpoper Feel free to Talk about your favorite idol.'
+          content='K-POP forum for K-pop fans around the world! Post freely without signing up for membership.'
         />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
         <meta
@@ -76,7 +76,10 @@ export default function Home({ hotPosts }) {
         />
         <meta name='robots' content='index,follow' />
         // image meta tag 만들것
-        {/* <meta property="og:image" content="" /> */}
+        <meta
+          property='og:image'
+          content='https://kpop-app-image-storage.s3.us-east-2.amazonaws.com/biaskpop.png'
+        />
       </Head>
       <div className='home_container'>
         <div className='posts_container'>
