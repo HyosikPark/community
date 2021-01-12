@@ -75,7 +75,6 @@ export default function Home({ hotPosts }) {
           content='ntTeC9gGZQikjYJC695zknszT4Y0idIMv896Qaqa2Ps'
         />
         <meta name='robots' content='index,follow' />
-        // image meta tag 만들것
         <meta
           property='og:image'
           content='https://kpop-app-image-storage.s3.us-east-2.amazonaws.com/biaskpop.png'
