@@ -82,6 +82,7 @@
               overflow: hidden;
               line-height: 1.2;
               height: 3.6em;
+              color: rgb(153, 64, 64);
             }
             .user_info {
               align-self: flex-start;
@@ -89,7 +90,6 @@
                 color: rgb(165, 149, 149);
                 margin: 0;
                 .nickname {
-                  color: rgb(153, 64, 64);
                 }
               }
               .created_at {

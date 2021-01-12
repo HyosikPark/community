@@ -64,10 +64,10 @@ export default function Home({ hotPosts }) {
   return (
     <>
       <Head>
-        <title>mongle</title>
+        <title>K-POP Forum | Bias Idol</title>
         <meta
           name='description'
-          content="It's an online forum for K-pop fans around the world! Post freely without signing up for membership."
+          content='k-pop forum fbor K-pop fans, kpoper Feel free to Talk about your favorite idol.'
         />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
         <meta
