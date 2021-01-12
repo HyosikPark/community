@@ -1,12 +1,14 @@
 @import './MediaQuery';
 
 .write_container {
-  margin: 5% 0 5% 0;
   width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
+  background-color: rgb(238, 238, 238);
   .write_post_container {
     width: 70%;
+    margin: 5% 0 5% 0;
   }
   .auth {
     width: 35%;
