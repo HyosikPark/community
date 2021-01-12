@@ -21,9 +21,9 @@ function Layout() {
                 </li>
               </a>
             </Link>
-            <li>
+            {/* <li>
               <FontAwesomeIcon className='search_icon' icon={faSearch} />
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

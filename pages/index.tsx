@@ -1,6 +1,6 @@
 import { faHotjar } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Component, useCallback, useEffect, useRef, useState } from 'react';
 import { HOTPOSTS, HOTPOSTSMUTATION } from '../components/gqlFragment';
 import moment from 'moment';
 import {
@@ -46,14 +46,7 @@ export default function Home({ hotPosts }) {
   }, []);
 
   useEffect(() => {
-    const handleIntersection = ([entry]) => {
-      if (entry.isIntersecting) {
-        reFetchNum.current++;
-        fetchMore({ variables: { number: reFetchNum.current } });
-      }
-    };
-
-    const io = new IntersectionObserver(handleIntersection, { threshold: 1 });
+    const io = new IntersectionObserver(handleIntersection, { threshold: 0 });
 
     if (fetching && target.current) {
       io.observe(target.current);
@@ -62,6 +55,12 @@ export default function Home({ hotPosts }) {
     return () => io && io.disconnect();
   }, [posts, fetching]);
 
+  const handleIntersection = ([entry]) => {
+    if (entry.isIntersecting) {
+      reFetchNum.current++;
+      fetchMore({ variables: { number: reFetchNum.current } });
+    }
+  };
   return (
     <>
       <Head>
@@ -83,7 +82,6 @@ export default function Home({ hotPosts }) {
         <div className='posts_container'>
           <div className='sort_by'>
             <div className='sort_by_hot'>
-              {/* <FontAwesomeIcon className='hot_icon' icon={faHotjar} /> */}
               <div className='hot_posts'>HOT</div>
             </div>
           </div>

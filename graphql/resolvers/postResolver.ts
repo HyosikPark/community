@@ -58,7 +58,7 @@ const postResover = {
       const posts = await db
         .find()
         .sort({ likeCount: -1, createdAt: -1 })
-        .limit(6)
+        .limit(20)
         .toArray();
       return posts;
     },
@@ -193,8 +193,8 @@ const postResover = {
       const posts = await db
         .find()
         .sort({ likeCount: -1, createdAt: -1 })
-        .skip(6 * number)
-        .limit(6)
+        .skip(20 * number)
+        .limit(20)
         .toArray();
       return posts;
     },
