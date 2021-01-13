@@ -1,32 +1,69 @@
 .layout_container {
   width: 100vw;
-  .top_layout {
-    width: 100vw;
-    .log {
-      width: 100%;
-      margin: auto;
-      padding-left: 5%;
-      padding-right: 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(
-        180deg,
-        rgb(54, 117, 235),
-        rgb(104, 106, 209)
-      );
 
+  .sub_nav {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 2rem;
+    background: linear-gradient(180deg, rgb(136, 167, 224), rgb(65, 80, 167));
+    a {
+      margin: 0 0.5rem 0 0.5rem;
       color: white;
-
-      .nav {
+      &:hover {
+        cursor: pointer;
+        color: rgb(23, 78, 124);
+      }
+      li {
         display: flex;
+        justify-content: center;
         align-items: center;
-        margin: 0;
+        h2 {
+          font-size: 1rem;
+          margin: 0.2rem 0 0.2rem 0;
+        }
+      }
+    }
+  }
+
+  .log {
+    width: 100%;
+    margin: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(180deg, rgb(54, 117, 235), rgb(104, 106, 209));
+    color: white;
+    a {
+      &:hover {
+        color: rgb(23, 78, 124);
+      }
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      margin: 0;
+      a {
+        color: rgb(255, 251, 2);
+        &:hover {
+          cursor: pointer;
+          color: rgb(23, 78, 124);
+        }
         li {
-          &:hover {
-            cursor: pointer;
-            color: rgb(54, 53, 53);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0 0.5rem 0 0.5rem;
+          &.categories_container {
+            border: 2px solid;
+            h2 {
+              margin: 0.5rem;
+            }
           }
+
           .search_icon {
             font-size: 1.4rem;
             margin-left: 1rem;

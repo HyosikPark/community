@@ -6,26 +6,40 @@ import React from 'react';
 function Layout() {
   return (
     <div className='layout_container'>
-      <div className='top_layout'>
-        <div className='log'>
-          <Link href='/'>
+      <div className='sub_nav'>
+        <Link href='/board/Notice?curPage=1'>
+          <a>
+            <li className='notice_container'>
+              <h2 className='board'>Notice</h2>
+            </li>
+          </a>
+        </Link>
+        <Link href='/board/Suggestion?curPage=1'>
+          <a>
+            <li className='suggestion_container'>
+              <h2 className='board'>Suggestion</h2>
+            </li>
+          </a>
+        </Link>
+      </div>
+      <div className='log'>
+        <Link href='/'>
+          <a>
+            <h2>BK</h2>
+          </a>
+        </Link>
+        <ul className='nav'>
+          <Link href='/category'>
             <a>
-              <h2>BK</h2>
+              <li className='categories_container'>
+                <h2 className='board'>Categories</h2>
+              </li>
             </a>
           </Link>
-          <ul className='nav'>
-            <Link href='/category'>
-              <a>
-                <li className='categories_container'>
-                  <h2 className='board'>Categories</h2>
-                </li>
-              </a>
-            </Link>
-            {/* <li>
+          {/* <li>
               <FontAwesomeIcon className='search_icon' icon={faSearch} />
             </li> */}
-          </ul>
-        </div>
+        </ul>
       </div>
     </div>
   );

@@ -1,9 +1,31 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { CREATEPOST } from '../../components/gqlFragment';
+import { CREATEPOST, ISAUTH } from '../../components/gqlFragment';
 import { useMutation } from '@apollo/client';
 import Head from 'next/head';
 import QuillEditor from '../../components/QuillEditor';
+
+Write.getInitialProps = async (ctx) => {
+  const { id } = ctx.query;
+
+  try {
+    if (id == 'Notice') {
+      const result = await ctx.apolloClient.query({
+        query: ISAUTH,
+      });
+    }
+
+    return { data: 1 };
+  } catch (e) {
+    if (ctx.res) {
+      ctx.res.writeHead(302, {
+        Location: `/category`,
+      });
+      ctx.res.end();
+    }
+    return {};
+  }
+};
 
 function Write() {
   const router = useRouter();
@@ -53,7 +75,6 @@ function Write() {
       if (!value.title) {
         return alert('Please enter the title');
       }
-
       e.target.disabled = true;
       e.target.style.opacity = '0.4';
       createPost();

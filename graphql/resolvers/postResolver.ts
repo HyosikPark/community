@@ -3,6 +3,7 @@ const ip = require('ip');
 const postResover = {
   Query: {
     async allPosts(_, { category, curPage }, ctx) {
+      // get category posts
       const db = ctx.db.collection('post');
       const posts = await db
         .find({ category })
@@ -54,9 +55,10 @@ const postResover = {
     },
 
     async hotPosts(_, __, ctx) {
+      // get Home menu Allposts
       const db = ctx.db.collection('post');
       const posts = await db
-        .find()
+        .find({ category: { $ne: 'Notice' } })
         .sort({ likeCount: -1, createdAt: -1 })
         .limit(20)
         .toArray();
@@ -191,7 +193,7 @@ const postResover = {
     async hotPosts(_, { number }, ctx) {
       const db = ctx.db.collection('post');
       const posts = await db
-        .find()
+        .find({ category: { $ne: 'Notice' } })
         .sort({ likeCount: -1, createdAt: -1 })
         .skip(20 * number)
         .limit(20)

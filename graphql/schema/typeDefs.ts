@@ -80,6 +80,7 @@ const typeDefs = gql`
       curPage: Int!
       value: String!
     ): AllPosts!
+    isAuth: Boolean!
   }
 
   type Mutation {

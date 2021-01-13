@@ -1,6 +1,7 @@
 import {
   DELETEPOST,
   GETPOST,
+  ISAUTH,
   LIKEPOST,
   UNLIKEPOST,
 } from '../../../components/gqlFragment';
@@ -9,7 +10,7 @@ import { useCallback, useEffect, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import Head from 'next/head';
-import { useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import PostComment from '../../../components/PostComment';
 import { useRouter } from 'next/router';
 
@@ -33,7 +34,6 @@ Post.getInitialProps = async (ctx) => {
 
 function Post({
   post: {
-    _id,
     number,
     category,
     nickname,
@@ -45,16 +45,31 @@ function Post({
     commentCount,
     likeCount,
     views,
-    likeUser,
+    ip,
   },
   alreadyLike,
 }) {
   const router = useRouter();
+  const { id } = router.query;
   const likeNum = useRef(likeCount);
   const postPasswordForm = useRef(null);
   const [like, setLike] = useState(false);
   const [postPassword, setPostPassword] = useState('');
   const [editOrDel, setEditOrDel] = useState('');
+
+  const [auth, { data }] = useLazyQuery(ISAUTH, {
+    fetchPolicy: 'network-only',
+    onError() {
+      alert('Only Master can Access');
+    },
+    onCompleted() {
+      if (password == postPassword) {
+        editOrDel == 'edit' ? editPost() : deletePost();
+      } else {
+        alert('Incorrect password.');
+      }
+    },
+  });
 
   const inputContent = useCallback(() => {
     return { __html: content };
@@ -109,6 +124,9 @@ function Post({
   const submitPostPassword = useCallback(
     (e) => {
       e.preventDefault();
+      if (id == 'Notice') {
+        return auth();
+      }
 
       if (password == postPassword) {
         editOrDel == 'edit' ? editPost() : deletePost();

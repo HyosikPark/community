@@ -146,9 +146,11 @@ function SortByHotBoard({ postInfo, postCount, curPage, star }) {
           </div>
           <div className='board_bottom'>
             <SearchPosts />
-            <Link href={`/write/${star}`}>
-              <button className='write_btn btn'>Write</button>
-            </Link>
+            {star == 'Notice' ? null : (
+              <Link href={`/write/${star}`}>
+                <button className='write_btn btn'>Write</button>
+              </Link>
+            )}
           </div>
           <div className='page_number_container'>
             {curPage <= 1 ? null : (

@@ -163,7 +163,6 @@ export const GETPOST = gql`
   query getPost($category: String!, $number: Int!) {
     getPost(category: $category, number: $number) {
       post {
-        _id
         number
         category
         nickname
@@ -179,9 +178,9 @@ export const GETPOST = gql`
           createdAt
         }
         commentCount
-        likeCount
         views
         likeUser
+        ip
       }
       alreadyLike
     }
@@ -313,5 +312,11 @@ export const SEARCH_BY_NICKNAME = gql`
         content
       }
     }
+  }
+`;
+
+export const ISAUTH = gql`
+  {
+    isAuth
   }
 `;
