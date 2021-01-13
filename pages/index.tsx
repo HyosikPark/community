@@ -67,7 +67,7 @@ export default function Home({ hotPosts }) {
         <title>biaskpop | K-POP Forum</title>
         <meta
           name='description'
-          content='K-POP forum for K-pop fans around the world! Post freely without signing up for membership. BTS, BlackPink, EXO, NCT, SEVENTEEN, TWICE... '
+          content='K-POP forum community for K-pop, kpoper fans around the world! Post freely without signing up for membership. BTS, BlackPink, EXO, NCT, SEVENTEEN, TWICE, NCT, GOT7, Super Junior, SHINee, Stray Kids'
         />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
         <meta
