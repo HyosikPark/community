@@ -179,8 +179,7 @@ export const GETPOST = gql`
         }
         commentCount
         views
-        likeUser
-        ip
+        likeCount
       }
       alreadyLike
     }

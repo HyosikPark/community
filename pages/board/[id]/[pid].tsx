@@ -45,19 +45,18 @@ function Post({
     commentCount,
     likeCount,
     views,
-    ip,
   },
   alreadyLike,
 }) {
   const router = useRouter();
   const { id } = router.query;
   const likeNum = useRef(likeCount);
+  console.log(likeCount);
   const postPasswordForm = useRef(null);
   const [like, setLike] = useState(false);
   const [postPassword, setPostPassword] = useState('');
   const [editOrDel, setEditOrDel] = useState('');
-
-  const [auth, { data }] = useLazyQuery(ISAUTH, {
+  const [auth] = useLazyQuery(ISAUTH, {
     fetchPolicy: 'network-only',
     onError() {
       alert('Only Master can Access');
