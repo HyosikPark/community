@@ -1,7 +1,14 @@
-$desktopSize: 1023px;
+$L-desktopSize: 1600px;
+$desktopSize: 1024px;
 $tabletSize: 767px;
 $L-mobileSize: 649px;
 $mobileSize: 479px;
+
+@mixin L-desktop {
+  @media (min-width: #{$L-desktopSize}) {
+    @content;
+  }
+}
 
 @mixin desktop {
   @media (max-width: #{$desktopSize}) {
