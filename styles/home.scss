@@ -15,7 +15,11 @@
         align-items: center;
         justify-content: center;
         font-size: 1.7rem;
-        background-color: rgb(101, 130, 172);
+        background: linear-gradient(
+          180deg,
+          rgb(54, 117, 235),
+          rgb(104, 106, 209)
+        );
         width: 90px;
         height: 40px;
         border-radius: 5%;

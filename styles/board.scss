@@ -28,7 +28,11 @@
       -webkit-box-shadow: 1px 2px 6px 2px #4b4b4b;
       box-shadow: 1px 2px 6px 2px #4b4b4b;
       .board_head {
-        background-color: rgb(91, 105, 126);
+        background: linear-gradient(
+          180deg,
+          rgb(79, 129, 177),
+          rgb(75, 100, 155)
+        );
         display: flex;
         align-items: center;
         justify-content: flex-start;

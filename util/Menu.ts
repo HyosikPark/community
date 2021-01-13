@@ -137,7 +137,7 @@ export const menu = [
     ],
   },
   // { initial: 'u_category', names: [] },
-  { initial: 'v_category', names: ['V(BTS)', 'VIXX', 'VICTON', 'VERIVERY'] },
+  { initial: 'v_category', names: ['VIXX', 'VICTON', 'VERIVERY'] },
   {
     initial: 'w_category',
     names: ['WJSN', 'WOO!AH!', 'WEEEKLY', 'WEKI MEKI', 'WINNER'],
