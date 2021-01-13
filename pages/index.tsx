@@ -66,6 +66,10 @@ export default function Home({ hotPosts }) {
       <Head>
         <title>biaskpop | K-POP Forum</title>
         <meta
+          name='naver-site-verification'
+          content='fb9e25ae6dcb7b98c81467d11230cf7b5143b602'
+        />
+        <meta
           name='description'
           content='K-POP forum community for K-pop, kpoper fans around the world! Post freely without signing up for membership. BTS, BlackPink, EXO, NCT, SEVENTEEN, TWICE, NCT, GOT7, Super Junior, SHINee, Stray Kids'
         />
