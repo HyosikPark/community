@@ -70,6 +70,9 @@
             &.hot_head {
               width: 15%;
             }
+            &.title_head {
+              width: 80%;
+            }
           }
           @include mobile {
             font-size: 0.7rem;
@@ -131,6 +134,7 @@
             align-self: center;
             margin: 1rem 0.5rem 1rem 0.5rem;
             font-size: 0.75rem;
+
             @include L-desktop {
               font-size: 1.1rem;
             }
@@ -175,7 +179,10 @@
           }
           .title_post {
             width: 45%;
-            // font-size: 0.9rem;
+            @media (min-width: 1025px) {
+              font-size: 0.9rem;
+            }
+
             @include L-mobile {
               font-size: 0.8rem;
             }
