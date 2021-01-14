@@ -78,7 +78,6 @@ function Board({ postInfo, postCount, curPage, star }) {
       setIsMobile(false);
     }
   }, []);
-  console.log(isMobile);
   useEffect(() => {
     if (window.innerWidth <= 767) {
       setIsMobile(true);
