@@ -8,6 +8,9 @@
   .write_post_container {
     width: 70%;
     margin: 5% 0 5% 0;
+    @include tablet {
+      width: 95%;
+    }
   }
   .auth {
     width: 35%;
@@ -17,9 +20,7 @@
     margin-bottom: 1%;
     input {
       margin-right: 20%;
-      @include L-mobile {
-        width: 120px;
-      }
+
       @include mobile {
         width: 100px;
       }

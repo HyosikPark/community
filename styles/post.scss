@@ -8,6 +8,9 @@
     margin: 7% 0 5% 0;
     color: rgb(103, 104, 101);
     border-radius: 1%;
+    @include tablet {
+      width: 99%;
+    }
     .post_top {
       display: flex;
       justify-content: space-between;
@@ -19,9 +22,6 @@
         justify-content: flex-start;
         height: 40px;
         align-self: flex-end;
-        @include mobile {
-          height: 30px;
-        }
         .btn {
           width: 80px;
           font-size: 1.1rem;
@@ -29,13 +29,10 @@
           cursor: pointer;
           border: 2px solid rgb(53, 53, 53);
           height: 100%;
-          @include L-mobile {
-            font-size: 1rem;
-            width: 70px;
-          }
+
           @include mobile {
             font-size: 0.8rem;
-            width: 50px;
+            width: 60px;
           }
         }
         .back_btn {
@@ -45,11 +42,6 @@
           background-color: rgb(96, 102, 133);
 
           color: rgb(255, 255, 255);
-        }
-      }
-      .view_info {
-        @include mobile {
-          font-size: 0.8rem;
         }
       }
     }
@@ -69,14 +61,9 @@
         margin: 1rem auto 1rem auto;
         word-wrap: break-word;
         text-align: center;
-        @include tablet {
-          font-size: 1.5rem;
-        }
-        @include L-mobile {
-          font-size: 1.2rem;
-        }
+
         @include mobile {
-          font-size: 1rem;
+          font-size: 1.5rem;
         }
       }
       .head_util {
@@ -84,12 +71,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        @include tablet {
-          font-size: 0.9rem;
-        }
-        @include L-mobile {
-          font-size: 0.8rem;
-        }
+
         @include mobile {
           font-size: 0.7rem;
         }
@@ -193,9 +175,9 @@
           align-items: center;
           p {
             margin: 0;
-            @include tablet {
-              font-size: 0.8rem;
-            }
+            // @include tablet {
+            //   font-size: 0.8rem;
+            // }
           }
           .comment_nickname {
             color: rgb(155, 116, 116);
@@ -217,12 +199,6 @@
             margin: 0;
             @include tablet {
               font-size: 0.8rem;
-            }
-            @include L-mobile {
-              font-size: 0.7rem;
-            }
-            @include mobile {
-              font-size: 0.6rem;
             }
           }
         }
@@ -266,11 +242,9 @@
         input {
           margin: 0 7% 4% 0;
           height: 30px;
-          @include L-mobile {
-            width: 100px;
-          }
+
           @include mobile {
-            width: 80px;
+            width: 120px;
           }
         }
       }

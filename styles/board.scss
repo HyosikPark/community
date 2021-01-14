@@ -4,6 +4,9 @@
   .board_container {
     width: 70%;
     margin: 2rem auto 2rem auto;
+    @include tablet {
+      width: 95%;
+    }
     .category_info {
       color: rgb(68, 73, 116);
     }
@@ -60,9 +63,6 @@
           }
           @include tablet {
             font-size: 0.8rem;
-            &.views_head {
-              display: none;
-            }
 
             &.date_head {
               width: 15%;
@@ -136,7 +136,7 @@
             font-size: 0.75rem;
 
             @include L-desktop {
-              font-size: 1.1rem;
+              font-size: 0.9rem;
             }
             @include desktop {
               font-size: 0.8rem;
@@ -151,10 +151,6 @@
               }
             }
             @include tablet {
-              &.views_post {
-                display: none;
-              }
-
               &.date_post {
                 width: 15%;
               }
@@ -179,7 +175,7 @@
           }
           .title_post {
             width: 45%;
-            @media (min-width: 1025px) {
+            @media (min-width: 1025px) and (max-width: 1599px) {
               font-size: 0.9rem;
             }
 
