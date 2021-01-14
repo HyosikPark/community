@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ALLPOSTS } from '../../components/gqlFragment';
 import moment from 'moment';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import SearchPosts from '../../components/SearchPosts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -58,6 +58,7 @@ Board.getInitialProps = async (ctx) => {
 };
 
 function Board({ postInfo, postCount, curPage, star }) {
+  const [isMobile, setIsMobile] = useState(false);
   const lastPage = Math.ceil(postCount / 15);
 
   const countUnit = useCallback((count) => {
@@ -68,6 +69,24 @@ function Board({ postInfo, postCount, curPage, star }) {
 
   const titleUI = useCallback((content) => {
     return content.includes('<img src=');
+  }, []);
+
+  const mobileCheck = useCallback(() => {
+    if (window.innerWidth <= 767) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  }, []);
+  console.log(isMobile);
+  useEffect(() => {
+    if (window.innerWidth <= 767) {
+      setIsMobile(true);
+    }
+
+    window.addEventListener('resize', mobileCheck);
+
+    return () => window.removeEventListener('resize', mobileCheck);
   }, []);
 
   return (
@@ -105,37 +124,73 @@ function Board({ postInfo, postCount, curPage, star }) {
             </a>
           </div>
           <div className='board'>
-            <div className='board_head'>
-              <h3 className='number_head'>Number</h3>
-              <h3 className='title_head'>Title</h3>
-              <h3 className='nickname_head'>Nickname</h3>
-              <h3 className='date_head'>Date</h3>
-              <h3 className='views_head'>Views</h3>
-              <h3 className='hot_head'>Hot</h3>
-            </div>
+            {isMobile ? (
+              <div className='board_head'>
+                <h2 className='content_head'>Content</h2>
+              </div>
+            ) : (
+              <div className='board_head'>
+                <h3 className='number_head'>Number</h3>
+                <h3 className='title_head'>Title</h3>
+                <h3 className='nickname_head'>Nickname</h3>
+                <h3 className='date_head'>Date</h3>
+                <h3 className='views_head'>Views</h3>
+                <h3 className='hot_head'>Hot</h3>
+              </div>
+            )}
             <ul className='post'>
               {postInfo.map((e) => (
                 <a key={e._id} href={`/board/${star}/${e.number}`}>
-                  <li>
-                    <p className='number_post'>{e.number}</p>
-                    <p className='title_post'>
-                      <span className='title'>{e.title} </span>
-                      <span className='post_info'>
-                        {titleUI(e.content) ? (
-                          <FontAwesomeIcon color={'#079653'} icon={faImage} />
-                        ) : null}{' '}
-                        <FontAwesomeIcon
-                          color={'#11bfeb'}
-                          icon={faCommentDots}
-                        />
-                        <span className='comment_info'>[{e.commentCount}]</span>
-                      </span>
-                    </p>
-                    <p className='nickname_post'>{e.nickname}</p>
-                    <p className='date_post'>{postDate(e.createdAt)}</p>
-                    <p className='views_post'>{countUnit(e.views)}</p>
-                    <p className='hot_post'>{countUnit(e.likeCount)}</p>
-                  </li>
+                  {isMobile ? (
+                    <li className='mobile_list'>
+                      <p className='title_post'>{e.title}</p>
+                      <div className='content_info'>
+                        <p className='nickname_post'>{e.nickname} |</p>
+                        <p className='date_post'>{postDate(e.createdAt)} |</p>
+                        <p className='views_post'>
+                          views: {countUnit(e.views)} |
+                        </p>
+                        <p className='hot_post'>
+                          hot: {countUnit(e.likeCount)} |
+                        </p>
+                        <p className='post_info'>
+                          {titleUI(e.content) ? (
+                            <FontAwesomeIcon color={'#079653'} icon={faImage} />
+                          ) : null}{' '}
+                          <FontAwesomeIcon
+                            color={'#11bfeb'}
+                            icon={faCommentDots}
+                          />
+                          <span className='comment_info'>
+                            [{e.commentCount}]
+                          </span>
+                        </p>
+                      </div>
+                    </li>
+                  ) : (
+                    <li className='desktop_list'>
+                      <p className='number_post'>{e.number}</p>
+                      <p className='title_post'>
+                        <span className='title'>{e.title} </span>
+                        <span className='post_info'>
+                          {titleUI(e.content) ? (
+                            <FontAwesomeIcon color={'#079653'} icon={faImage} />
+                          ) : null}{' '}
+                          <FontAwesomeIcon
+                            color={'#11bfeb'}
+                            icon={faCommentDots}
+                          />
+                          <span className='comment_info'>
+                            [{e.commentCount}]
+                          </span>
+                        </span>
+                      </p>
+                      <p className='nickname_post'>{e.nickname}</p>
+                      <p className='date_post'>{postDate(e.createdAt)}</p>
+                      <p className='views_post'>{countUnit(e.views)}</p>
+                      <p className='hot_post'>{countUnit(e.likeCount)}</p>
+                    </li>
+                  )}
                 </a>
               ))}
             </ul>
