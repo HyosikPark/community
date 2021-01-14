@@ -17,7 +17,7 @@ export const modules = {
       [{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
       [{ 'font': [] }],
       [{ 'align': [] }],
-      ['link', 'image'],
+      ['link', 'image', 'video'],
       ['clean'],
     ],
   },

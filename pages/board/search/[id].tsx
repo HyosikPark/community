@@ -16,6 +16,7 @@ import {
   faAngleLeft,
   faAngleRight,
   faCommentDots,
+  faFilm,
   faImage,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -109,6 +110,10 @@ function SearchBoard({ postInfo, postCount, curPage, star, option, keyword }) {
     return content.includes('<img src=');
   }, []);
 
+  const videoUI = useCallback((content) => {
+    return content.includes('<iframe');
+  }, []);
+
   const mobileCheck = useCallback(() => {
     if (window.innerWidth <= 767) {
       setIsMobile(true);
@@ -193,6 +198,9 @@ function SearchBoard({ postInfo, postCount, curPage, star, option, keyword }) {
                           {titleUI(e.content) ? (
                             <FontAwesomeIcon color={'#079653'} icon={faImage} />
                           ) : null}{' '}
+                          {videoUI(e.content) ? (
+                            <FontAwesomeIcon color={'#1a1de2'} icon={faFilm} />
+                          ) : null}{' '}
                           <FontAwesomeIcon
                             color={'#11bfeb'}
                             icon={faCommentDots}
@@ -211,6 +219,9 @@ function SearchBoard({ postInfo, postCount, curPage, star, option, keyword }) {
                         <span className='post_info'>
                           {titleUI(e.content) ? (
                             <FontAwesomeIcon color={'#079653'} icon={faImage} />
+                          ) : null}{' '}
+                          {videoUI(e.content) ? (
+                            <FontAwesomeIcon color={'#1a1de2'} icon={faFilm} />
                           ) : null}{' '}
                           <FontAwesomeIcon
                             color={'#11bfeb'}

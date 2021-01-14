@@ -126,6 +126,10 @@
         max-width: 100%;
         object-fit: cover;
       }
+      iframe {
+        width: 80%;
+        height: 400px;
+      }
     }
     .icon_container {
       margin-top: 30px;

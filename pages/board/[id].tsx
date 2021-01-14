@@ -10,6 +10,7 @@ import {
   faAngleLeft,
   faAngleRight,
   faCommentDots,
+  faFilm,
   faImage,
 } from '@fortawesome/free-solid-svg-icons';
 import Head from 'next/head';
@@ -69,6 +70,10 @@ function Board({ postInfo, postCount, curPage, star }) {
 
   const titleUI = useCallback((content) => {
     return content.includes('<img src=');
+  }, []);
+
+  const videoUI = useCallback((content) => {
+    return content.includes('<iframe');
   }, []);
 
   const mobileCheck = useCallback(() => {
@@ -156,6 +161,9 @@ function Board({ postInfo, postCount, curPage, star }) {
                           {titleUI(e.content) ? (
                             <FontAwesomeIcon color={'#079653'} icon={faImage} />
                           ) : null}{' '}
+                          {videoUI(e.content) ? (
+                            <FontAwesomeIcon color={'#1a1de2'} icon={faFilm} />
+                          ) : null}{' '}
                           <FontAwesomeIcon
                             color={'#11bfeb'}
                             icon={faCommentDots}
@@ -174,6 +182,9 @@ function Board({ postInfo, postCount, curPage, star }) {
                         <span className='post_info'>
                           {titleUI(e.content) ? (
                             <FontAwesomeIcon color={'#079653'} icon={faImage} />
+                          ) : null}{' '}
+                          {videoUI(e.content) ? (
+                            <FontAwesomeIcon color={'#1a1de2'} icon={faFilm} />
                           ) : null}{' '}
                           <FontAwesomeIcon
                             color={'#11bfeb'}

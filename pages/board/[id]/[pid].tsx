@@ -51,7 +51,6 @@ function Post({
   const router = useRouter();
   const { id } = router.query;
   const likeNum = useRef(likeCount);
-  console.log(likeCount);
   const postPasswordForm = useRef(null);
   const [like, setLike] = useState(false);
   const [postPassword, setPostPassword] = useState('');
