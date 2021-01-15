@@ -13,10 +13,15 @@ import Head from 'next/head';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import PostComment from '../../../components/PostComment';
 import { useRouter } from 'next/router';
+import { menu } from '../../../util/Menu';
 
 Post.getInitialProps = async (ctx) => {
   try {
     const { id: star, pid: pageNum } = ctx.query;
+    const existBoard = menu.filter(
+      (a) => a.names.filter((e) => e == star).length
+    ).length;
+    if (!existBoard) throw new Error('no Page');
     const result = await ctx.apolloClient.query({
       query: GETPOST,
       variables: { category: star, number: +pageNum },

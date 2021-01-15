@@ -13,6 +13,7 @@ import {
   faFilm,
   faImage,
 } from '@fortawesome/free-solid-svg-icons';
+import { menu } from '../../util/Menu';
 import Head from 'next/head';
 
 function pageNums(postCount: number, curPage: number) {
@@ -44,6 +45,11 @@ function postDate(date) {
 Board.getInitialProps = async (ctx) => {
   try {
     const { curPage, id: star } = ctx.query;
+    const existBoard = menu.filter(
+      (a) => a.names.filter((e) => e == star).length
+    ).length;
+    if (!existBoard) throw new Error('no Page');
+
     const result = await ctx.apolloClient.query({
       query: ALLPOSTS,
       variables: { category: `${star}`, curPage: +curPage },

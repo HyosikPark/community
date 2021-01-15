@@ -19,6 +19,7 @@ import {
   faFilm,
   faImage,
 } from '@fortawesome/free-solid-svg-icons';
+import { menu } from '../../../util/Menu';
 
 function pageNums(postCount: number, curPage: number) {
   if (!postCount) return [1];
@@ -49,6 +50,10 @@ function postDate(date) {
 SearchBoard.getInitialProps = async (ctx) => {
   try {
     const { curPage, id: star, option, keyword } = ctx.query;
+    const existBoard = menu.filter(
+      (a) => a.names.filter((e) => e == star).length
+    ).length;
+    if (!existBoard) throw new Error('no Page');
     let result;
     if (option == 'title') {
       result = await ctx.apolloClient
