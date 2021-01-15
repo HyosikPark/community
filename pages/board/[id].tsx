@@ -13,7 +13,7 @@ import {
   faFilm,
   faImage,
 } from '@fortawesome/free-solid-svg-icons';
-import { menu } from '../../util/Menu';
+import { menu, navMenu } from '../../util/Menu';
 import Head from 'next/head';
 
 function pageNums(postCount: number, curPage: number) {
@@ -48,7 +48,9 @@ Board.getInitialProps = async (ctx) => {
     const existBoard = menu.filter(
       (a) => a.names.filter((e) => e == star).length
     ).length;
-    if (!existBoard) throw new Error('no Page');
+    if (!existBoard) {
+      if (!navMenu.includes(star)) throw new Error('');
+    }
 
     const result = await ctx.apolloClient.query({
       query: ALLPOSTS,

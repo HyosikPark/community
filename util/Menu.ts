@@ -1,3 +1,5 @@
+export const navMenu = ['Notice', 'Suggestion'];
+
 export const menu = [
   {
     initial: 'a_category',

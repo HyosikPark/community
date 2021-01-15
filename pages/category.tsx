@@ -20,11 +20,9 @@ function Category({ menu }) {
     (a) => {
       const filtered = a.names.filter((x) => x.toLowerCase().includes(search));
       return filtered.sort().map((name, i) => (
-        <Link key={i} href={`/board/${name}?curPage=1`}>
-          <a>
-            <li>{name}</li>
-          </a>
-        </Link>
+        <a key={i} href={`/board/${name}?curPage=1`}>
+          <li>{name}</li>
+        </a>
       ));
     },
     [search]

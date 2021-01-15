@@ -14,7 +14,7 @@ import {
   faImage,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { menu } from '../../../util/Menu';
+import { menu, navMenu } from '../../../util/Menu';
 
 function pageNums(postCount: number, curPage: number) {
   if (!postCount) return [1];
@@ -48,7 +48,9 @@ SortByHotBoard.getInitialProps = async (ctx) => {
     const existBoard = menu.filter(
       (a) => a.names.filter((e) => e == star).length
     ).length;
-    if (!existBoard) throw new Error('no Page');
+    if (!existBoard) {
+      if (!navMenu.includes(star)) throw new Error('');
+    }
     const result = await ctx.apolloClient.query({
       query: ALLPOSTS_SORTBY_LIKE,
       variables: { category: `${star}`, curPage: +curPage },
