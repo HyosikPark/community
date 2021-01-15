@@ -182,10 +182,6 @@ function Post({
     }
   }, []);
 
-  const toBack = useCallback(() => {
-    router.back();
-  }, []);
-
   const metaContent = useCallback(() => {
     const regEx = /<[^>]+>/gs;
 
@@ -220,9 +216,6 @@ function Post({
         <div className='post_container'>
           <div className='post_top'>
             <div className='btn_bundle'>
-              <button className='back_btn btn' onClick={toBack}>
-                Back
-              </button>
               <a href={`/board/${category}?curPage=1`}>
                 <button className='board_btn btn'>Board</button>
               </a>
