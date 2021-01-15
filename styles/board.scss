@@ -28,8 +28,13 @@
     }
     .board {
       border: 7px double;
-      -webkit-box-shadow: 1px 2px 6px 2px #4b4b4b;
-      box-shadow: 1px 2px 6px 2px #4b4b4b;
+      -webkit-box-shadow: 0px 0px 10px 0px #000000;
+      box-shadow: 0px 0px 10px 0px #000000;
+      @include tablet {
+        border: 4px double;
+        -webkit-box-shadow: 0px 0px 13px 0px #d8d8d8;
+        box-shadow: 0px 0px 13px 0px #d8d8d8;
+      }
       .board_head {
         background: linear-gradient(
           180deg,
@@ -43,8 +48,7 @@
         color: white;
         font-size: 0.8rem;
         border-bottom: 2px solid;
-        -webkit-box-shadow: 1px 2px 6px 2px #4b4b4b;
-        box-shadow: 1px 2px 6px 2px #4b4b4b;
+
         .content_head {
           width: 100%;
           text-align: center;
@@ -102,6 +106,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            margin: 0.5rem 0 0.5rem 0;
           }
           .content_info {
             display: flex;
