@@ -61,8 +61,6 @@ function Write() {
     [value]
   );
 
-  console.log(content);
-
   const onSubmit = useCallback(
     (e) => {
       if (!value.nickname) {
