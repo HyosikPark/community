@@ -44,12 +44,12 @@
       }
     }
     .artist_list {
-      // padding: 0.2rem;
       display: flex;
       flex-flow: column wrap;
       li {
         transition: background 0.1s;
-        color: rgb(94, 94, 94);
+        color: rgb(80, 78, 78);
+        font-size: 1rem;
         &:hover {
           background: rgb(176, 192, 199);
           cursor: pointer;
