@@ -3,15 +3,7 @@ export const navMenu = ['Notice', 'Suggestion'];
 export const menu = [
   {
     initial: 'a_category',
-    names: [
-      'aespa',
-      'APRIL',
-      'Apink',
-      'After School',
-      'ASTRO',
-      'ATEEZ',
-      'AB6IX',
-    ],
+    names: ['aespa', 'APRIL', 'Apink', 'ASTRO', 'ATEEZ', 'AB6IX'],
   },
   {
     initial: 'b_category',
@@ -21,8 +13,6 @@ export const menu = [
       'BLACKPINK',
       'Berry Good',
       'Blah Blah',
-      'BESTie',
-      'Brown Eyed Girls',
       'Bling Bling',
       'BIGBANG',
       'Block B',
