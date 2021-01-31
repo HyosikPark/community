@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import React, { useEffect, useRef } from 'react';
 import S3 from 'react-aws-s3';
 
@@ -96,6 +97,12 @@ function QuillEditor({ QuillChange, value }) {
 
   return (
     <>
+      <Head>
+        <link
+          href='https://cdn.quilljs.com/1.3.6/quill.snow.css'
+          rel='stylesheet'
+        ></link>
+      </Head>
       <div ref={quillElement}></div>
     </>
   );

@@ -80,12 +80,6 @@ function Write() {
 
   return (
     <>
-      <Head>
-        <link
-          href='https://cdn.quilljs.com/1.3.6/quill.snow.css'
-          rel='stylesheet'
-        ></link>
-      </Head>
       <div className='write_container'>
         <div className='write_post_container'>
           <div className='auth'>
