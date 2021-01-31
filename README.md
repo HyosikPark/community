@@ -40,3 +40,8 @@ type Post {
     ip: String!
   }
 ```
+
+### Functions
+
+On the homepage, all posts are sorted in order of likeCount.
+Whether you press like or not is checked by your ip address.
