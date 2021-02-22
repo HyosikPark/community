@@ -19,11 +19,10 @@ Home.getInitialProps = async (ctx) => {
 };
 
 export default function Home({ hotPosts }) {
-  const reFetchNum = useRef(0);
   const [posts, setPosts] = useState(hotPosts);
-  const target = useRef(null);
-
   const [fetching, setFetching] = useState(true);
+  const reFetchNum = useRef(0);
+  const target = useRef(null);
 
   const [fetchMore] = useMutation(HOTPOSTSMUTATION, {
     onCompleted({ hotPosts }) {
@@ -35,8 +34,8 @@ export default function Home({ hotPosts }) {
   const haveImg = useCallback((content) => {
     const regEx = new RegExp(`https://kpop-app-image[^">]+`);
     const imgPath = content.match(regEx);
-    if (imgPath) return <img src={imgPath} />;
-    else return <img src='/no-img.png' />;
+    if (imgPath) return <img src={imgPath} loading='lazy' alt='...' />;
+    else return <img src='/no-img.png' loading='lazy' alt='...' />;
   }, []);
 
   const postCount = useCallback((count) => {
@@ -91,16 +90,16 @@ export default function Home({ hotPosts }) {
         <meta name='msvalidate.01' content='FF33EEABEE4049B79C7EF5EAFFB03E72' />
       </Head>
       <div className='home_container'>
-        <div className='posts_container'>
+        <main className='posts_container'>
           <div className='sort_by'>
             <div className='sort_by_hot'>
               <div className='hot_posts'>HOT</div>
             </div>
           </div>
-          <div className='posts_list'>
+          <section className='posts_list'>
             {posts.map((post, i) => (
               <a key={post._id} href={`/board/${post.category}/${post.number}`}>
-                <div
+                <article
                   className='post'
                   ref={posts.length - 1 == i ? target : null}
                 >
@@ -142,11 +141,11 @@ export default function Home({ hotPosts }) {
                       </p>
                     </div>
                   </div>
-                </div>
+                </article>
               </a>
             ))}
-          </div>
-        </div>
+          </section>
+        </main>
       </div>
     </>
   );

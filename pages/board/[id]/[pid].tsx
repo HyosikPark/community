@@ -227,7 +227,7 @@ function Post({
             </div>
             <p className='view_info'>Views: {views}</p>
           </div>
-          <div className='post_head'>
+          <header className='post_head'>
             <h1>{title}</h1>
             <div className='head_util'>
               <div className='user_info'>
@@ -245,12 +245,12 @@ function Post({
                 </h3>
               </div>
             </div>
-          </div>
+          </header>
           <div className='for_underline'></div>
-          <div
+          <main
             className='post_body'
             dangerouslySetInnerHTML={inputContent()}
-          ></div>
+          ></main>
           <div className='icon_container'>
             <div className='heart_icon_container' onClick={likeToggle}>
               <FontAwesomeIcon

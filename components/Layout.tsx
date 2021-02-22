@@ -6,7 +6,7 @@ import React from 'react';
 function Layout() {
   return (
     <div className='layout_container'>
-      <div className='sub_nav'>
+      <nav className='sub_nav'>
         <Link href='/board/Notice?curPage=1'>
           <a>
             <li className='notice_container'>
@@ -21,8 +21,8 @@ function Layout() {
             </li>
           </a>
         </Link>
-      </div>
-      <div className='log'>
+      </nav>
+      <nav className='log'>
         <Link href='/'>
           <a>
             <h2>BK</h2>
@@ -40,7 +40,7 @@ function Layout() {
               <FontAwesomeIcon className='search_icon' icon={faSearch} />
             </li> */}
         </ul>
-      </div>
+      </nav>
     </div>
   );
 }

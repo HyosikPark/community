@@ -50,7 +50,7 @@ function Category({ menu }) {
             />
           </label>
         </div>
-        <div className='category'>
+        <section className='category'>
           {menu.map((a) => (
             <ul key={a.initial} className={a.initial}>
               <div
@@ -59,7 +59,7 @@ function Category({ menu }) {
               <div className='artist_list'>{category(a)}</div>
             </ul>
           ))}
-        </div>
+        </section>
       </div>
     </>
   );
