@@ -1,6 +1,5 @@
-import { faHotjar } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Component, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { HOTPOSTS, HOTPOSTSMUTATION } from '../components/gqlFragment';
 import moment from 'moment';
 import {
@@ -34,8 +33,8 @@ export default function Home({ hotPosts }) {
   const haveImg = useCallback((content) => {
     const regEx = new RegExp(`https://kpop-app-image[^">]+`);
     const imgPath = content.match(regEx);
-    if (imgPath) return <img src={imgPath} loading='lazy' alt='...' />;
-    else return <img src='/no-img.png' loading='lazy' alt='...' />;
+    if (imgPath) return <img src={imgPath} />;
+    else return <img src='/no-img.png' />;
   }, []);
 
   const postCount = useCallback((count) => {

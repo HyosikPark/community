@@ -10,6 +10,7 @@ function PostComment({ comments, category, commentCount, number }) {
   const commentPasswordForm = useRef(null);
   const commentNum = useRef(commentCount);
   const commentBtn = useRef(null);
+
   const [commentPassword, setCommentPassword] = useState('');
   const [verifyComment, setVerifyComment] = useState({
     _id: '',
@@ -24,7 +25,7 @@ function PostComment({ comments, category, commentCount, number }) {
 
   const [createComment] = useMutation(CREATECOMMENT, {
     variables: { category, number: +number, ...value },
-    onError(e) {
+    onError() {
       alert('error');
       commentBtn.current.style.pointerEvents = '';
     },
@@ -48,6 +49,7 @@ function PostComment({ comments, category, commentCount, number }) {
 
   const commentDel = useCallback((e, commentId, commentPassword, index) => {
     setCommentPassword('');
+
     if (window.innerWidth > 480) {
       commentPasswordForm.current.style.top = `${e.pageY}px`;
       commentPasswordForm.current.style.left = `${e.pageX - 250}px`;
@@ -63,10 +65,12 @@ function PostComment({ comments, category, commentCount, number }) {
   const submitCommentPassword = useCallback(
     (e) => {
       e.preventDefault();
+
       if (verifyComment.password == commentPassword) {
         deleteComment({
           variables: { category, number: +number, _id: verifyComment._id },
         });
+
         commentsArr.current.splice(verifyComment.index, 1);
         commentNum.current--;
         setCommentPassword('');

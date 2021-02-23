@@ -18,7 +18,9 @@ import { menu, navMenu } from '../../../util/Menu';
 
 function pageNums(postCount: number, curPage: number) {
   if (!postCount) return [1];
+
   let arr = [];
+
   const calc1 = Math.ceil(curPage / 10);
   const restPage = postCount - 150 * (calc1 - 1);
   const calc2 = Math.ceil(restPage / 15);
@@ -37,9 +39,12 @@ function pageNums(postCount: number, curPage: number) {
 function postDate(date) {
   const now = moment(new Date().toISOString());
   const postDate = moment(date);
-  if (moment.duration(now.diff(postDate)).asDays() < 1)
+
+  if (moment.duration(now.diff(postDate)).asDays() < 1) {
     return moment(date).format('hh:mm');
-  else return moment(date).format('MM.DD');
+  }
+
+  return moment(date).format('MM.DD');
 }
 
 SortByHotBoard.getInitialProps = async (ctx) => {
@@ -48,13 +53,16 @@ SortByHotBoard.getInitialProps = async (ctx) => {
     const existBoard = menu.filter(
       (a) => a.names.filter((e) => e == star).length
     ).length;
+
     if (!existBoard) {
       if (!navMenu.includes(star)) throw new Error('');
     }
+
     const result = await ctx.apolloClient.query({
       query: ALLPOSTS_SORTBY_LIKE,
       variables: { category: `${star}`, curPage: +curPage },
     });
+
     return {
       ...result.data.allPostsSortByLike,
       curPage: Number(curPage),
@@ -65,6 +73,7 @@ SortByHotBoard.getInitialProps = async (ctx) => {
       Location: `/category`,
     });
     ctx.res.end();
+
     return {};
   }
 };
@@ -76,7 +85,9 @@ function SortByHotBoard({ postInfo, postCount, curPage, star }) {
   const countUnit = useCallback((count) => {
     if (count >= 1000) {
       return <span className='big_count'>{(count / 1000).toFixed(1)}k</span>;
-    } else return `${count}`;
+    }
+
+    return `${count}`;
   }, []);
 
   const titleUI = useCallback((content) => {

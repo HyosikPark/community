@@ -3,14 +3,12 @@ import { useRouter } from 'next/router';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-interface SearchPostsprops {}
-
 function SearchPosts() {
   const [option, setOption] = useState('title');
   const [value, setValue] = useState('');
 
   const router = useRouter();
-  const { id, curPage } = router.query;
+  const { id } = router.query;
 
   const optionChange = useCallback((e) => {
     setOption(e.target.value);
@@ -31,6 +29,7 @@ function SearchPosts() {
     },
     [option, value]
   );
+
   return (
     <>
       <form onSubmit={onSubmit} className='search_post'>

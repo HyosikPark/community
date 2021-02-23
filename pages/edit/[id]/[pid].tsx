@@ -18,6 +18,7 @@ Write.getInitialProps = async (ctx) => {
 
 function Write() {
   const router = useRouter();
+
   const { id, pid, nickname, password, title, body } = router.query;
   const submitBtn = useRef(null);
   const star = id;
@@ -27,14 +28,15 @@ function Write() {
     password,
     title,
   });
+
   const [editPost] = useMutation(EDITPOST, {
     variables: { category: `${star}`, number: +pid, ...value, content },
-    onError(err) {
+    onError() {
       alert('error');
       submitBtn.current.disabled = false;
       submitBtn.current.style.opacity = '1';
     },
-    onCompleted(data) {
+    onCompleted() {
       window.location.href = `/board/${star}/${pid}`;
     },
   });

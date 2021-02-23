@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import Link from 'next/link';
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState } from 'react';
 import { menu } from '../util/Menu';
 
 export async function getStaticProps() {
@@ -17,8 +16,10 @@ function Category({ menu }) {
   }, []);
 
   const category = useCallback(
-    (a) => {
-      const filtered = a.names.filter((x) => x.toLowerCase().includes(search));
+    (list) => {
+      const filtered = list.names.filter((x) =>
+        x.toLowerCase().includes(search)
+      );
       return filtered.sort().map((name, i) => (
         <a key={i} href={`/board/${name}?curPage=1`}>
           <li>{name}</li>
@@ -51,12 +52,12 @@ function Category({ menu }) {
           </label>
         </div>
         <section className='category'>
-          {menu.map((a) => (
-            <ul key={a.initial} className={a.initial}>
+          {menu.map((list) => (
+            <ul key={list.initial} className={list.initial}>
               <div
-                className={`${a.initial.slice(0, 1)} category_title`}
-              >{`${a.initial.slice(0, 1).toUpperCase()} `}</div>
-              <div className='artist_list'>{category(a)}</div>
+                className={`${list.initial.slice(0, 1)} category_title`}
+              >{`${list.initial.slice(0, 1).toUpperCase()} `}</div>
+              <div className='artist_list'>{category(list)}</div>
             </ul>
           ))}
         </section>

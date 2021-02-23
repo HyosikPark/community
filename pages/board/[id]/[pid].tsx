@@ -21,7 +21,9 @@ Post.getInitialProps = async (ctx) => {
     const existBoard = menu.filter(
       (a) => a.names.filter((e) => e == star).length
     ).length;
+
     if (!existBoard) throw new Error('no Page');
+
     const result = await ctx.apolloClient.query({
       query: GETPOST,
       variables: { category: star, number: +pageNum },
@@ -30,6 +32,7 @@ Post.getInitialProps = async (ctx) => {
     return result.data.getPost;
   } catch (e) {
     const { id: star } = ctx.query;
+
     ctx.res.writeHead(302, {
       Location: `/board/${star}?curPage=1`,
     });
@@ -55,11 +58,14 @@ function Post({
 }) {
   const router = useRouter();
   const { id } = router.query;
+
   const likeNum = useRef(likeCount);
   const postPasswordForm = useRef(null);
+
   const [like, setLike] = useState(false);
   const [postPassword, setPostPassword] = useState('');
   const [editOrDel, setEditOrDel] = useState('');
+
   const [auth] = useLazyQuery(ISAUTH, {
     fetchPolicy: 'network-only',
     onError() {
@@ -109,6 +115,7 @@ function Post({
   const clickEvent = useCallback((e) => {
     setPostPassword('');
     postPasswordForm.current.style.display = 'block';
+
     if (window.innerWidth > 480) {
       postPasswordForm.current.style.top = `${e.pageY}px`;
       postPasswordForm.current.style.left = `${e.pageX - 250}px`;
@@ -127,6 +134,7 @@ function Post({
   const submitPostPassword = useCallback(
     (e) => {
       e.preventDefault();
+
       if (id == 'Notice') {
         return auth();
       }
@@ -160,6 +168,7 @@ function Post({
         unlikePost();
       } else {
         let check = false;
+
         for (let i = 0; i <= 100 * 3; i += 100) {
           check = !check;
           if (check) {
@@ -172,9 +181,11 @@ function Post({
             }, i);
           }
         }
+
         likeNum.current++;
         likePost();
       }
+
       setLike((prev) => !prev);
     },
 
@@ -208,6 +219,7 @@ function Post({
 
     return () => removeEventListener('mousedown', handleClickOutside);
   }, []);
+
   return (
     <>
       <Head>

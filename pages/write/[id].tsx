@@ -10,7 +10,7 @@ Write.getInitialProps = async (ctx) => {
 
   try {
     if (id == 'Notice') {
-      const result = await ctx.apolloClient.query({
+      await ctx.apolloClient.query({
         query: ISAUTH,
       });
     }
@@ -38,9 +38,9 @@ function Write() {
     password: '',
     title: '',
   });
-  const [createPost, { loading }] = useMutation(CREATEPOST, {
+  const [createPost] = useMutation(CREATEPOST, {
     variables: { ...value, content, category: `${star}` },
-    onError(err) {
+    onError() {
       alert('error');
       submitBtn.current.disabled = false;
       submitBtn.current.style.opacity = '1';

@@ -23,7 +23,9 @@ import { menu, navMenu } from '../../../util/Menu';
 
 function pageNums(postCount: number, curPage: number) {
   if (!postCount) return [1];
+
   let arr = [];
+
   const calc1 = Math.ceil(curPage / 10);
   const restPage = postCount - 150 * (calc1 - 1);
   const calc2 = Math.ceil(restPage / 15);
@@ -42,9 +44,12 @@ function pageNums(postCount: number, curPage: number) {
 function postDate(date) {
   const now = moment(new Date().toISOString());
   const postDate = moment(date);
-  if (moment.duration(now.diff(postDate)).asDays() < 1)
+
+  if (moment.duration(now.diff(postDate)).asDays() < 1) {
     return moment(date).format('hh:mm');
-  else return moment(date).format('MM.DD');
+  }
+
+  return moment(date).format('MM.DD');
 }
 
 SearchBoard.getInitialProps = async (ctx) => {
@@ -53,10 +58,13 @@ SearchBoard.getInitialProps = async (ctx) => {
     const existBoard = menu.filter(
       (a) => a.names.filter((e) => e == star).length
     ).length;
+
     if (!existBoard) {
       if (!navMenu.includes(star)) throw new Error('');
     }
+
     let result;
+
     if (option == 'title') {
       result = await ctx.apolloClient
         .query({
@@ -94,11 +102,11 @@ SearchBoard.getInitialProps = async (ctx) => {
       keyword,
     };
   } catch (e) {
-    console.log(e);
     ctx.res.writeHead(302, {
       Location: `/category`,
     });
     ctx.res.end();
+
     return {};
   }
 };
