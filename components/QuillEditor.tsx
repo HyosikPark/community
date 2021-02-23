@@ -97,12 +97,12 @@ function QuillEditor({ QuillChange, value }) {
 
   return (
     <>
-      <Head>
+      {/* <Head>
         <link
           href='https://cdn.quilljs.com/1.3.6/quill.snow.css'
           rel='stylesheet'
         ></link>
-      </Head>
+      </Head> */}
       <div ref={quillElement}></div>
     </>
   );
