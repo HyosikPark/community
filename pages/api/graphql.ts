@@ -9,9 +9,10 @@ const schema = makeExecutableSchema({
 });
 
 let db;
+
 const apolloServer = new ApolloServer({
   schema,
-  context: async ({ req, res }) => {
+  context: async () => {
     if (!db) {
       try {
         const dbClient = new MongoClient(process.env.MONGO_DB_URI, {
@@ -20,6 +21,7 @@ const apolloServer = new ApolloServer({
         });
 
         if (!dbClient.isConnected()) await dbClient.connect();
+
         db = dbClient.db('kpop'); // database name
       } catch (e) {
         throw new Error('데이터베이스 연결이 불안정합니다. 다시 시도해주세요.');

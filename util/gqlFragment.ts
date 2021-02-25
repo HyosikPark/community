@@ -112,22 +112,13 @@ export const HOTPOSTS = gql`
       number
       category
       nickname
-      password
       title
       content
       createdAt
-      comments {
-        _id
-        nickname
-        password
-        content
-        createdAt
-      }
       commentCount
       likeCount
       views
       likeUser
-      ip
     }
   }
 `;

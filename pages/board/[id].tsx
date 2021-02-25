@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ALLPOSTS } from '../../components/gqlFragment';
+import { ALLPOSTS } from '../../util/gqlFragment';
 import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
 import SearchPosts from '../../components/SearchPosts';
@@ -15,8 +15,17 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { menu, navMenu } from '../../util/Menu';
 import Head from 'next/head';
+import { BoardPost } from '../../util/queryTypes';
+import { NextPageContext } from 'next';
 
-function pageNums(postCount: number, curPage: number) {
+export interface BoardProps {
+  postInfo: BoardPost[];
+  postCount: number;
+  curPage: number;
+  star: string;
+}
+
+function pageNums(postCount: number, curPage: number): number[] {
   if (!postCount) return [1];
 
   let arr = [];
@@ -36,7 +45,7 @@ function pageNums(postCount: number, curPage: number) {
   return arr;
 }
 
-function postDate(date) {
+function postDate(date: string) {
   const now = moment(new Date().toISOString());
   const postDate = moment(date);
 
@@ -47,16 +56,16 @@ function postDate(date) {
   return moment(date).format('MM.DD');
 }
 
-Board.getInitialProps = async (ctx) => {
+Board.getInitialProps = async (ctx: NextPageContext) => {
   try {
     const { curPage, id: star } = ctx.query;
 
     const existBoard = menu.filter(
-      (a) => a.names.filter((e) => e == star).length
+      (a) => a.names.filter((e) => e === star).length
     ).length;
 
     if (!existBoard) {
-      if (!navMenu.includes(star)) throw new Error('');
+      if (!navMenu.includes(star as string)) throw new Error('');
     }
 
     const result = await ctx.apolloClient.query({
@@ -74,21 +83,21 @@ Board.getInitialProps = async (ctx) => {
   }
 };
 
-function Board({ postInfo, postCount, curPage, star }) {
+function Board({ postInfo, postCount, curPage, star }: BoardProps) {
   const [isMobile, setIsMobile] = useState(false);
   const lastPage = Math.ceil(postCount / 15);
 
-  const countUnit = useCallback((count) => {
+  const countUnit = useCallback((count: number) => {
     if (count >= 1000) {
       return <span className='big_count'>{(count / 1000).toFixed(1)}k</span>;
     } else return `${count}`;
   }, []);
 
-  const titleUI = useCallback((content) => {
+  const titleUI = useCallback((content: string) => {
     return content.includes('<img src=');
   }, []);
 
-  const videoUI = useCallback((content) => {
+  const videoUI = useCallback((content: string) => {
     return content.includes('<iframe');
   }, []);
 
@@ -223,7 +232,7 @@ function Board({ postInfo, postCount, curPage, star }) {
           </div>
           <div className='board_bottom'>
             <SearchPosts />
-            {star == 'Notice' ? null : (
+            {star === 'Notice' ? null : (
               <Link href={`/write/${star}`}>
                 <button className='write_btn btn'>Write</button>
               </Link>
@@ -253,9 +262,7 @@ function Board({ postInfo, postCount, curPage, star }) {
 
             {pageNums(postCount, curPage).map((e) => (
               <a key={e} href={`/board/${star}?curPage=${e}`}>
-                <li id={e} className={`${e}page page_button`}>
-                  {e}
-                </li>
+                <li className={`${e}page page_button`}>{e}</li>
               </a>
             ))}
             {/* <a href={`/board/${star}?curPage=3`}>
@@ -312,7 +319,7 @@ function Board({ postInfo, postCount, curPage, star }) {
               </a>
             )}
 
-            {lastPage == curPage || postCount == 0 ? null : (
+            {lastPage === curPage || postCount === 0 ? null : (
               <a href={`/board/${star}?curPage=${lastPage}`}>
                 <li
                   id='double_right'

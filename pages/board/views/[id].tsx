@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ALLPOSTS_SORTBY_VIEWS } from '../../../components/gqlFragment';
+import { ALLPOSTS_SORTBY_VIEWS } from '../../../util/gqlFragment';
 import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
@@ -15,8 +15,10 @@ import {
   faImage,
 } from '@fortawesome/free-solid-svg-icons';
 import { menu, navMenu } from '../../../util/Menu';
+import { BoardProps } from '../[id]';
+import { NextPageContext } from 'next';
 
-function pageNums(postCount: number, curPage: number) {
+function pageNums(postCount: number, curPage: number): number[] {
   if (!postCount) return [1];
 
   let arr = [];
@@ -36,7 +38,7 @@ function pageNums(postCount: number, curPage: number) {
   return arr;
 }
 
-function postDate(date) {
+function postDate(date: string) {
   const now = moment(new Date().toISOString());
   const postDate = moment(date);
 
@@ -47,15 +49,15 @@ function postDate(date) {
   return moment(date).format('MM.DD');
 }
 
-SortByViewsBoard.getInitialProps = async (ctx) => {
+SortByViewsBoard.getInitialProps = async (ctx: NextPageContext) => {
   try {
     const { curPage, id: star } = ctx.query;
     const existBoard = menu.filter(
-      (a) => a.names.filter((e) => e == star).length
+      (a) => a.names.filter((e) => e === star).length
     ).length;
 
     if (!existBoard) {
-      if (!navMenu.includes(star)) throw new Error('');
+      if (!navMenu.includes(star as string)) throw new Error('');
     }
 
     const result = await ctx.apolloClient.query({
@@ -77,7 +79,7 @@ SortByViewsBoard.getInitialProps = async (ctx) => {
   }
 };
 
-function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
+function SortByViewsBoard({ postInfo, postCount, curPage, star }: BoardProps) {
   const [isMobile, setIsMobile] = useState(false);
 
   const lastPage = Math.ceil(postCount / 15);
@@ -90,11 +92,11 @@ function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
     return `${count}`;
   }, []);
 
-  const titleUI = useCallback((content) => {
+  const titleUI = useCallback((content: string) => {
     return content.includes('<img src=');
   }, []);
 
-  const videoUI = useCallback((content) => {
+  const videoUI = useCallback((content: string) => {
     return content.includes('<iframe');
   }, []);
 
@@ -230,7 +232,7 @@ function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
           </div>
           <div className='board_bottom'>
             <SearchPosts />
-            {star == 'Notice' ? null : (
+            {star === 'Notice' ? null : (
               <Link href={`/write/${star}`}>
                 <button className='write_btn btn'>Write</button>
               </Link>
@@ -260,9 +262,7 @@ function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
 
             {pageNums(postCount, curPage).map((e) => (
               <a key={e} href={`/board/views/${star}?curPage=${e}`}>
-                <li id={e} className={`${e}page page_button`}>
-                  {e}
-                </li>
+                <li className={`${e}page page_button`}>{e}</li>
               </a>
             ))}
             {curPage >= Math.floor((lastPage - 1) / 10) * 10 + 1 ? null : (
@@ -279,7 +279,7 @@ function SortByViewsBoard({ postInfo, postCount, curPage, star }) {
               </a>
             )}
 
-            {lastPage == curPage || postCount == 0 ? null : (
+            {lastPage === curPage || postCount === 0 ? null : (
               <a href={`/board/views/${star}?curPage=${lastPage}`}>
                 <li
                   id='double_right'

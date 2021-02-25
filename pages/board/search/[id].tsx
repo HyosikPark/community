@@ -4,7 +4,7 @@ import {
   SEARCH_BY_NICKNAME,
   SEARCH_BY_TITLE,
   SEARCH_BY_TITLE_AND_CONTENT,
-} from '../../../components/gqlFragment';
+} from '../../../util/gqlFragment';
 import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
@@ -20,8 +20,15 @@ import {
   faImage,
 } from '@fortawesome/free-solid-svg-icons';
 import { menu, navMenu } from '../../../util/Menu';
+import { NextPageContext } from 'next';
+import { BoardProps } from '../[id]';
 
-function pageNums(postCount: number, curPage: number) {
+interface SearchBoardProps extends BoardProps {
+  option: string;
+  keyword: string;
+}
+
+function pageNums(postCount: number, curPage: number): number[] {
   if (!postCount) return [1];
 
   let arr = [];
@@ -41,7 +48,7 @@ function pageNums(postCount: number, curPage: number) {
   return arr;
 }
 
-function postDate(date) {
+function postDate(date: string) {
   const now = moment(new Date().toISOString());
   const postDate = moment(date);
 
@@ -52,7 +59,7 @@ function postDate(date) {
   return moment(date).format('MM.DD');
 }
 
-SearchBoard.getInitialProps = async (ctx) => {
+SearchBoard.getInitialProps = async (ctx: NextPageContext) => {
   try {
     const { curPage, id: star, option, keyword } = ctx.query;
     const existBoard = menu.filter(
@@ -60,7 +67,7 @@ SearchBoard.getInitialProps = async (ctx) => {
     ).length;
 
     if (!existBoard) {
-      if (!navMenu.includes(star)) throw new Error('');
+      if (!navMenu.includes(star as string)) throw new Error('');
     }
 
     let result;
@@ -111,21 +118,28 @@ SearchBoard.getInitialProps = async (ctx) => {
   }
 };
 
-function SearchBoard({ postInfo, postCount, curPage, star, option, keyword }) {
+function SearchBoard({
+  postInfo,
+  postCount,
+  curPage,
+  star,
+  option,
+  keyword,
+}: SearchBoardProps) {
   const [isMobile, setIsMobile] = useState(false);
   const lastPage = Math.ceil(postCount / 15);
 
-  const countUnit = useCallback((count) => {
+  const countUnit = useCallback((count: number) => {
     if (count >= 1000) {
       return <span className='big_count'>{(count / 1000).toFixed(1)}k</span>;
     } else return `${count}`;
   }, []);
 
-  const titleUI = useCallback((content) => {
+  const titleUI = useCallback((content: string) => {
     return content.includes('<img src=');
   }, []);
 
-  const videoUI = useCallback((content) => {
+  const videoUI = useCallback((content: string) => {
     return content.includes('<iframe');
   }, []);
 
@@ -296,9 +310,7 @@ function SearchBoard({ postInfo, postCount, curPage, star, option, keyword }) {
                 key={e}
                 href={`/board/search/${star}?curPage=${e}&option=${option}&keyword=${keyword}`}
               >
-                <li id={e} className={`${e}page page_button`}>
-                  {e}
-                </li>
+                <li className={`${e}page page_button`}>{e}</li>
               </a>
             ))}
             {curPage >= Math.floor((lastPage - 1) / 10) * 10 + 1 ? null : (

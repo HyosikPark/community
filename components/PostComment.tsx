@@ -2,14 +2,35 @@ import { useMutation } from '@apollo/client';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { CREATECOMMENT, DELETECOMMENT } from './gqlFragment';
+import React, {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { CREATECOMMENT, DELETECOMMENT } from '../util/gqlFragment';
+import { Comment } from '../util/queryTypes';
 
-function PostComment({ comments, category, commentCount, number }) {
+interface PostCommentProps {
+  comments: Comment[];
+  category: string;
+  commentCount: number;
+  number: number;
+}
+
+function PostComment({
+  comments,
+  category,
+  commentCount,
+  number,
+}: PostCommentProps) {
   const commentsArr = useRef(comments);
-  const commentPasswordForm = useRef(null);
+  const commentPasswordForm = useRef<HTMLFormElement>(null);
   const commentNum = useRef(commentCount);
-  const commentBtn = useRef(null);
+  const commentBtn = useRef<HTMLButtonElement>(null);
 
   const [commentPassword, setCommentPassword] = useState('');
   const [verifyComment, setVerifyComment] = useState({
@@ -47,26 +68,34 @@ function PostComment({ comments, category, commentCount, number }) {
     },
   });
 
-  const commentDel = useCallback((e, commentId, commentPassword, index) => {
-    setCommentPassword('');
+  const commentDel = useCallback(
+    (
+      e: MouseEvent<SVGSVGElement>,
+      commentId: string,
+      commentPassword: string,
+      index: number
+    ) => {
+      setCommentPassword('');
 
-    if (window.innerWidth > 480) {
-      commentPasswordForm.current.style.top = `${e.pageY}px`;
-      commentPasswordForm.current.style.left = `${e.pageX - 250}px`;
-    } else {
-      commentPasswordForm.current.style.top = `${e.pageY}px`;
-      commentPasswordForm.current.style.left = `${e.pageX - 150}px`;
-    }
+      if (window.innerWidth > 480) {
+        commentPasswordForm.current.style.top = `${e.pageY}px`;
+        commentPasswordForm.current.style.left = `${e.pageX - 250}px`;
+      } else {
+        commentPasswordForm.current.style.top = `${e.pageY}px`;
+        commentPasswordForm.current.style.left = `${e.pageX - 150}px`;
+      }
 
-    commentPasswordForm.current.style.display = 'block';
-    setVerifyComment({ _id: commentId, password: commentPassword, index });
-  }, []);
+      commentPasswordForm.current.style.display = 'block';
+      setVerifyComment({ _id: commentId, password: commentPassword, index });
+    },
+    []
+  );
 
   const submitCommentPassword = useCallback(
-    (e) => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      if (verifyComment.password == commentPassword) {
+      if (verifyComment.password === commentPassword) {
         deleteComment({
           variables: { category, number: +number, _id: verifyComment._id },
         });
@@ -80,12 +109,15 @@ function PostComment({ comments, category, commentCount, number }) {
     [verifyComment, commentPassword]
   );
 
-  const changeCommentPassword = useCallback((e) => {
-    setCommentPassword(e.target.value);
-  }, []);
+  const changeCommentPassword = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setCommentPassword(e.target.value);
+    },
+    []
+  );
 
   const changeValue = useCallback(
-    (e) => {
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setValue({
         ...value,
         [e.target.name]: e.target.value,
@@ -95,7 +127,7 @@ function PostComment({ comments, category, commentCount, number }) {
   );
 
   const submitComment = useCallback(
-    (e) => {
+    (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
 
       if (!value.nickname) {

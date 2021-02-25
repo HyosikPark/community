@@ -1,6 +1,10 @@
-import Head from 'next/head';
 import React, { useEffect, useRef } from 'react';
 import S3 from 'react-aws-s3';
+
+interface QuillEditorProps {
+  QuillChange: (e: string) => void;
+  value: string;
+}
 
 export const modules = {
   toolbar: {
@@ -24,18 +28,20 @@ export const modules = {
   },
 };
 
-function QuillEditor({ QuillChange, value }) {
+function QuillEditor({ QuillChange, value }: QuillEditorProps) {
   const Quill = typeof window == 'object' ? require('quill') : () => false;
 
-  const quillElement = useRef(null);
+  const quillElement = useRef<HTMLDivElement>(null);
   const quillInstance = useRef(null);
 
   const onClickImageBtn = () => {
     // 이미지 커스텀 핸들링.
     const input = document.createElement('input');
+
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
     input.click();
+
     input.onchange = function () {
       const file = input.files[0];
       const maxSize = 2097152;
@@ -43,6 +49,7 @@ function QuillEditor({ QuillChange, value }) {
       if (file.size > maxSize) {
         return alert('Image size cannot exceed 2Mb.');
       }
+
       const fileName = file.name;
 
       const config = {

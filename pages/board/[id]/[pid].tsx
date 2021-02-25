@@ -4,9 +4,17 @@ import {
   ISAUTH,
   LIKEPOST,
   UNLIKEPOST,
-} from '../../../components/gqlFragment';
+} from '../../../util/gqlFragment';
 import moment from 'moment';
-import { useCallback, useEffect, useState, useRef } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+  MouseEvent,
+  ChangeEvent,
+  FormEvent,
+} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import Head from 'next/head';
@@ -14,12 +22,19 @@ import { useLazyQuery, useMutation } from '@apollo/client';
 import PostComment from '../../../components/PostComment';
 import { useRouter } from 'next/router';
 import { menu } from '../../../util/Menu';
+import { NextPageContext } from 'next';
+import { PostQuery } from '../../../util/queryTypes';
 
-Post.getInitialProps = async (ctx) => {
+interface PostProps {
+  post: PostQuery;
+  alreadyLike: boolean;
+}
+
+Post.getInitialProps = async (ctx: NextPageContext) => {
   try {
     const { id: star, pid: pageNum } = ctx.query;
     const existBoard = menu.filter(
-      (a) => a.names.filter((e) => e == star).length
+      (a) => a.names.filter((e) => e === star).length
     ).length;
 
     if (!existBoard) throw new Error('no Page');
@@ -55,12 +70,12 @@ function Post({
     views,
   },
   alreadyLike,
-}) {
+}: PostProps) {
   const router = useRouter();
   const { id } = router.query;
 
   const likeNum = useRef(likeCount);
-  const postPasswordForm = useRef(null);
+  const postPasswordForm = useRef<HTMLFormElement>(null);
 
   const [like, setLike] = useState(false);
   const [postPassword, setPostPassword] = useState('');
@@ -72,8 +87,8 @@ function Post({
       alert('Only Master can Access');
     },
     onCompleted() {
-      if (password == postPassword) {
-        editOrDel == 'edit' ? editPost() : deletePost();
+      if (password === postPassword) {
+        editOrDel === 'edit' ? editPost() : deletePost();
       } else {
         alert('Incorrect password.');
       }
@@ -112,7 +127,7 @@ function Post({
     );
   }, []);
 
-  const clickEvent = useCallback((e) => {
+  const clickEvent = useCallback((e: MouseEvent<HTMLHeadingElement>) => {
     setPostPassword('');
     postPasswordForm.current.style.display = 'block';
 
@@ -124,23 +139,25 @@ function Post({
       postPasswordForm.current.style.left = `${e.pageX - 150}px`;
     }
 
-    setEditOrDel(e.target.id);
+    const heading = e.target as HTMLHeadingElement;
+
+    setEditOrDel(heading.id);
   }, []);
 
-  const changePostPassword = useCallback((e) => {
+  const changePostPassword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setPostPassword(e.target.value);
   }, []);
 
   const submitPostPassword = useCallback(
-    (e) => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      if (id == 'Notice') {
+      if (id === 'Notice') {
         return auth();
       }
 
-      if (password == postPassword) {
-        editOrDel == 'edit' ? editPost() : deletePost();
+      if (password === postPassword) {
+        editOrDel === 'edit' ? editPost() : deletePost();
       } else {
         alert('Incorrect password.');
       }
@@ -162,9 +179,11 @@ function Post({
   });
 
   const likeToggle = useCallback(
-    (e) => {
+    (e: MouseEvent<HTMLDivElement>) => {
+      const elem = e.target as HTMLDivElement;
       if (like) {
         likeNum.current--;
+
         unlikePost();
       } else {
         let check = false;
@@ -173,11 +192,11 @@ function Post({
           check = !check;
           if (check) {
             setTimeout(() => {
-              e.target.style.transform = 'scale(1.2)';
+              elem.style.transform = 'scale(1.2)';
             }, i);
           } else {
             setTimeout(() => {
-              e.target.style.transform = 'scale(1.0)';
+              elem.style.transform = 'scale(1.0)';
             }, i);
           }
         }
@@ -208,13 +227,14 @@ function Post({
     const regEx = new RegExp(`https://kpop-app-image[^">]+`);
     const imgPath = content.match(regEx);
 
-    if (imgPath) return imgPath;
+    if (imgPath) return imgPath[0];
     else
       return 'https://kpop-app-image-storage.s3.us-east-2.amazonaws.com/biaskpop.png';
   }, []);
 
   useEffect(() => {
     alreadyLike ? setLike(true) : setLike(false);
+
     addEventListener('mousedown', handleClickOutside);
 
     return () => removeEventListener('mousedown', handleClickOutside);

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,16 +10,16 @@ function SearchPosts() {
   const router = useRouter();
   const { id } = router.query;
 
-  const optionChange = useCallback((e) => {
+  const optionChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
     setOption(e.target.value);
   }, []);
 
-  const inputChange = useCallback((e) => {
+  const inputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   }, []);
 
   const onSubmit = useCallback(
-    (e) => {
+    (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (!value) return alert('Please enter the contents.');
 

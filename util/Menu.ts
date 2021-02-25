@@ -1,6 +1,11 @@
-export const navMenu = ['Notice', 'Suggestion'];
+export interface Menu {
+  initial: string;
+  names: string[];
+}
 
-export const menu = [
+export const navMenu: string[] = ['Notice', 'Suggestion'];
+
+export const menu: Menu[] = [
   {
     initial: 'a_category',
     names: ['aespa', 'APRIL', 'Apink', 'ASTRO', 'ATEEZ', 'AB6IX'],

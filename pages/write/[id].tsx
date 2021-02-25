@@ -1,11 +1,18 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  MouseEvent,
+  useCallback,
+  useRef,
+  useState,
+} from 'react';
 import { useRouter } from 'next/router';
-import { CREATEPOST, ISAUTH } from '../../components/gqlFragment';
+import { CREATEPOST, ISAUTH } from '../../util/gqlFragment';
 import { useMutation } from '@apollo/client';
 import Head from 'next/head';
 import QuillEditor from '../../components/QuillEditor';
+import { NextPageContext } from 'next';
 
-Write.getInitialProps = async (ctx) => {
+Write.getInitialProps = async (ctx: NextPageContext) => {
   const { id } = ctx.query;
 
   try {
@@ -30,8 +37,8 @@ Write.getInitialProps = async (ctx) => {
 function Write() {
   const router = useRouter();
   const star = router.query.id;
-  const submitBtn = useRef(null);
 
+  const submitBtn = useRef<HTMLButtonElement>(null);
   const [content, setContent] = useState('');
   const [value, setValue] = useState({
     nickname: '',
@@ -49,9 +56,10 @@ function Write() {
       window.location.href = `/board/${star}/${data.createPost}`;
     },
   });
+
   const changeValue = useCallback(
-    (e) => {
-      if (e.target)
+    (e: ChangeEvent<HTMLInputElement> | string) => {
+      if (typeof e !== 'string')
         setValue({
           ...value,
           [e.target.name]: e.target.value,
@@ -62,7 +70,7 @@ function Write() {
   );
 
   const onSubmit = useCallback(
-    (e) => {
+    (e: MouseEvent<HTMLButtonElement>) => {
       if (!value.nickname) {
         return alert('Please enter your nickname.');
       }
@@ -75,15 +83,19 @@ function Write() {
       if (!value.title) {
         return alert('Please enter the title');
       }
-      e.target.disabled = true;
-      e.target.style.opacity = '0.4';
+      const button = e.target as HTMLButtonElement;
+      button.disabled = true;
+      button.style.opacity = '0.4';
+
       createPost();
     },
     [value, content]
   );
 
-  const backToBoard = useCallback((e) => {
-    e.target.disabled = true;
+  const backToBoard = useCallback((e: MouseEvent<HTMLButtonElement>) => {
+    const button = e.target as HTMLButtonElement;
+    button.disabled = true;
+
     router.back();
   }, []);
 
@@ -131,7 +143,7 @@ function Write() {
             <div className='quill_editor'>
               <QuillEditor
                 value={content}
-                QuillChange={(e) => changeValue(e)}
+                QuillChange={(e: string) => changeValue(e)}
               />
             </div>
             <div className='btn_bundle'>

@@ -1,6 +1,10 @@
 import Head from 'next/head';
-import React, { useCallback, useState } from 'react';
-import { menu } from '../util/Menu';
+import React, { ChangeEvent, useCallback, useState } from 'react';
+import { menu, Menu } from '../util/Menu';
+
+interface CategoryProps {
+  menu: Menu[];
+}
 
 export async function getStaticProps() {
   return {
@@ -8,18 +12,19 @@ export async function getStaticProps() {
   };
 }
 
-function Category({ menu }) {
+function Category({ menu }: CategoryProps) {
   const [search, setSearch] = useState('');
 
-  const findStar = useCallback((e) => {
+  const findStar = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   }, []);
 
   const category = useCallback(
-    (list) => {
+    (list: Menu) => {
       const filtered = list.names.filter((x) =>
         x.toLowerCase().includes(search)
       );
+
       return filtered.sort().map((name, i) => (
         <a key={i} href={`/board/${name}?curPage=1`}>
           <li>{name}</li>

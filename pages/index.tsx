@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { HOTPOSTS, HOTPOSTSMUTATION } from '../components/gqlFragment';
+import { HOTPOSTS, HOTPOSTSMUTATION } from '../util/gqlFragment';
 import moment from 'moment';
 import {
   faCommentDots,
@@ -9,19 +9,27 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useMutation } from '@apollo/client';
 import Head from 'next/head';
+import { HomePost } from '../util/queryTypes';
+import { NextPageContext } from 'next';
 
-Home.getInitialProps = async (ctx) => {
+interface HomeProps {
+  hotPosts: HomePost[];
+}
+
+Home.getInitialProps = async (ctx: NextPageContext) => {
+  console.log(ctx.req);
   const result = await ctx.apolloClient.query({
     query: HOTPOSTS,
   });
   return result.data;
 };
 
-export default function Home({ hotPosts }) {
+export default function Home({ hotPosts }: HomeProps) {
   const [posts, setPosts] = useState(hotPosts);
   const [fetching, setFetching] = useState(true);
+
   const reFetchNum = useRef(0);
-  const target = useRef(null);
+  const target = useRef<HTMLElement>(null);
 
   const [fetchMore] = useMutation(HOTPOSTSMUTATION, {
     onCompleted({ hotPosts }) {
@@ -30,34 +38,54 @@ export default function Home({ hotPosts }) {
     },
   });
 
-  const haveImg = useCallback((content) => {
+  const haveImg = useCallback((content: string) => {
     const regEx = new RegExp(`https://kpop-app-image[^">]+`);
     const imgPath = content.match(regEx);
-    if (imgPath) return <img src={imgPath} />;
-    else return <img src='/no-img.png' />;
+
+    if (imgPath) return <img className='preview_img' data-src={imgPath[0]} />;
+    else return <img className='preview_img' data-src='/no-img.png' />;
   }, []);
 
-  const postCount = useCallback((count) => {
+  const postCount = useCallback((count: number) => {
     if (count >= 1000) {
       return <span className='big_count'>{(count / 1000).toFixed(1)}k</span>;
-    } else return `${count}`;
+    }
+
+    return `${count}`;
   }, []);
 
   useEffect(() => {
     const io = new IntersectionObserver(handleIntersection, { threshold: 0 });
+    const imgs = document.querySelectorAll('.preview_img');
+
+    imgs.forEach((img) => io.observe(img));
 
     if (fetching && target.current) {
       io.observe(target.current);
     }
 
-    return () => io && io.disconnect();
+    return () => {
+      io && io.disconnect();
+    };
   }, [posts, fetching]);
 
-  const handleIntersection = ([entry]) => {
-    if (entry.isIntersecting) {
-      reFetchNum.current++;
-      fetchMore({ variables: { number: reFetchNum.current } });
-    }
+  const handleIntersection: IntersectionObserverCallback = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        if (entry.target.className === 'preview_img') {
+          const img = entry.target as HTMLImageElement;
+          img.src = img.dataset.src;
+        } else {
+          reFetchNum.current++;
+          fetchMore({ variables: { number: reFetchNum.current } });
+        }
+      } else {
+        if (entry.target.className === 'preview_img') {
+          const img = entry.target as HTMLImageElement;
+          img.src = './grey_img.jpg';
+        }
+      }
+    });
   };
   return (
     <>
@@ -100,7 +128,7 @@ export default function Home({ hotPosts }) {
               <a key={post._id} href={`/board/${post.category}/${post.number}`}>
                 <article
                   className='post'
-                  ref={posts.length - 1 == i ? target : null}
+                  ref={posts.length - 1 === i ? target : null}
                 >
                   {haveImg(post.content)}
                   <div className='post_main'>
