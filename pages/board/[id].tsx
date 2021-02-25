@@ -16,7 +16,6 @@ import {
 import { menu, navMenu } from '../../util/Menu';
 import Head from 'next/head';
 import { BoardPost } from '../../util/queryTypes';
-import { NextPageContext } from 'next';
 
 export interface BoardProps {
   postInfo: BoardPost[];
@@ -56,7 +55,7 @@ function postDate(date: string) {
   return moment(date).format('MM.DD');
 }
 
-Board.getInitialProps = async (ctx: NextPageContext) => {
+Board.getInitialProps = async (ctx) => {
   try {
     const { curPage, id: star } = ctx.query;
 

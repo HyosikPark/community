@@ -10,7 +10,6 @@ import {
 import { useMutation } from '@apollo/client';
 import Head from 'next/head';
 import { HomePost } from '../util/queryTypes';
-import { NextPageContext } from 'next';
 
 interface HomeProps {
   hotPosts: HomePost[];

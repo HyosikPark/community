@@ -10,7 +10,6 @@ import { CREATEPOST, ISAUTH } from '../../util/gqlFragment';
 import { useMutation } from '@apollo/client';
 import Head from 'next/head';
 import QuillEditor from '../../components/QuillEditor';
-import { NextPageContext } from 'next';
 
 Write.getInitialProps = async (ctx) => {
   const { id } = ctx.query;
