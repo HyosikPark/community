@@ -22,7 +22,6 @@ import { useLazyQuery, useMutation } from '@apollo/client';
 import PostComment from '../../../components/PostComment';
 import { useRouter } from 'next/router';
 import { menu } from '../../../util/Menu';
-import { NextPageContext } from 'next';
 import { PostQuery } from '../../../util/queryTypes';
 
 interface PostProps {
@@ -30,7 +29,7 @@ interface PostProps {
   alreadyLike: boolean;
 }
 
-Post.getInitialProps = async (ctx: NextPageContext) => {
+Post.getInitialProps = async (ctx) => {
   try {
     const { id: star, pid: pageNum } = ctx.query;
     const existBoard = menu.filter(

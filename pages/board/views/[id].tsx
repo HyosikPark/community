@@ -16,7 +16,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { menu, navMenu } from '../../../util/Menu';
 import { BoardProps } from '../[id]';
-import { NextPageContext } from 'next';
 
 function pageNums(postCount: number, curPage: number): number[] {
   if (!postCount) return [1];
@@ -49,7 +48,7 @@ function postDate(date: string) {
   return moment(date).format('MM.DD');
 }
 
-SortByViewsBoard.getInitialProps = async (ctx: NextPageContext) => {
+SortByViewsBoard.getInitialProps = async (ctx) => {
   try {
     const { curPage, id: star } = ctx.query;
     const existBoard = menu.filter(

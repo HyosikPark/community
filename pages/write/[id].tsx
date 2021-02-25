@@ -12,7 +12,7 @@ import Head from 'next/head';
 import QuillEditor from '../../components/QuillEditor';
 import { NextPageContext } from 'next';
 
-Write.getInitialProps = async (ctx: NextPageContext) => {
+Write.getInitialProps = async (ctx) => {
   const { id } = ctx.query;
 
   try {

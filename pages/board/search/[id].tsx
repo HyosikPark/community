@@ -20,7 +20,6 @@ import {
   faImage,
 } from '@fortawesome/free-solid-svg-icons';
 import { menu, navMenu } from '../../../util/Menu';
-import { NextPageContext } from 'next';
 import { BoardProps } from '../[id]';
 
 interface SearchBoardProps extends BoardProps {
@@ -59,7 +58,7 @@ function postDate(date: string) {
   return moment(date).format('MM.DD');
 }
 
-SearchBoard.getInitialProps = async (ctx: NextPageContext) => {
+SearchBoard.getInitialProps = async (ctx) => {
   try {
     const { curPage, id: star, option, keyword } = ctx.query;
     const existBoard = menu.filter(

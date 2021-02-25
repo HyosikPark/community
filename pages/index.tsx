@@ -16,7 +16,7 @@ interface HomeProps {
   hotPosts: HomePost[];
 }
 
-Home.getInitialProps = async (ctx: NextPageContext) => {
+Home.getInitialProps = async (ctx) => {
   const result = await ctx.apolloClient.query({
     query: HOTPOSTS,
   });
