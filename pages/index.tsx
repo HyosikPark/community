@@ -17,7 +17,6 @@ interface HomeProps {
 }
 
 Home.getInitialProps = async (ctx: NextPageContext) => {
-  console.log(ctx.req);
   const result = await ctx.apolloClient.query({
     query: HOTPOSTS,
   });
@@ -34,6 +33,7 @@ export default function Home({ hotPosts }: HomeProps) {
   const [fetchMore] = useMutation(HOTPOSTSMUTATION, {
     onCompleted({ hotPosts }) {
       if (!hotPosts.length) return setFetching(false);
+
       setPosts(posts.concat(hotPosts));
     },
   });
