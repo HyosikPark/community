@@ -16,6 +16,7 @@ import {
 import { menu, navMenu } from '../../util/Menu';
 import Head from 'next/head';
 import { BoardPost } from '../../util/queryTypes';
+import { NextWithApolloContext } from '..';
 
 export interface BoardProps {
   postInfo: BoardPost[];
@@ -55,7 +56,7 @@ function postDate(date: string) {
   return moment(date).format('MM.DD');
 }
 
-Board.getInitialProps = async (ctx) => {
+Board.getInitialProps = async (ctx: NextWithApolloContext) => {
   try {
     const { curPage, id: star } = ctx.query;
 

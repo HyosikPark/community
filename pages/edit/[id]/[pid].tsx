@@ -10,8 +10,9 @@ import { EDITPOST } from '../../../util/gqlFragment';
 import { useMutation } from '@apollo/client';
 import Head from 'next/head';
 import QuillEditor from '../../../components/QuillEditor';
+import { NextWithApolloContext } from '../..';
 
-Write.getInitialProps = async (ctx) => {
+Write.getInitialProps = async (ctx: NextWithApolloContext) => {
   if (ctx.res) {
     const { id, pid } = ctx.query;
     ctx.res.writeHead(302, {

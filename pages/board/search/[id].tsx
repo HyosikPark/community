@@ -21,6 +21,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { menu, navMenu } from '../../../util/Menu';
 import { BoardProps } from '../[id]';
+import { NextWithApolloContext } from '../..';
 
 interface SearchBoardProps extends BoardProps {
   option: string;
@@ -58,7 +59,7 @@ function postDate(date: string) {
   return moment(date).format('MM.DD');
 }
 
-SearchBoard.getInitialProps = async (ctx) => {
+SearchBoard.getInitialProps = async (ctx: NextWithApolloContext) => {
   try {
     const { curPage, id: star, option, keyword } = ctx.query;
     const existBoard = menu.filter(

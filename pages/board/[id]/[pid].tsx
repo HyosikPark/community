@@ -23,13 +23,14 @@ import PostComment from '../../../components/PostComment';
 import { useRouter } from 'next/router';
 import { menu } from '../../../util/Menu';
 import { PostQuery } from '../../../util/queryTypes';
+import { NextWithApolloContext } from '../..';
 
 interface PostProps {
   post: PostQuery;
   alreadyLike: boolean;
 }
 
-Post.getInitialProps = async (ctx) => {
+Post.getInitialProps = async (ctx: NextWithApolloContext) => {
   try {
     const { id: star, pid: pageNum } = ctx.query;
     const existBoard = menu.filter(

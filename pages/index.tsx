@@ -10,12 +10,17 @@ import {
 import { useMutation } from '@apollo/client';
 import Head from 'next/head';
 import { HomePost } from '../util/queryTypes';
+import { NextPageContext } from 'next';
 
 interface HomeProps {
   hotPosts: HomePost[];
 }
 
-Home.getInitialProps = async (ctx) => {
+export interface NextWithApolloContext extends NextPageContext {
+  apolloClient: any;
+}
+
+Home.getInitialProps = async (ctx: NextWithApolloContext) => {
   const result = await ctx.apolloClient.query({
     query: HOTPOSTS,
   });
