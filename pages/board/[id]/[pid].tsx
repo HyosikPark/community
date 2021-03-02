@@ -22,11 +22,11 @@ import { useLazyQuery, useMutation } from '@apollo/client';
 import PostComment from '../../../components/PostComment';
 import { useRouter } from 'next/router';
 import { menu } from '../../../util/Menu';
-import { PostQuery } from '../../../util/queryTypes';
+import { ExPost, PostSchema } from '../../../util/queryTypes';
 import { NextWithApolloContext } from '../..';
 
 interface PostProps {
-  post: PostQuery;
+  post: Omit<PostSchema, ExPost>;
   alreadyLike: boolean;
 }
 

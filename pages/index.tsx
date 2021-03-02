@@ -9,11 +9,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useMutation } from '@apollo/client';
 import Head from 'next/head';
-import { HomePost } from '../util/queryTypes';
+import { ExHotPost, PostSchema } from '../util/queryTypes';
 import { NextPageContext } from 'next';
 
 interface HomeProps {
-  hotPosts: HomePost[];
+  hotPosts: Omit<PostSchema, ExHotPost>[];
 }
 
 export interface NextWithApolloContext extends NextPageContext {

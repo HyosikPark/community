@@ -15,11 +15,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { menu, navMenu } from '../../util/Menu';
 import Head from 'next/head';
-import { BoardPost } from '../../util/queryTypes';
+import { ExBoardPost, PostSchema } from '../../util/queryTypes';
 import { NextWithApolloContext } from '..';
 
 export interface BoardProps {
-  postInfo: BoardPost[];
+  postInfo: Omit<PostSchema, ExBoardPost>[];
   postCount: number;
   curPage: number;
   star: string;

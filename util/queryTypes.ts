@@ -7,7 +7,8 @@ export interface Comment {
   ip: string;
 }
 
-export interface PostQuery {
+export interface PostSchema {
+  _id: string;
   number: number;
   category: string;
   nickname: string;
@@ -15,25 +16,19 @@ export interface PostQuery {
   title: string;
   content: string;
   createdAt: string;
-  comments: Comment[];
+  comments: [Comment];
   commentCount: number;
   likeCount: number;
   views: number;
-}
-
-export interface BoardPost {
-  _id: string;
-  number: number;
-  nickname: string;
-  title: string;
-  content: string;
-  createdAt: string;
-  commentCount: number;
-  likeCount: number;
-  views: number;
+  likeUser: [string];
   ip: string;
 }
 
-export interface HomePost extends BoardPost {
-  category: string;
-}
+export type ExHotPost = 'password' | 'comments' | 'ip';
+export type ExPost = '_id' | 'likeUser' | 'ip';
+export type ExBoardPost =
+  | 'password'
+  | 'comments'
+  | 'ip'
+  | 'category'
+  | 'likeUser';
