@@ -1,5 +1,3 @@
-const ip = require('ip');
-
 const postResover = {
   Query: {
     async allPosts(_, { category, curPage }, ctx) {
