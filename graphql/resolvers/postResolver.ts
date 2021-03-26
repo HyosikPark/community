@@ -66,7 +66,7 @@ const postResover = {
     },
 
     async getPost(_, { category, number }, ctx) {
-      const clientIp = ip.address();
+      const clientIp = ctx.userIp;
 
       const db = ctx.db.collection('post');
       const post = await db
@@ -80,6 +80,7 @@ const postResover = {
         .catch((e) => {
           throw new Error('post not Found');
         });
+
       if (post.value.likeUser.includes(clientIp)) {
         return { post: post.value, alreadyLike: true };
       } else {
@@ -94,7 +95,7 @@ const postResover = {
       { postInput: { nickname, password, title, content, category } },
       ctx
     ) {
-      const clientIp = ip.address();
+      const clientIp = ctx.userIp;
       const db = ctx.db.collection('post');
       const counterDB = ctx.db.collection('counters');
 
@@ -161,7 +162,7 @@ const postResover = {
     },
 
     async likePost(_, { category, number }, ctx) {
-      const clientIp = ip.address();
+      const clientIp = ctx.userIp;
 
       const db = ctx.db.collection('post');
 
@@ -176,7 +177,7 @@ const postResover = {
     },
 
     async unlikePost(_, { category, number }, ctx) {
-      const clientIp = ip.address();
+      const clientIp = ctx.userIp;
 
       const db = ctx.db.collection('post');
 
