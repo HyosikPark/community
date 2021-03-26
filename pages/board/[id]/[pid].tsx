@@ -255,7 +255,7 @@ function Post({
         <meta property='og:image' content={metaImg()} />
         <script
           type='text/javascript'
-          src='http://jsgetip.appspot.com'
+          src='https://jsgetip.appspot.com'
         ></script>
       </Head>
       <div className='post_page_container'>
