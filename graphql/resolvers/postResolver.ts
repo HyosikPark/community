@@ -68,7 +68,6 @@ const postResover = {
     async getPost(_, { category, number }, ctx) {
       const clientIp = ctx.userIp;
       const db = ctx.db.collection('post');
-
       const post = await db
         .findOneAndUpdate(
           { category, number },
