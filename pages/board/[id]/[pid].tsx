@@ -14,6 +14,7 @@ import {
   MouseEvent,
   ChangeEvent,
   FormEvent,
+  useLayoutEffect,
 } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -238,11 +239,13 @@ function Post({
   }, []);
 
   useEffect(() => {
-    likeUser.includes(ip()) ? setLike(true) : setLike(false);
-
     addEventListener('mousedown', handleClickOutside);
 
     return () => removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useLayoutEffect(() => {
+    likeUser.includes(ip()) ? setLike(true) : setLike(false);
   }, []);
 
   return (
