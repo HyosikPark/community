@@ -43,6 +43,7 @@ const typeDefs = gql`
   type getPost {
     alreadyLike: Boolean!
     post: Post!
+    clientIp: String!
   }
 
   input CommentInput {

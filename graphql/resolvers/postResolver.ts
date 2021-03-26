@@ -81,10 +81,10 @@ const postResover = {
           throw new Error('post not Found');
         });
 
-      if (post.value.likeUser.includes(String(clientIp))) {
-        return { post: post.value, alreadyLike: true };
+      if (post.value.likeUser.includes(clientIp)) {
+        return { post: post.value, alreadyLike: true, clientIp };
       } else {
-        return { post: post.value, alreadyLike: false };
+        return { post: post.value, alreadyLike: false, clientIp };
       }
     },
   },

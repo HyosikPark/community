@@ -28,6 +28,7 @@ import { NextWithApolloContext } from '../..';
 interface PostProps {
   post: Omit<PostSchema, ExPost>;
   alreadyLike: boolean;
+  clientIp: string;
 }
 
 Post.getInitialProps = async (ctx: NextWithApolloContext) => {
@@ -70,7 +71,9 @@ function Post({
     views,
   },
   alreadyLike,
+  clientIp,
 }: PostProps) {
+  console.log(clientIp);
   const router = useRouter();
   const { id } = router.query;
 
