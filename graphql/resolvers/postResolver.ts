@@ -64,7 +64,6 @@ const postResover = {
     },
 
     async getPost(_, { category, number }, ctx) {
-      const clientIp = ctx.userIp;
       const db = ctx.db.collection('post');
       const post = await db
         .findOneAndUpdate(
@@ -78,11 +77,7 @@ const postResover = {
           throw new Error('post not Found');
         });
 
-      if (post.value.likeUser.includes(clientIp)) {
-        return { post: post.value, alreadyLike: true };
-      } else {
-        return { post: post.value, alreadyLike: false };
-      }
+      return { post: post.value };
     },
   },
 

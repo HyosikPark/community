@@ -168,11 +168,11 @@ export const GETPOST = gql`
           content
           createdAt
         }
+        likeUser
         commentCount
         views
         likeCount
       }
-      alreadyLike
     }
   }
 `;

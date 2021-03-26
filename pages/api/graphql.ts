@@ -2,16 +2,14 @@ import { ApolloServer, makeExecutableSchema } from 'apollo-server-micro';
 import resolvers from '../../graphql/resolvers/resolvers';
 import typeDefs from '../../graphql/schema/typeDefs';
 import { MongoClient } from 'mongodb';
-import requestIp from 'request-ip';
 
 const getUserIp = (req) => {
-  let ip = req.headers['x-real-ip'] || req.connection.remoteAddress;
-
-  if (ip.substr(0, 7) == '::ffff:') {
-    ip = ip.substr(7);
-    console.log(ip);
-  }
-  return ip;
+  return (
+    req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    req.connection.socket.remoteAddress
+  );
 };
 
 const schema = makeExecutableSchema({
@@ -24,7 +22,6 @@ let db;
 const apolloServer = new ApolloServer({
   schema,
   context: async ({ req }) => {
-    console.log();
     if (!db) {
       try {
         const dbClient = new MongoClient(process.env.MONGO_DB_URI, {

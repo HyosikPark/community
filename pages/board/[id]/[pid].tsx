@@ -25,9 +25,12 @@ import { menu } from '../../../util/Menu';
 import { ExPost, PostSchema } from '../../../util/queryTypes';
 import { NextWithApolloContext } from '../..';
 
+declare global {
+  function ip(): string;
+}
+
 interface PostProps {
   post: Omit<PostSchema, ExPost>;
-  alreadyLike: boolean;
   clientIp: string;
 }
 
@@ -68,9 +71,9 @@ function Post({
     comments,
     commentCount,
     likeCount,
+    likeUser,
     views,
   },
-  alreadyLike,
 }: PostProps) {
   const router = useRouter();
   const { id } = router.query;
@@ -229,12 +232,13 @@ function Post({
     const imgPath = content.match(regEx);
 
     if (imgPath) return imgPath[0];
-    else
+    else {
       return 'https://kpop-app-image-storage.s3.us-east-2.amazonaws.com/biaskpop.png';
+    }
   }, []);
 
   useEffect(() => {
-    alreadyLike ? setLike(true) : setLike(false);
+    likeUser.includes(ip()) ? setLike(true) : setLike(false);
 
     addEventListener('mousedown', handleClickOutside);
 
@@ -249,6 +253,10 @@ function Post({
         <meta property='og:title' content={title} />
         <meta property='og:description' content={metaContent()} />
         <meta property='og:image' content={metaImg()} />
+        <script
+          type='text/javascript'
+          src='http://jsgetip.appspot.com'
+        ></script>
       </Head>
       <div className='post_page_container'>
         <div className='post_container'>

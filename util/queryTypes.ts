@@ -25,7 +25,7 @@ export interface PostSchema {
 }
 
 export type ExHotPost = 'password' | 'comments' | 'ip';
-export type ExPost = '_id' | 'likeUser' | 'ip';
+export type ExPost = '_id' | 'ip';
 export type ExBoardPost =
   | 'password'
   | 'comments'
