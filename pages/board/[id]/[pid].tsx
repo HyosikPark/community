@@ -71,9 +71,7 @@ function Post({
     views,
   },
   alreadyLike,
-  clientIp,
 }: PostProps) {
-  console.log(clientIp);
   const router = useRouter();
   const { id } = router.query;
 

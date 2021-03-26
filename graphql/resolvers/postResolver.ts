@@ -82,9 +82,9 @@ const postResover = {
         });
 
       if (post.value.likeUser.includes(clientIp)) {
-        return { post: post.value, alreadyLike: true, clientIp };
+        return { post: post.value, alreadyLike: true };
       } else {
-        return { post: post.value, alreadyLike: false, clientIp };
+        return { post: post.value, alreadyLike: false };
       }
     },
   },

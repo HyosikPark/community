@@ -4,7 +4,9 @@ import typeDefs from '../../graphql/schema/typeDefs';
 import { MongoClient } from 'mongodb';
 
 const getUserIp = (req) => {
-  return req?.headers?.['x-forwarded-for'];
+  return (
+    req?.headers?.['x-forwarded-for']?.[0] || req?.headers?.['x-forwarded-for']
+  );
 };
 
 const schema = makeExecutableSchema({

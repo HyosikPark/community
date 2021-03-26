@@ -173,7 +173,6 @@ export const GETPOST = gql`
         likeCount
       }
       alreadyLike
-      clientIp
     }
   }
 `;
