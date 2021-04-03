@@ -56,36 +56,30 @@ SearchBoard.getInitialProps = async (ctx: NextWithApolloContext) => {
       if (!navMenu.includes(star as string)) throw new Error('');
     }
 
+    const getQuery = (query) =>
+      ctx.apolloClient.query({
+        query,
+        variables: { category: `${star}`, curPage: +curPage, value: keyword },
+      });
+
     let result;
 
     if (option == 'title') {
-      result = await ctx.apolloClient
-        .query({
-          query: SEARCH_BY_TITLE,
-          variables: { category: `${star}`, curPage: +curPage, value: keyword },
-        })
-        .then((e) => e.data.searchByTitle);
+      result = await getQuery(SEARCH_BY_TITLE).then(
+        ({ data }) => data.searchByTitle
+      );
     } else if (option == 'content') {
-      result = await ctx.apolloClient
-        .query({
-          query: SEARCH_BY_CONTENT,
-          variables: { category: `${star}`, curPage: +curPage, value: keyword },
-        })
-        .then((e) => e.data.searchByContent);
+      result = await getQuery(SEARCH_BY_CONTENT).then(
+        ({ data }) => data.searchByContent
+      );
     } else if (option == 'title_content') {
-      result = await ctx.apolloClient
-        .query({
-          query: SEARCH_BY_TITLE_AND_CONTENT,
-          variables: { category: `${star}`, curPage: +curPage, value: keyword },
-        })
-        .then((e) => e.data.searchByTitleAndContent);
+      result = await getQuery(SEARCH_BY_TITLE_AND_CONTENT).then(
+        ({ data }) => data.searchByTitleAndContent
+      );
     } else if (option == 'nickname') {
-      result = await ctx.apolloClient
-        .query({
-          query: SEARCH_BY_NICKNAME,
-          variables: { category: `${star}`, curPage: +curPage, value: keyword },
-        })
-        .then((e) => e.data.searchByNickname);
+      result = await getQuery(SEARCH_BY_NICKNAME).then(
+        ({ data }) => data.searchByNickname
+      );
     }
     return {
       ...result,
