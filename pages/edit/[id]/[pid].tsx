@@ -26,9 +26,8 @@ Write.getInitialProps = async (ctx: NextWithApolloContext) => {
 function Write() {
   const router = useRouter();
 
-  const { id, pid, nickname, password, title, body } = router.query;
+  const { id: star, pid, nickname, password, title, body } = router.query;
   const submitBtn = useRef<HTMLButtonElement>(null);
-  const star = id;
   const [content, setContent] = useState(body as string);
   const [value, setValue] = useState({
     nickname,

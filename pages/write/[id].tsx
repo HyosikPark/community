@@ -36,8 +36,7 @@ Write.getInitialProps = async (ctx: NextWithApolloContext) => {
 
 function Write() {
   const router = useRouter();
-  const star = router.query.id;
-
+  const { id: star } = router.query;
   const submitBtn = useRef<HTMLButtonElement>(null);
   const [content, setContent] = useState('');
   const [value, setValue] = useState({
@@ -45,6 +44,7 @@ function Write() {
     password: '',
     title: '',
   });
+
   const [createPost] = useMutation(CREATEPOST, {
     variables: { ...value, content, category: `${star}` },
     onError() {

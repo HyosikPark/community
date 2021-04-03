@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { ALLPOSTS_SORTBY_LIKE } from '../../../util/gqlFragment';
-import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import SearchPosts from '../../../components/SearchPosts';
@@ -9,14 +8,12 @@ import {
   faAngleDoubleRight,
   faAngleLeft,
   faAngleRight,
-  faCommentDots,
-  faFilm,
-  faImage,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { menu, navMenu } from '../../../util/Menu';
 import { BoardProps } from '../[id]';
 import { NextWithApolloContext } from '../..';
+import GeneralPost from '../../../components/GeneralPost';
 
 function pageNums(postCount: number, curPage: number): number[] {
   if (!postCount) return [1];
@@ -36,17 +33,6 @@ function pageNums(postCount: number, curPage: number): number[] {
   }
 
   return arr;
-}
-
-function postDate(date: string) {
-  const now = moment(new Date().toISOString());
-  const postDate = moment(date);
-
-  if (moment.duration(now.diff(postDate)).asDays() < 1) {
-    return moment(date).format('hh:mm');
-  }
-
-  return moment(date).format('MM.DD');
 }
 
 SortByHotBoard.getInitialProps = async (ctx: NextWithApolloContext) => {
@@ -83,22 +69,6 @@ SortByHotBoard.getInitialProps = async (ctx: NextWithApolloContext) => {
 function SortByHotBoard({ postInfo, postCount, curPage, star }: BoardProps) {
   const [isMobile, setIsMobile] = useState(false);
   const lastPage = Math.ceil(postCount / 15);
-
-  const countUnit = useCallback((count: number) => {
-    if (count >= 1000) {
-      return <span className='big_count'>{(count / 1000).toFixed(1)}k</span>;
-    }
-
-    return `${count}`;
-  }, []);
-
-  const titleUI = useCallback((content: string) => {
-    return content.includes('<img src=');
-  }, []);
-
-  const videoUI = useCallback((content: string) => {
-    return content.includes('<iframe');
-  }, []);
 
   const mobileCheck = useCallback(() => {
     if (window.innerWidth <= 767) {
@@ -168,65 +138,8 @@ function SortByHotBoard({ postInfo, postCount, curPage, star }: BoardProps) {
               </div>
             )}
             <ul className='post'>
-              {postInfo.map((e) => (
-                <a key={e._id} href={`/board/${star}/${e.number}`}>
-                  {isMobile ? (
-                    <li className='mobile_list'>
-                      <p className='title_post'>{e.title}</p>
-                      <div className='content_info'>
-                        <p className='nickname_post'>{e.nickname} |</p>
-                        <p className='date_post'>{postDate(e.createdAt)} |</p>
-                        <p className='views_post'>
-                          views: {countUnit(e.views)} |
-                        </p>
-                        <p className='hot_post'>
-                          hot: {countUnit(e.likeCount)} |
-                        </p>
-                        <p className='post_info'>
-                          {titleUI(e.content) ? (
-                            <FontAwesomeIcon color={'#079653'} icon={faImage} />
-                          ) : null}{' '}
-                          {videoUI(e.content) ? (
-                            <FontAwesomeIcon color={'#1a1de2'} icon={faFilm} />
-                          ) : null}{' '}
-                          <FontAwesomeIcon
-                            color={'#11bfeb'}
-                            icon={faCommentDots}
-                          />
-                          <span className='comment_info'>
-                            [{e.commentCount}]
-                          </span>
-                        </p>
-                      </div>
-                    </li>
-                  ) : (
-                    <li className='desktop_list'>
-                      <p className='number_post'>{e.number}</p>
-                      <p className='title_post'>
-                        <span className='title'>{e.title} </span>
-                        <span className='post_info'>
-                          {titleUI(e.content) ? (
-                            <FontAwesomeIcon color={'#079653'} icon={faImage} />
-                          ) : null}{' '}
-                          {videoUI(e.content) ? (
-                            <FontAwesomeIcon color={'#1a1de2'} icon={faFilm} />
-                          ) : null}{' '}
-                          <FontAwesomeIcon
-                            color={'#11bfeb'}
-                            icon={faCommentDots}
-                          />
-                          <span className='comment_info'>
-                            [{e.commentCount}]
-                          </span>
-                        </span>
-                      </p>
-                      <p className='nickname_post'>{e.nickname}</p>
-                      <p className='date_post'>{postDate(e.createdAt)}</p>
-                      <p className='views_post'>{countUnit(e.views)}</p>
-                      <p className='hot_post'>{countUnit(e.likeCount)}</p>
-                    </li>
-                  )}
-                </a>
+              {postInfo.map((post) => (
+                <GeneralPost post={post} key={post._id} isMobile={isMobile} />
               ))}
             </ul>
           </div>
